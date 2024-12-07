@@ -9,10 +9,15 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
+            // const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
+            //     username,
+            //     password
+            // });
+            const response = await axios.post('http://localhost:3000/login', {
                 username,
                 password
             });
+            console.log(response)
             setMessage(`Login successful! Token: ${response.data.token}`);
         } catch (error) {
             setMessage('Login failed. Please check your credentials.');

@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const PORT = 3000;
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 app.use(bodyParser.json());
+app.use(cors()); // Enable CORS
 
 let users = [];
 
