@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import db from './db.js'; // Import the connection pool
 
 dotenv.config();
 
@@ -11,21 +12,27 @@ const app = express();
 const PORT = 3000;
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
+app.use(cors());
 app.use(bodyParser.json());
-app.use(cors()); // Enable CORS
-
-let users = [];
 
 // Signup route
-app.post('/signup', (req, res) => {
-    const { username, password } = req.body;
+app.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
-    users.push({ username, password: hashedPassword });
-    res.status(201).send({ message: 'User registered successfully!' });
+
+    try {
+        const [result] = await db.promise().execute(
+            'INSERT INTO userdb (username, password, email) VALUES (?, ?, ?)',
+            [username, hashedPassword, email]
+        );
+        res.status(201).send({ message: 'User registered successfully!' });
+    } catch (error) {
+        res.status(500).send({ message: 'Signup failed. Please try again.' });
+    }
 });
 
 // Login route
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     // Check for hardcoded admin credentials
@@ -34,16 +41,21 @@ app.post('/login', (req, res) => {
         return res.status(200).send({ auth: true, token });
     }
 
-    const user = users.find(u => u.username === username);
-    if (!user) {
-        return res.status(404).send({ message: 'User not found!' });
+    try {
+        const [rows] = await db.promise().execute('SELECT * FROM userdb WHERE username = ?', [username]);
+        const user = rows[0];
+        if (!user) {
+            return res.status(404).send({ message: 'User not found!' });
+        }
+        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        if (!passwordIsValid) {
+            return res.status(401).send({ message: 'Invalid password!' });
+        }
+        const token = jwt.sign({ id: user.username }, SECRET_KEY, { expiresIn: 86400 });
+        res.status(200).send({ auth: true, token });
+    } catch (error) {
+        res.status(500).send({ message: 'Login failed. Please try again.' });
     }
-    const passwordIsValid = bcrypt.compareSync(password, user.password);
-    if (!passwordIsValid) {
-        return res.status(401).send({ message: 'Invalid password!' });
-    }
-    const token = jwt.sign({ id: user.username }, SECRET_KEY, { expiresIn: 86400 });
-    res.status(200).send({ auth: true, token });
 });
 
 // Protected route

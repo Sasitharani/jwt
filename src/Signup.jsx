@@ -1,34 +1,31 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = () => {
+const Signup = () => {
     const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    const handleLogin = async (e) => {
+    const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
                 username,
+                email,
                 password
             });
-            // const response = await axios.post('http://localhost:3000/login', {
-            //     username,
-            //     password
-            // });
-            console.log(response)
-            setMessage(`Login successful! Token: ${response.data.token}`);
+            setMessage('User registered successfully!');
         } catch (error) {
-            setMessage('Login failed. Please check your credentials.');
+            setMessage('Signup failed. Please try again.');
         }
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-                <form onSubmit={handleLogin}>
+                <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+                <form onSubmit={handleSignup}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                             Username
@@ -38,6 +35,19 @@ const Login = () => {
                             id="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
@@ -60,7 +70,7 @@ const Login = () => {
                             type="submit"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         >
-                            Login
+                            Sign Up
                         </button>
                     </div>
                 </form>
@@ -70,4 +80,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Signup;
