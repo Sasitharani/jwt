@@ -15,7 +15,6 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors());
 app.use(bodyParser.json());
 
-// Signup route
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
@@ -36,16 +35,16 @@ app.post('/signup', (req, res) => {
         res.status(201).send({ message: 'User registered successfully!' });
     });
 });
-// Login route
+
+
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-    console.log('Received signup data:', { username, password }); // Log the received data
 
     // Check for hardcoded admin credentials
-    // if (username === 'admin' && password === 'admin') {
-    //     const token = jwt.sign({ id: username }, SECRET_KEY, { expiresIn: 86400 });
-    //     return res.status(200).send({ auth: true, token });
-    // }
+    if (username === 'admin' && password === 'admin') {
+        const token = jwt.sign({ id: username }, SECRET_KEY, { expiresIn: 86400 });
+        return res.status(200).send({ auth: true, token });
+    }
 
     const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';
     db.query(query, [username, username], (err, results) => {
