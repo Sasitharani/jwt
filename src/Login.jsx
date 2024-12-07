@@ -17,7 +17,7 @@ const Login = () => {
             });
             setMessage(`Login successful! Token: ${response.data.token}`);
         } catch (error) {
-            setMessage('Login failed. Please check your credentials.');
+            setMessage(`Login failed. Please check your credentials.${error.message}`);
         }
     };
 
