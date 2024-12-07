@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
-
+    console.log('Received signup data:', { username, email, password }); // Log the received data
     try {
         const [result] = await db.promise().execute(
             'INSERT INTO userdb (username, password, email) VALUES (?, ?, ?)',
