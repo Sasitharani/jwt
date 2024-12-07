@@ -39,6 +39,7 @@ app.post('/signup', (req, res) => {
 // Login route
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
+    console.log('Received signup data:', { username, password }); // Log the received data
 
     // Check for hardcoded admin credentials
     // if (username === 'admin' && password === 'admin') {
