@@ -37,18 +37,23 @@ app.post('/signup', (req, res) => {
     });
 });
 // Login route
-app.post('/login', async (req, res) => {
+app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     // Check for hardcoded admin credentials
-    if (username === 'admin' && password === 'admin') {
-        const token = jwt.sign({ id: username }, SECRET_KEY, { expiresIn: 86400 });
-        return res.status(200).send({ auth: true, token });
-    }
+    // if (username === 'admin' && password === 'admin') {
+    //     const token = jwt.sign({ id: username }, SECRET_KEY, { expiresIn: 86400 });
+    //     return res.status(200).send({ auth: true, token });
+    // }
 
-    try {
-        const [rows] = await db.promise().execute('SELECT * FROM userdb WHERE username = ?', [username]);
-        const user = rows[0];
+    const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';
+    db.query(query, [username, username], (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            res.status(500).send('Login failed. Please try again.');
+            return;
+        }
+        const user = results[0];
         if (!user) {
             return res.status(404).send({ message: 'User not found!' });
         }
@@ -58,10 +63,9 @@ app.post('/login', async (req, res) => {
         }
         const token = jwt.sign({ id: user.username }, SECRET_KEY, { expiresIn: 86400 });
         res.status(200).send({ auth: true, token });
-    } catch (error) {
-        res.status(500).send({ message: 'Login failed. Please try again.' });
-    }
+    });
 });
+
 
 // Protected route
 app.get('/me', (req, res) => {
