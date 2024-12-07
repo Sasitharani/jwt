@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
-import db from './db.js'; // Import the connection pool
+import { db } from './db.js'; // Import the database connection pool
 
 dotenv.config();
 
@@ -16,21 +16,26 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Signup route
-app.post('/signup', async (req, res) => {
+app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
     console.log('Received signup data:', { username, email, password }); // Log the received data
-    try {
-        const [result] = await db.promise().execute(
-            'INSERT INTO userdb (username, password, email) VALUES (?, ?, ?)',
-            [username, hashedPassword, email]
-        );
-        res.status(201).send({ message: 'User registered successfully!' });
-    } catch (error) {
-        res.status(500).send({ message: 'Signup failed. Please try again.' });
-    }
-});
 
+    const query = `
+        INSERT INTO userdb (username, password, email)
+        VALUES (?, ?, ?)
+    `;
+    const values = [username, hashedPassword, email];
+
+    db.query(query, values, (err, results) => {
+        if (err) {
+            console.error('Error inserting data:', err);
+            res.status(500).send('Signup failed. Please try again.');
+            return;
+        }
+        res.status(201).send({ message: 'User registered successfully!' });
+    });
+});
 // Login route
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
