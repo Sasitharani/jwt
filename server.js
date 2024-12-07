@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
-import { db } from './db.js'; // Import the database connection pool
+import  db  from './db.js'; // Import the database connection pool
 
 dotenv.config();
 
