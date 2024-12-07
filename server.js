@@ -54,12 +54,13 @@ app.post('/login', (req, res) => {
             return;
         }
         const user = results[0];
+        console.log(user);
         if (!user) {
             return res.status(404).send({ message: 'User not found!' });
         }
         console.log('The Password is:', password);
         console.log('The user Password:', user.password);
-        
+
         const passwordIsValid = bcrypt.compareSync(password, user.password);
         if (!passwordIsValid) {
             return res.status(401).send({ message: 'Invalid password!' });
