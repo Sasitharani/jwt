@@ -61,8 +61,7 @@ app.post('/login', (req, res) => {
         if (!passwordIsValid) {
             return res.status(401).send({ message: 'Invalid password!' });
         }
-        const token = jwt.sign({ id: user.username }, SECRET_KEY, { expiresIn: 86400 });
-        res.status(200).send({ auth: true, token });
+        res.status(200).send({ auth: true, message: 'Login successful!' });
     });
 });
 
