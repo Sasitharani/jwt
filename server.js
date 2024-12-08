@@ -49,6 +49,7 @@ app.post('/login', (req, res) => {
             return;
         }
         const user = results[0];
+        console.log(user);
        
         if (!user) {
             return res.status(404).send({ message: 'User not found!' });
