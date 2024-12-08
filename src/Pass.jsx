@@ -9,7 +9,7 @@ const Pass = () => {
 
     const handleHashPassword = async () => {
         const saltRounds = 8;
-        const hash = await bcrypt.hash(password, saltRounds);
+        const hash =  bcrypt.hashSync(password, saltRounds);
         setHashedPassword(hash);
         setMessage('Password hashed successfully!');
     };

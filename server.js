@@ -56,12 +56,12 @@ app.post('/login', (req, res) => {
         console.log('The Password is:', password);
         console.log('The user Password:', user.password);
 
-        const passwordIsValid = bcrypt.compareSync(password, user.password);
-        console.log('bcrypt.compareSync:', passwordIsValid);    
-        if (!passwordIsValid) {
-            return res.status(401).send({ message: 'Invalid password!' });
-        }
-        res.status(200).send({ auth: true, hashedPassword: user.password, message: 'Login successful!' });
+        // const passwordIsValid = bcrypt.compareSync(password, user.password);
+        // console.log('bcrypt.compareSync:', passwordIsValid);    
+        // if (!passwordIsValid) {
+        //     return res.status(401).send({ message: 'Invalid password!' });
+        // }
+        // res.status(200).send({ auth: true, hashedPassword: user.password, message: 'Login successful!' });
     });
 });
 
