@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import  db  from './db.js'; // Import the database connection pool
 
+
 dotenv.config();
 
 const app = express();
@@ -39,13 +40,7 @@ app.post('/signup', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
-
-    // Check for hardcoded admin credentials
-    if (username === 'admin' && password === 'admin') {
-        const token = jwt.sign({ id: username }, SECRET_KEY, { expiresIn: 86400 });
-        return res.status(200).send({ auth: true, token });
-    }
-
+    console.log('Received login data:', { username, password }); // Log the received data
     const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';
     db.query(query, [username, username], (err, results) => {
         if (err) {

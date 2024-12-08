@@ -4,6 +4,7 @@ import Signup from './Signup';
 import Login from './Login';
 import './index.css'; // Import Tailwind CSS
 
+
 const App = () => {
     return (
         <Router>
@@ -13,6 +14,7 @@ const App = () => {
                 <Route path="/login" element={<Login />} />
             </Routes>
         </Router>
+
     );
 };
 
