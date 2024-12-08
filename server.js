@@ -4,8 +4,7 @@ import bodyParser from 'body-parser';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
-import  db  from './db.js'; // Import the database connection pool
-
+import db from './db.js'; // Import the connection pool
 
 dotenv.config();
 
@@ -13,13 +12,14 @@ const app = express();
 const PORT = 3000;
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
-app.use(cors());
+app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-app.post('/api/signup', (req, res) => {
+// Signup route
+app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 8);
-    console.log('Received signup data:', { username, email, password }); // Log the received data
+    const hashedPassword = bcrypt.hashSync(password, 8); // Hash the password with a salt of 8 rounds
+    console.log('Hashed Password during signup:', hashedPassword);
 
     const query = `
         INSERT INTO userdb (username, password, email)
@@ -37,8 +37,8 @@ app.post('/api/signup', (req, res) => {
     });
 });
 
-
-app.post('/api/login', (req, res) => {
+// Login route
+app.post('/login', (req, res) => {
     const { username, password } = req.body;
     console.log('Received login data:', { username, password }); // Log the received data
     const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';
@@ -49,7 +49,6 @@ app.post('/api/login', (req, res) => {
             return;
         }
         const user = results[0];
-        console.log(user);
        
         if (!user) {
             return res.status(404).send({ message: 'User not found!' });
@@ -62,10 +61,9 @@ app.post('/api/login', (req, res) => {
         if (!passwordIsValid) {
             return res.status(401).send({ message: 'Invalid password!' });
         }
-        res.status(200).send({ auth: true, message: 'Login successful!' });
+        res.status(200).send({ auth: true, hashedPassword: user.password, message: 'Login successful!' });
     });
 });
-
 
 // Protected route
 app.get('/me', (req, res) => {

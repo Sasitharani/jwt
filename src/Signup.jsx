@@ -12,7 +12,7 @@ const Signup = () => {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/signup', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
                 username,
                 email,
                 password

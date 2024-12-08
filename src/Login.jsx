@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import bcrypt from 'bcryptjs';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -9,30 +9,15 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    // const handleLogin = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
-    //             username,
-    //             password
-    //         });
-    //         setMessage(`Login successful! Token: ${response.data.token}`);
-    //     } catch (error) {
-    //         if (error.response && error.response.data && error.response.data.message) {
-    //             setMessage(`Login failed: ${error.response.data.message}`);
-    //         } else {
-    //             setMessage('Login failed. Please try again.');
-    //         }
-    //     }
-    // };
     const handleLogin1 = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/login', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
                 username,
                 password
             });
             const { hashedPassword } = response.data;
+            console.log(hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             if (passwordIsValid) {
                 setMessage('Password matched!');
@@ -47,6 +32,7 @@ const Login = () => {
             }
         }
     };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
