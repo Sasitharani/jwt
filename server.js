@@ -56,6 +56,10 @@ app.post('/login', (req, res) => {
         console.log('The Password is:', password);
         console.log('The user Password:', user.password);
 
+        let hashedloginpassword = bcrypt.hashSync(password, 10);
+
+        console.log('hashedloginpassword:', hashedloginpassword);
+
         const passwordIsValid = bcrypt.compareSync(password, user.password);
         console.log('bcrypt.compareSync:', passwordIsValid);    
         if (!passwordIsValid) {
