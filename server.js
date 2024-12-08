@@ -16,7 +16,7 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/signup', (req, res) => {
+app.post('/api/signup', (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 8);
     console.log('Received signup data:', { username, email, password }); // Log the received data
@@ -38,7 +38,7 @@ app.post('/signup', (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
     console.log('Received login data:', { username, password }); // Log the received data
     const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';

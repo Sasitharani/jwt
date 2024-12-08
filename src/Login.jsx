@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -8,24 +9,49 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
+    //             username,
+    //             password
+    //         });
+    //         setMessage(`Login successful! Token: ${response.data.token}`);
+    //     } catch (error) {
+    //         if (error.response && error.response.data && error.response.data.message) {
+    //             setMessage(`Login failed: ${error.response.data.message}`);
+    //         } else {
+    //             setMessage('Login failed. Please try again.');
+    //         }
+    //     }
+    // };
+    const handleLogin1 = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/login', {
                 username,
                 password
             });
-            setMessage(`Login successful! Token: ${response.data.token}`);
+            const { hashedPassword } = response.data;
+            const passwordIsValid = await bcrypt.compare(password, hashedPassword);
+            if (passwordIsValid) {
+                setMessage('Password matched!');
+            } else {
+                setMessage('Password did not match.');
+            }
         } catch (error) {
-            setMessage(`Login failed. Please check your credentials.${error.message}`);
+            if (error.response && error.response.data && error.response.data.message) {
+                setMessage(`Login failed: ${error.response.data.message}`);
+            } else {
+                setMessage('Login failed. Please try again.');
+            }
         }
     };
-
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-                <form onSubmit={handleLogin}>
+                <form onSubmit={handleLogin1}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                             Username or Email
