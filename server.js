@@ -47,7 +47,7 @@ app.post('/hash', (req, res) => {
 
     const query = `
         INSERT INTO userdb (username, password, email,Pass)
-        VALUES (?, ?, ?,?)
+        VALUES (?, ?, ?,hashedPassword)
     `;
     const values = [username, password, email, hpass];
 
