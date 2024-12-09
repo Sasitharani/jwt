@@ -46,7 +46,7 @@ app.post('/hash', (req, res) => {
     console.log('Hashed Password during signup:', hashedPassword);
 
     const query = `
-        INSERT INTO userdb (username, password, email)
+        INSERT INTO userdb (username, password, email,Pass)
         VALUES (?, ?, ?,?)
     `;
     const values = [username, password, email, hpass];
