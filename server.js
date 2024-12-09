@@ -42,15 +42,12 @@ app.post('/signup', (req, res) => {
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
-    const { username, email, password, password1 } = req.body;
-    console.log('hpass',password);
-    if (!password) {
-        return res.status(400).send({ message: 'Password to hash (hpass) is required.' });
-    }
-console.log('hpass',password);
+    const { username, email, password} = req.body;
+
+
     const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 10 rounds
     console.log('Hashed Password during Pass:', hashedPassword);
-
+    console.log('hpass',password);
     const query = `
         INSERT INTO userdb (username, password, email, Pass)
         VALUES (?, ?, ?, ?)
@@ -70,16 +67,17 @@ console.log('hpass',password);
 
 // Compare password route
 app.post('/compare', (req, res) => {
-   
+
+   /////////////////////////////////////////////
     const { password} = req.body;
 
-    console.log(' Received password:-', password);
+    console.log(' Received password :-', password) ;
    
-    const hashedPassword = bcrypt.hashSync(password, 10);
+    //const hashedPassword = bcrypt.hashSync(password, 10);
 
-    const query = 'SELECT * FROM userdb WHERE Pass = ?';
+    const query = 'SELECT * FROM userdb WHERE password = ?';
     
-        db.query(query, [hashedPassword], (err, results) => {
+        db.query(query, [password], (err, results) => {
         if (err) {
             console.error('Error fetching data:', err);
             res.status(500).send('Login failed. Please try again.');

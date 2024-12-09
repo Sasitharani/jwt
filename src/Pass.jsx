@@ -32,7 +32,6 @@ const Pass = () => {
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/compare', {
                 password: userInput,
-                hashedPassword
             });
             const { isMatch } = response.data;
             setMessage(isMatch ? 'Passwords match!' : 'Passwords do not match.');
