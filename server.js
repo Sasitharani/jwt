@@ -91,12 +91,12 @@ app.post('/compare', (req, res) => {
         const retrievedPassword = retrievedValue.Pass;
         console.log('Retrieved Password:', retrievedPassword);
         
-        // Send the retrieved value in the response
-        res.status(200).send({ retrievedValue });
-
        // Compare passwords
        const isMatch = bcrypt.compareSync(password, retrievedPassword);
-       isMatch ? res.status(200).send({ message: 'Passwords match!' }) : res.status(401).send({ message: 'Passwords do not match!' });
+       console.log('Password match:', isMatch);
+
+       // Send the retrieved password and comparison result in the response
+       res.status(200).send({ retrievedPassword, isMatch });
     });
    
     });
