@@ -38,11 +38,10 @@ app.post('/signup', (req, res) => {
     isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
 });
 
-
+});
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
-
     const { username, email, password, password1 } = req.body;
     console.log('hpass',password);
     if (!password) {
@@ -97,7 +96,7 @@ app.post('/compare', (req, res) => {
     const isMatch = bcrypt.compareSync(password, hashedPassword1);
     isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
     });
-});
+
 
 
 

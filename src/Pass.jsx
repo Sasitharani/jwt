@@ -9,6 +9,7 @@ const Pass = () => {
 
     const handleHashPassword = async (e) => {
         e.preventDefault();
+        console.log(password)
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
                 username: 'test',
