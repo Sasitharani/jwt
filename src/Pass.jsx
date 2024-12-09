@@ -11,7 +11,8 @@ const Pass = () => {
     const handleHashPassword = async (e) => {
         e.preventDefault();
         console.log(password)
-        const hpassword= bcrypt.hashSync(password, 10)
+        const hpassword= bcrypt.hashSync(password, 8)
+        console.log(hpassword)
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
                 username: 'test',
