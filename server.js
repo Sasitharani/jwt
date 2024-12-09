@@ -34,6 +34,8 @@ app.post('/signup', (req, res) => {
             return;
         }
         res.status(201).send({ message: 'User registered successfully!' });
+    const isMatch = bcrypt.compareSync(password, hashedPassword1);
+    isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
 });
 
 
