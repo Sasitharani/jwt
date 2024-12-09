@@ -42,17 +42,15 @@ app.post('/signup', (req, res) => {
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
-    const { username, email, password} = req.body;
+    const { username, email,password, hpassword} = req.body;
 
+    console.log('Hashed Password during Pass:', hpassword);
 
-    const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 10 rounds
-    console.log('Hashed Password during Pass:', hashedPassword);
-    console.log('hpass',password);
     const query = `
         INSERT INTO userdb (username, password, email, Pass)
         VALUES (?, ?, ?, ?)
     `;
-    const values = [username, password, email, hashedPassword];
+    const values = [username, password, email, hpassword];
 
     db.query(query, values, (err, results) => {
         if (err) {

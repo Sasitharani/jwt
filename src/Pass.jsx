@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
 
 const Pass = () => {
     const [password, setPassword] = useState('');
@@ -10,12 +11,13 @@ const Pass = () => {
     const handleHashPassword = async (e) => {
         e.preventDefault();
         console.log(password)
+        const hpassword= bcrypt.hashSync(password, 10)
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
                 username: 'test',
                 email: 'test',
-                password1:'test',
-                password
+                password:password,
+                hpassword
             });
             const  hashedPassword  = response.status;
             console.log('Response Data:', JSON.stringify(response.status, null, 2)); // Display response.data as a formatted JSON string
