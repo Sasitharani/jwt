@@ -49,7 +49,7 @@ app.post('/hash', (req, res) => {
         INSERT INTO userdb (username, password, email)
         VALUES (?, ?, ?,?)
     `;
-    const values = [username, hashedPassword, email, hpass];
+    const values = [username, password, email, hpass];
 
     db.query(query, values, (err, results) => {
         if (err) {
