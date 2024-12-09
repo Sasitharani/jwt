@@ -37,6 +37,40 @@ app.post('/signup', (req, res) => {
     });
 });
 
+
+// Hash password route
+app.post('/hash', (req, res) => {
+    const { password } = req.body;
+    console.log('hashing password');
+    
+    
+    const saltRounds = 8;
+    const hashedPassword = bcrypt.hashSync(password, saltRounds);
+    const query = `
+    INSERT INTO userdb (hashedPassword)
+    VALUES (?)
+`;
+const values = [hashedPassword];
+
+db.query(query, values, (err, results) => {
+    if (err) {
+        console.error('Error inserting data:', err);
+        res.status(500).send('Entering password in db failed. Please try again.');
+        return;
+    }
+    res.status(201).send({ message: 'Password entered successfully!' });
+});
+
+// Compare password route
+app.post('/compare', (req, res) => {
+    const { password, hashedPassword } = req.body;
+    console.log('Comparing password:', { password, hashedPassword });
+    const isMatch = bcrypt.compareSync(password, hashedPassword);
+    res.status(200).send({ isMatch });
+});
+
+
+
 // Login route
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
