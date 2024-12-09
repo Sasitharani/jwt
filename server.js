@@ -71,7 +71,7 @@ console.log('hpass',password);
 // Compare password route
 app.post('/compare', (req, res) => {
    
-    const {password} = req.body;
+    const { password} = req.body;
 
     console.log(' Received password:-', password);
    
@@ -92,11 +92,9 @@ app.post('/compare', (req, res) => {
         
         // Send the retrieved value in the response
         res.status(200).send({ retrievedValue });
-
-        const isMatch = bcrypt.compareSync(password, retrievedValue);
-        isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
     });
-    
+    const isMatch = bcrypt.compareSync(password, hashedPassword1);
+    isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
     });
 
 
