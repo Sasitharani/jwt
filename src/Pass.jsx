@@ -11,7 +11,9 @@ const Pass = () => {
         e.preventDefault();
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
-                
+                username: 'test',
+                email: 'test',
+                password1:'test',
                 password
             });
             const { hashedPassword } = response.data;

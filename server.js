@@ -41,25 +41,24 @@ app.post('/signup', (req, res) => {
 // Hash password route
 app.post('/hash', (req, res) => {
 
-    console.log('hashing password');
-    
-    const { password } = req.body;
-    const saltRounds = 8;
-    const hashedPassword = bcrypt.hashSync(password, saltRounds);
-    const query = `
-    INSERT INTO userdb (username, password, email,hashedPassword)
-    VALUES (?,?,?,?)
-`;
-const values = ['test','test','test',hashedPassword];
+    const { username, email, password,hpass} = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 8 rounds
+    console.log('Hashed Password during signup:', hashedPassword);
 
-db.query(query, values, (err, results) => {
-    if (err) {
-        console.error('Error inserting data:', err);
-        res.status(500).send('Entering password in db failed. Please try again.');
-        return;
-    }
-    res.status(201).send({ message: 'Password entered successfully!' });
-});
+    const query = `
+        INSERT INTO userdb (username, password, email)
+        VALUES (?, ?, ?,?)
+    `;
+    const values = [username, hashedPassword, email, hpass];
+
+    db.query(query, values, (err, results) => {
+        if (err) {
+            console.error('Error inserting data:', err);
+            res.status(500).send('Signup failed. Please try again.');
+            return;
+        }
+        res.status(201).send({ message: 'User registered successfully!' });
+    });
 });
 
 // Compare password route
