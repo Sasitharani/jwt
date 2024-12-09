@@ -79,14 +79,20 @@ app.post('/compare', (req, res) => {
 
     const query = 'SELECT * FROM userdb WHERE Pass = ?';
     
-    db.query(query, [hashedPassword], (err, results) => {
+        db.query(query, [hashedPassword], (err, results) => {
         if (err) {
             console.error('Error fetching data:', err);
             res.status(500).send('Login failed. Please try again.');
             return;
-        }   
-        const hashedPassword1 = results[0];
-        console.log('Retrieved Password from db:', hashedPassword1 );
+        }
+        
+        // Access the retrieved values
+        const retrievedValue = results[0]; // Assuming you want the first row
+        console.log('Retrieved Value:', retrievedValue);
+        
+        // Send the retrieved value in the response
+        res.status(200).send({ retrievedValue });
+    });
     const isMatch = bcrypt.compareSync(password, hashedPassword1);
     isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
     });
