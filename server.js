@@ -68,12 +68,11 @@ app.post('/hash', (req, res) => {
 // Compare password route
 app.post('/compare', (req, res) => {
 
-   /////////////////////////////////////////////
+  
     const { password} = req.body;
 
     console.log(' Received password :-', password) ;
    
-    //const hashedPassword = bcrypt.hashSync(password, 10);
 
     const query = 'SELECT * FROM userdb WHERE password = ?';
     
@@ -87,13 +86,17 @@ app.post('/compare', (req, res) => {
         // Access the retrieved values
         const retrievedValue = results[0]; // Assuming you want the first row
         console.log('Retrieved Value:', retrievedValue);
+
+        // Extract only the password field
+        const retrievedPassword = retrievedValue.Pass;
+        console.log('Retrieved Password:', retrievedPassword);
         
         // Send the retrieved value in the response
         res.status(200).send({ retrievedValue });
 
-        ////////////////////////////////////////
-        const isMatch = bcrypt.compareSync(password, retrievedValue);
-        isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
+       // Compare passwords
+       const isMatch = bcrypt.compareSync(password, retrievedPassword);
+       isMatch ? res.status(200).send({ message: 'Passwords match!' }) : res.status(401).send({ message: 'Passwords do not match!' });
     });
    
     });
