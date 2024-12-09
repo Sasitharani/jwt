@@ -60,13 +60,30 @@ db.query(query, values, (err, results) => {
     }
     res.status(201).send({ message: 'Password entered successfully!' });
 });
+});
 
 // Compare password route
 app.post('/compare', (req, res) => {
-    const { password, hashedPassword } = req.body;
-    console.log('Comparing password:', { password, hashedPassword });
-    const isMatch = bcrypt.compareSync(password, hashedPassword);
-    res.status(200).send({ isMatch });
+    const { password} = req.body;
+   
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    
+    const query = 'SELECT * FROM userdb WHERE Pass = ?';
+    
+    db.query(query, [hashedPassword], (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            res.status(500).send('Login failed. Please try again.');
+            return;
+        }   
+        const hashedPassword1 = results[0];
+        console.log('Comparing password:', { password, hashedPassword1 });
+    const isMatch = bcrypt.compareSync(password, hashedPassword1);
+    isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
+    });
+   
+    
+   
 });
 
 
