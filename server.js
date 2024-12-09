@@ -43,7 +43,7 @@ app.post('/hash', (req, res) => {
     console.log('Hashing');
 
     const { username, email, password, hpass } = req.body;
-    console.log('hpass',hpass);
+    console.log('hpass',password);
     if (!hpass) {
         return res.status(400).send({ message: 'Password to hash (hpass) is required.' });
     }
