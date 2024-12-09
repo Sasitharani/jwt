@@ -42,7 +42,7 @@ app.post('/signup', (req, res) => {
 app.post('/hash', (req, res) => {
 
     const { username, email, password,hpass} = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 8 rounds
+    const hashedPassword = bcrypt.hashSync(hpass, 10); // Hash the password with a salt of 8 rounds
     console.log('Hashed Password during signup:', hashedPassword);
 
     const query = `
@@ -63,6 +63,7 @@ app.post('/hash', (req, res) => {
 
 // Compare password route
 app.post('/compare', (req, res) => {
+    console.log('Comapre Password:', req.body);
     const { password} = req.body;
    
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -80,9 +81,6 @@ app.post('/compare', (req, res) => {
     const isMatch = bcrypt.compareSync(password, hashedPassword1);
     isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
     });
-   
-    
-   
 });
 
 
