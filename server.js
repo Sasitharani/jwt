@@ -47,9 +47,9 @@ app.post('/hash', (req, res) => {
     if (!hpass) {
         return res.status(400).send({ message: 'Password to hash (hpass) is required.' });
     }
-
+console.log('hpass',hpass);
     const hashedPassword = bcrypt.hashSync(hpass, 10); // Hash the password with a salt of 10 rounds
-    console.log('Hashed Password during signup:', hashedPassword);
+    console.log('Hashed Password during Pass:', hashedPassword);
 
     const query = `
         INSERT INTO userdb (username, password, email, Pass)
