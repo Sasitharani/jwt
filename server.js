@@ -40,10 +40,10 @@ app.post('/signup', (req, res) => {
 
 // Hash password route
 app.post('/hash', (req, res) => {
-    const { password } = req.body;
+
     console.log('hashing password');
     
-    
+    const { password } = req.body;
     const saltRounds = 8;
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
     const query = `

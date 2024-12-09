@@ -10,7 +10,8 @@ const Pass = () => {
     const handleHashPassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/hash', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
+                
                 password
             });
             const { hashedPassword } = response.data;
@@ -24,7 +25,7 @@ const Pass = () => {
     const handleComparePassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/compare', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/compare', {
                 password: userInput,
                 hashedPassword
             });
