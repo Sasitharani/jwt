@@ -18,6 +18,7 @@ const Pass = () => {
             });
             const { hashedPassword } = response.data;
             console.log(response.data)
+            console.log(hashedPassword)
             setHashedPassword(hashedPassword);
             setMessage('Password hashed successfully!');
         } catch (error) {

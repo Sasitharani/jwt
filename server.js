@@ -63,7 +63,8 @@ console.log('hpass',password);
             res.status(500).send('Signup failed. Please try again.');
             return;
         }
-        res.status(201).send({ message: 'User registered successfully!',results });
+       const result=results[0]
+        res.status(201).send({ message: 'User registered successfully!',result });
     });
 });
 
