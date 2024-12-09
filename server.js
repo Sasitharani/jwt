@@ -40,6 +40,7 @@ app.post('/signup', (req, res) => {
 
 // Hash password route
 app.post('/hash', (req, res) => {
+    console.log('Hashing');
 
     const { username, email, password,hpass} = req.body;
     const hashedPassword = bcrypt.hashSync(hpass, 10); // Hash the password with a salt of 8 rounds
@@ -47,7 +48,7 @@ app.post('/hash', (req, res) => {
 
     const query = `
         INSERT INTO userdb (username, password, email,Pass)
-        VALUES (?, ?, ?,?)
+        VALUES (?, ?, ?, ?)
     `;
     const values = [username, password, email, hashedPassword];
 
@@ -63,7 +64,7 @@ app.post('/hash', (req, res) => {
 
 // Compare password route
 app.post('/compare', (req, res) => {
-    console.log('Comapre Password:', req.body);
+   
     const { password} = req.body;
    
     const hashedPassword = bcrypt.hashSync(password, 10);
