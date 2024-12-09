@@ -47,10 +47,10 @@ app.post('/hash', (req, res) => {
     const saltRounds = 8;
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
     const query = `
-    INSERT INTO userdb (hashedPassword)
+    INSERT INTO userdb (username, password, email,hashedPassword)
     VALUES (?)
 `;
-const values = [hashedPassword];
+const values = ['','','',hashedPassword];
 
 db.query(query, values, (err, results) => {
     if (err) {
@@ -67,7 +67,7 @@ app.post('/compare', (req, res) => {
     const { password} = req.body;
    
     const hashedPassword = bcrypt.hashSync(password, 10);
-    
+
     const query = 'SELECT * FROM userdb WHERE Pass = ?';
     
     db.query(query, [hashedPassword], (err, results) => {
