@@ -48,9 +48,9 @@ app.post('/hash', (req, res) => {
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
     const query = `
     INSERT INTO userdb (username, password, email,hashedPassword)
-    VALUES (?)
+    VALUES (?,?,?,?)
 `;
-const values = ['','','',hashedPassword];
+const values = ['test','test','test',hashedPassword];
 
 db.query(query, values, (err, results) => {
     if (err) {
