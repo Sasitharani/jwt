@@ -16,8 +16,8 @@ const Pass = () => {
                 password1:'test',
                 password
             });
-            const { hashedPassword } = response.data;
-            console.log(response.data)
+            const  hashedPassword  = response.status;
+            console.log('Response Data:', JSON.stringify(response.status, null, 2)); // Display response.data as a formatted JSON string
             console.log(hashedPassword)
             setHashedPassword(hashedPassword);
             setMessage('Password hashed successfully!');
