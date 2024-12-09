@@ -42,13 +42,13 @@ app.post('/signup', (req, res) => {
 app.post('/hash', (req, res) => {
     console.log('Hashing');
 
-    const { username, email, password, hpass } = req.body;
+    const { username, email, password, password1 } = req.body;
     console.log('hpass',password);
-    if (!hpass) {
+    if (!password) {
         return res.status(400).send({ message: 'Password to hash (hpass) is required.' });
     }
-console.log('hpass',hpass);
-    const hashedPassword = bcrypt.hashSync(hpass, 10); // Hash the password with a salt of 10 rounds
+console.log('hpass',password);
+    const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 10 rounds
     console.log('Hashed Password during Pass:', hashedPassword);
 
     const query = `
