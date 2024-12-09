@@ -34,7 +34,6 @@ app.post('/signup', (req, res) => {
             return;
         }
         res.status(201).send({ message: 'User registered successfully!' });
-    });
 });
 
 
