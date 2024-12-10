@@ -39,6 +39,24 @@ app.post('/signup', (req, res) => {
 });
 
 });
+// Check email availability route
+app.post('/check-email', (req, res) => {
+    const { email } = req.body;
+
+    const query = 'SELECT * FROM userdb WHERE email = ?';
+    db.query(query, [email], (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            res.status(500).send('Error checking email. Please try again.');
+            return;
+        }
+        if (results.length > 0) {
+            res.status(200).send({ available: false });
+        } else {
+            res.status(200).send({ available: true });
+        }
+    });
+});
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
@@ -104,10 +122,10 @@ app.post('/compare', (req, res) => {
 
 // Login route
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-    console.log('Received login data:', { username, password }); // Log the received data
-    const query = 'SELECT * FROM userdb WHERE username = ? OR email = ?';
-    db.query(query, [username, username], (err, results) => {
+    const { email, password } = req.body;
+    console.log('Received login data:', { email, password }); // Log the received data
+    const query = 'SELECT * FROM userdb WHERE email = ?';
+    db.query(query, [email], (err, results) => {
         if (err) {
             console.error('Error fetching data:', err);
             res.status(500).send('Login failed. Please try again.');

@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false); // Add loading state
@@ -15,7 +15,7 @@ const Login = () => {
         setLoading(true); // Set loading to true
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
-                username,
+                email,
                 password
             });
             const { hashedPassword } = response.data;
@@ -50,13 +50,13 @@ const Login = () => {
                 <form onSubmit={handleLogin1}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Username or Email
+                            Please enter your Email
                         </label>
                         <input
                             type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />

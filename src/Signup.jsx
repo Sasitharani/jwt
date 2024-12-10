@@ -8,6 +8,7 @@ const Signup = () => {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false); // Add loading state
+    const [emailAvailable, setEmailAvailable] = useState(true); // Add email availability state
     const navigate = useNavigate();
 
     const handleSignup = async (e) => {
@@ -23,6 +24,25 @@ const Signup = () => {
             navigate('/login'); // Navigate to the login page after successful signup
         } catch (error) {
             setMessage('Signup failed. Please try again.');
+        } finally {
+            setLoading(false); // Set loading to false
+        }
+    };
+
+    const checkEmailAvailability = async (e) => {
+        const email = e.target.value;
+        setEmail(email);
+        setLoading(true); // Set loading to true
+        try {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
+            setEmailAvailable(response.data.available);
+            if (!response.data.available) {
+                setMessage('Email is already taken.');
+            } else {
+                setMessage('');
+            }
+        } catch (error) {
+            setMessage('Server not connecting. Please try again.');
         } finally {
             setLoading(false); // Set loading to false
         }
@@ -59,7 +79,7 @@ const Signup = () => {
                             type="email"
                             id="email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={checkEmailAvailability}
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
                         />
@@ -82,10 +102,11 @@ const Signup = () => {
                             <button
                                 type="submit"
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                disabled={!emailAvailable} // Disable the button if email is not available
                             >
                                 Sign Up
                             </button>
-
+                    
                             <button
                                 type="button"
                                 onClick={() => navigate('/login')}
