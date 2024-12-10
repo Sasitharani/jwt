@@ -3,15 +3,16 @@ import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
-
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [loading, setLoading] = useState(false); // Add loading state
     const navigate = useNavigate();
 
     const handleLogin1 = async (e) => {
         e.preventDefault();
+        setLoading(true); // Set loading to true
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
                 username,
@@ -21,8 +22,8 @@ const Login = () => {
             console.log(hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             if (passwordIsValid) {
-                setMessage('Login Sucessfully');
-                navigate('/user');//after sucessfully login it will navigate to user page
+                setMessage('Login Successfully');
+                navigate('/user'); // After successfully login it will navigate to user page
             } else {
                 setMessage('Password did not match.');
             }
@@ -32,12 +33,19 @@ const Login = () => {
             } else {
                 setMessage('Login failed. Please try again.');
             }
+        } finally {
+            setLoading(false); // Set loading to false
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
+            {loading && (
+                <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="loader"></div>
+                </div>
+            )}
+            <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
                 <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
                 <form onSubmit={handleLogin1}>
                     <div className="mb-4">
