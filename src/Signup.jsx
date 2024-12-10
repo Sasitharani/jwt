@@ -18,6 +18,7 @@ const Signup = () => {
                 password
             });
             setMessage('User registered successfully!');
+            navigate('/login');//after sucessfully login it will navigate to login page
         } catch (error) {
             setMessage('Signup failed. Please try again.');
         }
@@ -67,21 +68,24 @@ const Signup = () => {
                             required
                         />
                     </div>
-                    <div className="flex items-center justify-between">
-                        <button
-                            type="submit"
-                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Sign Up
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => navigate('/pass')}
-                            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                            Go to Pass
-                        </button>
-                    </div>
+                    <div>
+    <div className="flex items-center justify-between">
+        <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+            Sign Up
+        </button>
+
+        <button
+            type="button"
+            onClick={() => navigate('/login')}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+            Login
+        </button>
+    </div>
+</div>
                 </form>
                 {message && <p className="mt-4 text-center text-red-500">{message}</p>}
             </div>

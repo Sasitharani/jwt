@@ -3,6 +3,7 @@ import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -20,7 +21,8 @@ const Login = () => {
             console.log(hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             if (passwordIsValid) {
-                setMessage('Password matched!');
+                setMessage('Login Sucessfully');
+                navigate('/user');//after sucessfully login it will navigate to user page
             } else {
                 setMessage('Password did not match.');
             }
