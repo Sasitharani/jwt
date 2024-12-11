@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import UsernameAuthentication from './signUp/Username';
+import EmailAuthentication from './signUp/Email';
 
 const Signup = () => {
+
+
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -11,9 +16,11 @@ const Signup = () => {
     const [emailAvailable, setEmailAvailable] = useState(true); // Add email availability state
     const [passwordError, setPasswordError] = useState(''); // Add password error state
     const [isFormValid, setIsFormValid] = useState(false); // Add form validity state
-    const [emailMessage, setEmailMessage] = useState(''); // Add email message state
+    const[EmailMessage, setEmailMessage] = useState(''); // Add email message state
+
     const navigate = useNavigate();
 
+    console.log('loading in the begining:-', loading)   
 
     const handleSignup = async (e) => {
         e.preventDefault();
@@ -31,34 +38,30 @@ const Signup = () => {
             setMessage('Signup failed. Please try again.');
         } finally {
             setLoading(false); // Set loading to false
+            console.log('loading in handleSignup:-', loading)
         }
     };
 
-    const checkEmailAvailability = async () => { // Remove event parameter
-        setLoading(true); // Set loading to true
-        try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
-            setEmailAvailable(response.data.available);
-            if (!response.data.available) {
-                validateForm();
-                setEmailMessage('Email is already taken.');
-            } else {
+    // const checkEmailAvailability = async () => { // Remove event parameter
+    //     setLoading(true); // Set loading to true
+    //     try {
+    //         const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
+    //         setEmailAvailable(response.data.available);
+    //         if (!response.data.available) {
+    //             validateForm();
+    //             setEmailMessage('Email is already taken.');
+    //         } else {
                
-                setEmailMessage('Email Available');
-                validateForm();
-            }
-        } catch (error) {
-            setMessage('Error checking email. Please try again.');
-        } finally {
-            setLoading(false); // Set loading to false
-        }
-    };
+    //             setEmailMessage('Email Available');
+    //             validateForm();
+    //         }
+    //     } catch (error) {
+    //         setMessage('Error checking email. Please try again.');
+    //     } finally {
+    //         setLoading(false); // Set loading to false
+    //     }
+    // };
 
-    const handleEmailChange = (e) => { // New code: Handle email change event
-        setEmail(e.target.value);
-        setEmailMessage(""); // Clear email message
-        validateForm();
-    };
 
     const validatePassword = (password) => {
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
@@ -81,28 +84,15 @@ const Signup = () => {
  const validateForm = () => { // Validate form
     console.log('Validating form');
     if (username && email && emailAvailable && password && !passwordError) {
-        console.log('Form is valid');
+        // console.log('Form is valid');
         setIsFormValid(true);
     } else {
         setIsFormValid(false);
     }
 };
 
-    const handleEmailBlur = (e) => { // Handle email blur event
-        checkEmailAvailability();
-        validateForm();
-    };
 
-    const getTooltipMessage = () => { // Get tooltip message
-        if (!emailAvailable && passwordError) {
-            return 'Check email and password';
-        } else if (!emailAvailable) {
-            return 'Check email';
-        } else if (passwordError) {
-            return 'Check password';
-        }
-        return '';
-    };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
@@ -112,45 +102,22 @@ const Signup = () => {
                 </div>
             )}
             <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
+            
+            
                 <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+
                 <form onSubmit={handleSignup}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => { setUsername(e.target.value); validateForm(); }} // Validate form on username change
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                            Email
-                        </label>
-                        <div className="flex">
-                            <input
-                                type="email"
-                                id="email"
-                                value={email}
-                                onChange={handleEmailChange} // Call handleEmailChange on change
-                                onBlur={handleEmailBlur} // Validate email on blur
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                required
-                            />
-                            <button
-                                type="button"
-                                onClick={checkEmailAvailability} // Check email availability on button click
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"
-                            >
-                                Check Availability
-                            </button>
-                        </div>
-                        <p className="mt-4 text-center text-red-500">{emailMessage}</p>
-                    </div>
+                <UsernameAuthentication username={username} setUsername={setUsername} />
+                <EmailAuthentication
+                email={email}
+                setEmail={setEmail}
+                setEmailAvailable={setEmailAvailable}
+                setEmailMessage={setEmailMessage}
+                emailAvailable={emailAvailable}
+                validateForm={validateForm}
+                loading={loading}
+                setLoading={setLoading}
+                />
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
                             Password
