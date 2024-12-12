@@ -15,6 +15,8 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Signup route
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
