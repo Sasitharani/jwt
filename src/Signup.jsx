@@ -3,92 +3,72 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UsernameAuthentication from './signUp/Username';
 import EmailAuthentication from './signUp/Email';
+import PasswordVerification from './signUp/Password';
+import Swal from 'sweetalert2';
+import PasswordMatch from './signUp/PasswordMatch';
 
 const Signup = () => {
-
-
-
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false); // Add loading state
     const [emailAvailable, setEmailAvailable] = useState(true); // Add email availability state
-    const [passwordError, setPasswordError] = useState(''); // Add password error state
-    const [isFormValid, setIsFormValid] = useState(false); // Add form validity state
+    const [passwordError, setPasswordError] = useState(' Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.'); // Add password error state
+    const [isPasswordValid, setIsPaswordValid] = useState(false); // Add form validity state
+    const [isEmailValid, setIsEmailValid] = useState(false); // Add form validity state
     const[EmailMessage, setEmailMessage] = useState(''); // Add email message state
+    const [passwordMatch, setPasswordMatch] = useState('');
+    const [matchPasswordVerified, setMatchPasswordVerified] = useState(false);
 
     const navigate = useNavigate();
 
-    console.log('loading in the begining:-', loading)   
+    //console.log('loading in the begining:-', loading)   
 
     const handleSignup = async (e) => {
         e.preventDefault();
         validateForm(); // Validate form on submit
         setLoading(true); // Set loading to true
-        try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
-                username,
-                email,
-                password
-            });
-            setMessage('User registered successfully!');
-            navigate('/login'); // Navigate to the login page after successful signup
-        } catch (error) {
-            setMessage('Signup failed. Please try again.');
-        } finally {
-            setLoading(false); // Set loading to false
-            console.log('loading in handleSignup:-', loading)
+ 
+        if (isEmailValid && isPasswordValid && matchPasswordVerified) {
+            console.log('Password while submiting', password)
+            try {
+      
+                const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
+                    username,
+                    email,
+                    password
+                });
+                setMessage('User registered successfully!');
+                Swal.fire({
+                    title: 'Successfully Registered!',
+                    icon: 'success',
+                    confirmButtonText: 'Login',
+                    preConfirm: () => {
+                        navigate('/login');
+                    }
+                });
+            } catch (error) {
+                setMessage('Signup failed. Please try again.');
+                Swal.fire({
+                    title: 'Signup Failed',
+                    text: 'Please try again.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            } 
         }
     };
 
-    // const checkEmailAvailability = async () => { // Remove event parameter
-    //     setLoading(true); // Set loading to true
-    //     try {
-    //         const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
-    //         setEmailAvailable(response.data.available);
-    //         if (!response.data.available) {
-    //             validateForm();
-    //             setEmailMessage('Email is already taken.');
-    //         } else {
-               
-    //             setEmailMessage('Email Available');
-    //             validateForm();
-    //         }
-    //     } catch (error) {
-    //         setMessage('Error checking email. Please try again.');
-    //     } finally {
-    //         setLoading(false); // Set loading to false
-    //     }
-    // };
-
-
-    const validatePassword = (password) => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return passwordRegex.test(password);
-    };
-
-    const handlePasswordChange = (e) => {
-        const password = e.target.value;
-        setPassword(password);
-        if (!validatePassword(password)) {
-            setPasswordError('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.');
-        } else {
-            setPasswordError(false);
-            console.log(passwordError)
-            validateForm(); // Validate form on password change
-        }
-       
-    };
 
  const validateForm = () => { // Validate form
-    console.log('Validating form');
-    if (username && email && emailAvailable && password && !passwordError) {
-        // console.log('Form is valid');
-        setIsFormValid(true);
-    } else {
-        setIsFormValid(false);
-    }
+    console.log('Validity of Email:-', isEmailValid + 'Validity of Password:-', isPasswordValid);
+    // if (username && email && emailAvailable && password && !passwordError) {
+    //     // console.log('Form is valid');
+    //     setIsFormValid(true);
+    // } else {
+    //     setIsFormValid(false);
+    // }
 };
 
 
@@ -98,7 +78,7 @@ const Signup = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="loader"></div>
+                    <div className="loader text-gray-400">Please wait while we Confirm</div>
                 </div>
             )}
             <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
@@ -113,32 +93,39 @@ const Signup = () => {
                 setEmail={setEmail}
                 setEmailAvailable={setEmailAvailable}
                 setEmailMessage={setEmailMessage}
+                emailMessage={EmailMessage} 
                 emailAvailable={emailAvailable}
                 validateForm={validateForm}
                 loading={loading}
                 setLoading={setLoading}
+               setIsEmailValid={setIsEmailValid}
+               isEmailValid={isEmailValid}
                 />
-                    <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={handlePasswordChange}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                        {passwordError && <p className="text-red-500 text-xs italic">{passwordError}</p>}
-                    </div>
+
+                <PasswordVerification
+                password={password}
+                setPassword={setPassword}
+                passwordError={passwordError}
+                setPasswordError={setPasswordError}
+                setIsPasswordValid={setIsPaswordValid}
+                isPasswordValid={isPasswordValid}
+                />
+                <PasswordMatch
+                    password={password}
+                    matchPassword={passwordMatch}
+                    setMatchPassword={setPasswordMatch}
+                    passwordError={passwordError}
+                    setPasswordError={setPasswordError}
+                    isPasswordValid={isPasswordValid}
+                    setMatchPasswordVerified={setMatchPasswordVerified}
+                />
+
                     <div>
                         <div className="flex items-center justify-between">
                             <button
                                 type="submit"
                                 className={`font-bold py-2 px-4 rounded bg-green-500 text-white hover:bg-green-600 text-white'
-                                }`}
-
+                                `}
                             >
                                 Sign Up
                             </button>
