@@ -79,7 +79,8 @@ const Signup = () => {
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="loader text-gray-400">Please wait while we Confirm</div>
+                    <div className="loader text-gray-400"></div>
+                    <div className=" text-gray-400">Please wait while we Confirm</div>
                 </div>
             )}
             <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
