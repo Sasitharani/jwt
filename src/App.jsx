@@ -5,6 +5,7 @@ import Login from './Login';
 import Pass from './Pass';
 import './index.css'; // Import Tailwind CSS
 import User from './User';
+import'./tailwind.css'
 
 const App = () => {
     return (

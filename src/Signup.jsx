@@ -1,125 +1,82 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import UsernameAuthentication from './signUp/Username';
+import EmailAuthentication from './signUp/Email';
+import PasswordVerification from './signUp/Password';
+import PhoneNumberVerification from './signUp/Phone';
+import'./tailwind.css'
+import './index.css'
 
 const Signup = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [message, setMessage] = useState('');
-    const [loading, setLoading] = useState(false); // Add loading state
-    const [emailAvailable, setEmailAvailable] = useState(true); // Add email availability state
+    const [loading, setLoading] = useState(false);
+    const [emailAvailable, setEmailAvailable] = useState(true);
+    const [passwordError, setPasswordError] = useState('');
+    const [phoneNumberAvailable, setPhoneNumberAvailable] = useState(true);
+    const [isFormValid, setIsFormValid] = useState(false);
+    const [emailMessage, setEmailMessage] = useState('');
+    const [phoneNumberMessage, setPhoneNumberMessage] = useState('');
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        setIsFormValid(
+            username && email && password && phoneNumber && emailAvailable && phoneNumberAvailable && !passwordError
+        );
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        setLoading(true); // Set loading to true
+        validateForm();
+        setLoading(true);
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
                 username,
                 email,
-                password
+                password,
+                phoneNumber
             });
             setMessage('User registered successfully!');
-            navigate('/login'); // Navigate to the login page after successful signup
+            navigate('/login');
         } catch (error) {
             setMessage('Signup failed. Please try again.');
         } finally {
-            setLoading(false); // Set loading to false
-        }
-    };
-
-    const checkEmailAvailability = async (e) => {
-        const email = e.target.value;
-        setEmail(email);
-        setLoading(true); // Set loading to true
-        try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
-            setEmailAvailable(response.data.available);
-            if (!response.data.available) {
-                setMessage('Email is already taken.');
-            } else {
-                setMessage('');
-            }
-        } catch (error) {
-            setMessage('Server not connecting. Please try again.');
-        } finally {
-            setLoading(false); // Set loading to false
+            setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
-            {loading && (
-                <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="loader"></div>
-                </div>
-            )}
-            <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
-                <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-                <form onSubmit={handleSignup}>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={checkEmailAvailability}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                    </div>
-                    <div className="mb-6">
-                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <button
-                                type="submit"
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                disabled={!emailAvailable} // Disable the button if email is not available
-                            >
-                                Sign Up
-                            </button>
-                    
-                            <button
-                                type="button"
-                                onClick={() => navigate('/login')}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Login
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                {message && <p className="mt-4 text-center text-red-500">{message}</p>}
-            </div>
-        </div>
+        <form onSubmit={handleSignup}>
+            <UsernameAuthentication username={username} setUsername={setUsername} />
+            <EmailAuthentication
+                email={email}
+                setEmail={setEmail}
+                setEmailAvailable={setEmailAvailable}
+                setEmailMessage={setEmailMessage}
+                validateForm={validateForm}
+            />
+            <PasswordVerification
+                password={password}
+                setPassword={setPassword}
+                passwordError={passwordError}
+                setPasswordError={setPasswordError}
+            />
+            <PhoneNumberVerification
+                phoneNumber={phoneNumber}
+                setPhoneNumber={setPhoneNumber}
+                setPhoneNumberAvailable={setPhoneNumberAvailable}
+                setPhoneNumberMessage={setPhoneNumberMessage}
+                validateForm={validateForm}
+            />
+            <button type="submit" disabled={!isFormValid || loading}>
+                {loading ? 'Signing up...' : 'Sign Up'}
+            </button>
+            {message && <p>{message}</p>}
+        </form>
     );
 };
 
