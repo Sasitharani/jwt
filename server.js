@@ -38,6 +38,44 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+// Google login route
+app.post('/google-login', async (req, res) => {
+    const { email, name } = req.body;
+    try {
+        const query = 'SELECT * FROM userdb WHERE email = ?';
+        db.query(query, [email], async (err, results) => {
+            if (err) {
+                console.error('Error fetching data:', err);
+                res.status(500).send('Google login failed. Please try again.');
+                return;
+            }
+            let user = results[0];
+
+            if (!user) {
+                // If user does not exist, create a new user
+                const query = `
+                    INSERT INTO userdb (username, email)
+                    VALUES (?, ?)
+                `;
+                const values = [name, email];
+                db.query(query, values, (err, results) => {
+                    if (err) {
+                        console.error('Error inserting data:', err);
+                        res.status(500).send('Google login failed. Please try again.');
+                        return;
+                    }
+                    user = { id: results.insertId, username: name, email };
+                });
+            }
+
+            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+            res.status(200).json({ token });
+        });
+    } catch (error) {
+        res.status(500).send('Error logging in with Google');
+    }
+});
+
 // Check email availability route
 app.post('/check-email', (req, res) => {
     const { email } = req.body;
