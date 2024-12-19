@@ -40,6 +40,7 @@ app.post('/signup', async (req, res) => {
 
 // Google login route
 app.post('/google-login', async (req, res) => {
+  console.log("Google Login hit");
     const { email, name } = req.body;
     try {
         const query = 'SELECT * FROM userdb WHERE email = ?';

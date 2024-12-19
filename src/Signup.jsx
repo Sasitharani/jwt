@@ -108,6 +108,7 @@ const Signup = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
+            console.log('User:', user);
             const { displayName, email } = user;
 
             const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/google-login', {
@@ -133,6 +134,7 @@ const Signup = () => {
                 throw new Error('Google login failed');
             }
         } catch (error) {
+            console.error('Google login error:', error);
             setMessage('Google login failed. Please try again.');
             Swal.fire({
                 title: 'Google Login Failed',
