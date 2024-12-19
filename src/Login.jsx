@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
+import LogoutButton from './LogoutButton';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -92,6 +93,7 @@ const Login = () => {
                 </form>
                 {message && <p className="mt-4 text-center text-red-500">{message}</p>}
             </div>
+            <LogoutButton />
         </div>
     );
 };

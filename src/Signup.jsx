@@ -6,6 +6,9 @@ import EmailAuthentication from './signUp/Email';
 import PasswordVerification from './signUp/Password';
 import Swal from 'sweetalert2';
 import PasswordMatch from './signUp/PasswordMatch';
+import LogoutButton from './LogoutButton'; // Import LogoutButton
+import { useDispatch } from 'react-redux';
+import { logout } from './store/userSlice';
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -23,24 +26,24 @@ const Signup = () => {
     const [matchPasswordVerified, setMatchPasswordVerified] = useState(false);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     //console.log('loading in the begining:-', loading)   
 
     const handleSignup = async (e) => {
         e.preventDefault();
-        validateForm(); // Validate form on submit
+        //validateForm(); // Validate form on submit
         setLoading(true); // Set loading to true
  
         if (isEmailValid && isPasswordValid && matchPasswordVerified) {
             console.log('Password while submiting', password)
             try {
-      
                 const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
                     username,
                     email,
                     password
                 });
-
+                console.log('Response Status:-', response.status);
                 // Wait for the database operation to complete
                 if (response.status === 200) {
                     setMessage('User registered successfully!');
@@ -51,6 +54,10 @@ const Signup = () => {
                     });
 
                     if (loginResponse.status === 200) {
+                        const { token } = loginResponse.data;
+                        localStorage.setItem('token', token); // Store token in local storage
+                        localStorage.setItem('username', username); // Store username in local storage
+                        localStorage.setItem('email', email); // Store email in local storage
                         Swal.fire({
                             title: 'Successfully Registered and Logged In!',
                             icon: 'success',
@@ -82,12 +89,13 @@ const Signup = () => {
 
  const validateForm = () => { // Validate form
     console.log('Validity of Email:-', isEmailValid + 'Validity of Password:-', isPasswordValid);
-    // if (username && email && emailAvailable && password && !passwordError) {
-    //     // console.log('Form is valid');
-    //     setIsFormValid(true);
-    // } else {
-    //     setIsFormValid(false);
-    // }
+    if (isEmailValid && isPasswordValid) {
+        console.log('Form is valid');
+        setIsFormValid(true);
+    } else {
+        console.log('Form is not valid');
+        setIsFormValid(false);
+    }
 };
 
 
@@ -95,6 +103,7 @@ const Signup = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
+            <LogoutButton />
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="loader text-gray-400"></div>
@@ -102,44 +111,39 @@ const Signup = () => {
                 </div>
             )}
             <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
-            
-            
                 <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-
                 <form onSubmit={handleSignup}>
-                <UsernameAuthentication username={username} setUsername={setUsername} />
-                <EmailAuthentication
-                email={email}
-                setEmail={setEmail}
-                setEmailAvailable={setEmailAvailable}
-                setEmailMessage={setEmailMessage}
-                emailMessage={EmailMessage} 
-                emailAvailable={emailAvailable}
-                validateForm={validateForm}
-                loading={loading}
-                setLoading={setLoading}
-               setIsEmailValid={setIsEmailValid}
-               isEmailValid={isEmailValid}
-                />
-
-                <PasswordVerification
-                password={password}
-                setPassword={setPassword}
-                passwordError={passwordError}
-                setPasswordError={setPasswordError}
-                setIsPasswordValid={setIsPaswordValid}
-                isPasswordValid={isPasswordValid}
-                />
-                <PasswordMatch
-                    password={password}
-                    matchPassword={passwordMatch}
-                    setMatchPassword={setPasswordMatch}
-                    passwordError={passwordError}
-                    setPasswordError={setPasswordError}
-                    isPasswordValid={isPasswordValid}
-                    setMatchPasswordVerified={setMatchPasswordVerified}
-                />
-
+                    <UsernameAuthentication username={username} setUsername={setUsername} />
+                    <EmailAuthentication
+                        email={email}
+                        setEmail={setEmail}
+                        setEmailAvailable={setEmailAvailable}
+                        setEmailMessage={setEmailMessage}
+                        emailMessage={EmailMessage}
+                        emailAvailable={emailAvailable}
+                        validateForm={validateForm}
+                        loading={loading}
+                        setLoading={setLoading}
+                        setIsEmailValid={setIsEmailValid}
+                        isEmailValid={isEmailValid}
+                    />
+                    <PasswordVerification
+                        password={password}
+                        setPassword={setPassword}
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
+                        setIsPasswordValid={setIsPaswordValid}
+                        isPasswordValid={isPasswordValid}
+                    />
+                    <PasswordMatch
+                        password={password}
+                        matchPassword={passwordMatch}
+                        setMatchPassword={setPasswordMatch}
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
+                        isPasswordValid={isPasswordValid}
+                        setMatchPasswordVerified={setMatchPasswordVerified}
+                    />
                     <div>
                         <div className="flex items-center justify-between">
                             <button
@@ -149,7 +153,6 @@ const Signup = () => {
                             >
                                 Sign Up
                             </button>
-                  
                             <button
                                 type="button"
                                 onClick={() => navigate('/login')}

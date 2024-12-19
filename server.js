@@ -31,7 +31,7 @@ app.post('/signup', async (req, res) => {
                 res.status(500).send('Signup failed. Please try again.');
                 return;
             }
-            res.status(201).send({ message: 'User registered successfully!' });
+            res.status(200).send({ message: 'User registered successfully!' });
         });
     } catch (error) {
         res.status(500).send('Error registering user');
