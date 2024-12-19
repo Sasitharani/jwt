@@ -10,6 +10,8 @@ import LogoutButton from './LogoutButton'; // Import LogoutButton
 import { useDispatch } from 'react-redux';
 import { login, logout } from './store/userSlice';
 import { auth, googleProvider, signInWithPopup } from './firebase';
+import GoogleButton from 'react-google-button';
+import { FcGoogle } from "react-icons/fc";
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -147,7 +149,6 @@ const Signup = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
-            <LogoutButton />
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="loader text-gray-400"></div>
@@ -187,33 +188,29 @@ const Signup = () => {
                         isPasswordValid={isPasswordValid}
                         setMatchPasswordVerified={setMatchPasswordVerified}
                     />
-                    <div>
-                        <div className="flex items-center justify-between">
-                            <button
-                                type="submit"
-                                className={`font-bold py-2 px-4 rounded bg-green-500 text-white hover:bg-green-600 text-white'
-                                `}
-                            >
-                                Sign Up
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => navigate('/login')}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                            >
-                                Login
-                            </button>
+                    <div className="flex items-center justify-between mt-4">
+                        <button
+                            type="submit"
+                            className="font-bold py-2 px-4 rounded bg-green-500 text-white hover:bg-green-600 h-12"
+                        >
+                            Sign Up
+                        </button>
+                        <div className='font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-green-600 h-12 '>
+                        <FcGoogle onClick={handleGoogleLogin} className=''/> Login with Google
                         </div>
+                        
+                        <div className="flex items-center justify-between m-1 h-12">
+                        <button
+                            type="button"
+                            onClick={() => navigate('/login')}
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 px-4 h-12 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Login
+                        </button>
                     </div>
+                    </div>
+
                 </form>
-                <div className="mt-4">
-                    <button
-                        onClick={handleGoogleLogin}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    >
-                        Login with Google
-                    </button>
-                </div>
                 {message && <p className="mt-4 text-center text-red-500">{message}</p>}
             </div>
         </div>

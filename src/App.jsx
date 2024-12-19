@@ -6,22 +6,22 @@ import Signup from './Signup';
 import Login from './Login';
 import Pass from './Pass';
 import User from './User';
-import Logout from './Logout';
 import './index.css'; // Import Tailwind CSS
 import './tailwind.css';
 import GoogleLoginPage from './GoogleLoginPage';
+import Header from './Header';
 
 const App = () => {
     return (
         <Provider store={store}>
             <Router>
+            <Header /> {/* Include the Header component */}
                 <Routes>
-                    <Route path="/" element={<GoogleLoginPage />} /> {/* Set GoogleLoginPage as the home page */}
+                    <Route path="/" element={<Signup />} /> {/* Set GoogleLoginPage as the home page */}
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/pass" element={<Pass />} />
                     <Route path="/user" element={<User />} />
-                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </Router>
         </Provider>

@@ -5,6 +5,7 @@ import { login } from './store/userSlice';
 import { auth, googleProvider, signInWithPopup } from './firebase';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import GoogleButton from 'react-google-button';
 
 const GoogleLoginPage = () => {
     const navigate = useNavigate();
@@ -52,12 +53,9 @@ const GoogleLoginPage = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <button
+            <GoogleButton
                 onClick={handleGoogleLogin}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            >
-                Login with Google
-            </button>
+            />
         </div>
     );
 };
