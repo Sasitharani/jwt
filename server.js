@@ -9,36 +9,35 @@ import db from './db.js'; // Import the connection pool
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 5000;
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
 // Signup route
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
     const { username, email, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 8 rounds
-    console.log('Hashed Password during signup:', hashedPassword);
-
-    const query = `
-        INSERT INTO userdb (username, password, email)
-        VALUES (?, ?, ?)
-    `;
-    const values = [username, hashedPassword, email];
-
-    db.query(query, values, (err, results) => {
-        if (err) {
-            console.error('Error inserting data:', err);
-            res.status(500).send('Signup failed. Please try again.');
-            return;
-        }
-        res.status(201).send({ message: 'User registered successfully!' });
-    const isMatch = bcrypt.compareSync(password, hashedPassword1);
-    isMatch? res.status(200).send({ message: 'Passwords match!' }): res.status(401).send({ message: 'Passwords do not match!' });
+    try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const query = `
+            INSERT INTO userdb (username, password, email)
+            VALUES (?, ?, ?)
+        `;
+        const values = [username, hashedPassword, email];
+        db.query(query, values, (err, results) => {
+            if (err) {
+                console.error('Error inserting data:', err);
+                res.status(500).send('Signup failed. Please try again.');
+                return;
+            }
+            res.status(201).send({ message: 'User registered successfully!' });
+        });
+    } catch (error) {
+        res.status(500).send('Error registering user');
+    }
 });
 
-});
 // Check email availability route
 app.post('/check-email', (req, res) => {
     const { email } = req.body;
@@ -57,10 +56,11 @@ app.post('/check-email', (req, res) => {
         }
     });
 });
+
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
-    const { username, email,password, hpassword} = req.body;
+    const { username, email, password, hpassword } = req.body;
 
     console.log('Hashed Password during Pass:', hpassword);
 
@@ -76,29 +76,26 @@ app.post('/hash', (req, res) => {
             res.status(500).send('Signup failed. Please try again.');
             return;
         }
-       const result=results[0]
-        res.status(201).send({ message: 'User registered successfully!',result });
+        const result = results[0];
+        res.status(201).send({ message: 'User registered successfully!', result });
     });
 });
 
 // Compare password route
 app.post('/compare', (req, res) => {
+    const { password } = req.body;
 
-  
-    const { password} = req.body;
-
-    console.log(' Received password :-', password) ;
-   
+    console.log('Received password :-', password);
 
     const query = 'SELECT * FROM userdb WHERE password = ?';
-    
-        db.query(query, [password], (err, results) => {
+
+    db.query(query, [password], (err, results) => {
         if (err) {
             console.error('Error fetching data:', err);
             res.status(500).send('Login failed. Please try again.');
             return;
         }
-        
+
         // Access the retrieved values
         const retrievedValue = results[0]; // Assuming you want the first row
         console.log('Retrieved Value:', retrievedValue);
@@ -106,50 +103,44 @@ app.post('/compare', (req, res) => {
         // Extract only the password field
         const retrievedPassword = retrievedValue.Pass;
         console.log('Retrieved Password:', retrievedPassword);
-        
-       // Compare passwords
-       const isMatch = bcrypt.compareSync(password, retrievedPassword);
-       console.log('Password match:', isMatch);
 
-       // Send the retrieved password and comparison result in the response
-       res.status(200).send({ retrievedPassword, isMatch });
+        // Compare passwords
+        const isMatch = bcrypt.compareSync(password, retrievedPassword);
+        console.log('Password match:', isMatch);
+
+        // Send the retrieved password and comparison result in the response
+        res.status(200).send({ retrievedPassword, isMatch });
     });
-   
-    });
-
-
-
+});
 
 // Login route
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log('Received login data:', { email, password }); // Log the received data
-    const query = 'SELECT * FROM userdb WHERE email = ?';
-    db.query(query, [email], (err, results) => {
-        if (err) {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Login failed. Please try again.');
-            return;
-        }
-        const user = results[0];
-       
-        if (!user) {
-            return res.status(404).send({ message: 'User not found!' });
-        }
-        console.log('The Password is:', password);
-        console.log('The user Password:', user.password);
+    try {
+        const query = 'SELECT * FROM userdb WHERE email = ?';
+        db.query(query, [email], async (err, results) => {
+            if (err) {
+                console.error('Error fetching data:', err);
+                res.status(500).send('Login failed. Please try again.');
+                return;
+            }
+            const user = results[0];
 
-        let hashedloginpassword = bcrypt.hashSync(password, 10);
+            if (!user) {
+                return res.status(404).send({ message: 'User not found!' });
+            }
 
-        console.log('hashedloginpassword:', hashedloginpassword);
+            const passwordIsValid = await bcrypt.compare(password, user.password);
+            if (!passwordIsValid) {
+                return res.status(401).send({ message: 'Invalid password!' });
+            }
 
-        const passwordIsValid = bcrypt.compareSync(password, user.password);
-        console.log('bcrypt.compareSync:', passwordIsValid);    
-        if (!passwordIsValid) {
-            return res.status(401).send({ message: 'Invalid password!' });
-        }
-        res.status(200).send({ auth: true, hashedPassword: user.password, message: 'Login successful!' });
-    });
+            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+            res.status(200).json({ token });
+        });
+    } catch (error) {
+        res.status(500).send('Error logging in');
+    }
 });
 
 // Protected route

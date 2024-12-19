@@ -40,15 +40,31 @@ const Signup = () => {
                     email,
                     password
                 });
-                setMessage('User registered successfully!');
-                Swal.fire({
-                    title: 'Successfully Registered!',
-                    icon: 'success',
-                    confirmButtonText: 'Login',
-                    preConfirm: () => {
-                        navigate('/login');
+
+                // Wait for the database operation to complete
+                if (response.status === 200) {
+                    setMessage('User registered successfully!');
+                    // Automatically log the user in
+                    const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/login', {
+                        email,
+                        password
+                    });
+
+                    if (loginResponse.status === 200) {
+                        Swal.fire({
+                            title: 'Successfully Registered and Logged In!',
+                            icon: 'success',
+                            confirmButtonText: 'Continue',
+                            preConfirm: () => {
+                                navigate('/dashboard'); // Redirect to dashboard or desired page
+                            }
+                        });
+                    } else {
+                        throw new Error('Login failed after signup');
                     }
-                });
+                } else {
+                    throw new Error('Signup failed');
+                }
             } catch (error) {
                 setMessage('Signup failed. Please try again.');
                 Swal.fire({
@@ -57,7 +73,9 @@ const Signup = () => {
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
-            } 
+            } finally {
+                setLoading(false); // Set loading to false
+            }
         }
     };
 
