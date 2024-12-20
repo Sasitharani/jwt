@@ -9,9 +9,7 @@ import PasswordMatch from './signUp/PasswordMatch';
 import LogoutButton from './LogoutButton'; // Import LogoutButton
 import { useDispatch } from 'react-redux';
 import { login, logout } from './store/userSlice';
-import { auth, googleProvider, signInWithPopup } from './firebase';
-import GoogleButton from 'react-google-button';
-import { FcGoogle } from "react-icons/fc";
+import GoogleLogin from './GoogleLogin'; // Import GoogleLogin component
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -87,64 +85,12 @@ const Signup = () => {
         }
     };
 
-    const validateForm = () => { // Validate form
-        console.log('Validity of Email:-', isEmailValid + 'Validity of Password:-', isPasswordValid);
-        if (isEmailValid && isPasswordValid) {
-            console.log('Form is valid');
-            setIsFormValid(true);
-        } else {
-            console.log('Form is not valid');
-            setIsFormValid(false);
-        }
-    };
-
     const handleLogout = () => {
         dispatch(logout());
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         localStorage.removeItem('email');
         navigate('/login');
-    };
-
-    const handleGoogleLogin = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const user = result.user;
-            console.log('User:', user);
-            const { displayName, email } = user;
-
-            const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/google-login', {
-                email,
-                name: displayName
-            });
-
-            if (loginResponse.status === 200) {
-                const { token } = loginResponse.data;
-                localStorage.setItem('token', token);
-                localStorage.setItem('username', displayName);
-                localStorage.setItem('email', email);
-                dispatch(login({ username: displayName, email, token })); // Dispatch login action
-                Swal.fire({
-                    title: 'Successfully Logged In with Google!',
-                    icon: 'success',
-                    confirmButtonText: 'Continue',
-                    preConfirm: () => {
-                        navigate('/user');
-                    }
-                });
-            } else {
-                throw new Error('Google login failed');
-            }
-        } catch (error) {
-            console.error('Google login error:', error);
-            setMessage('Google login failed. Please try again.');
-            Swal.fire({
-                title: 'Google Login Failed',
-                text: 'Please try again.',
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
     };
 
     return (
@@ -195,10 +141,12 @@ const Signup = () => {
                         >
                             Sign Up
                         </button>
-                        <div className='font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-green-600 h-12 '>
-                        <FcGoogle onClick={handleGoogleLogin} className=''/> Login with Google
-                        </div>
-                        
+                        <GoogleLogin
+                            setLoading={setLoading}
+                            setMessage={setMessage}
+                            dispatch={dispatch}
+                            navigate={navigate}
+                        />
                         <div className="flex items-center justify-between m-1 h-12">
                         <button
                             type="button"

@@ -12,7 +12,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            console.log('2.Store..########loginSuccess action called');
+            console.log('2.Src...########Login action called in slice');
             if (action.meta && action.meta.fileName) {
                 console.log('loginSuccess action called from:', action.meta.fileName);
             }
@@ -24,7 +24,7 @@ const userSlice = createSlice({
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
         loginSuccess: (state, action) => {
-            console.log('2.Store..########loginSuccess action called');
+            console.log('2.Src..######## loginSuccess action called');
             if (action.meta && action.meta.fileName) {
                 console.log('loginSuccess action called from:', action.meta.fileName);
             }

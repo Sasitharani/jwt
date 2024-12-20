@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from './LogoutButton';
+import GoogleLogin from './GoogleLogin';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginSuccess,login, logout } from './store/userSlice'; // Import actions
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -10,9 +12,16 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false); // Add loading state
     const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.user.isLoggedIn); // Get isLoggedIn from slice
+
+    useEffect(() => {
+        console.log('Login use effect');
+        console.log('isLoggedIn from slice displayed from login.jsx:', isLoggedIn); // Log isLoggedIn value
+    }, [isLoggedIn]); // Add useEffect hook;
 
     const handleLogin1 = async (e) => {
         e.preventDefault();
+        console.log("asdf");
         setLoading(true); // Set loading to true
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/login', {
@@ -24,6 +33,8 @@ const Login = () => {
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             if (passwordIsValid) {
                 setMessage('Login Successfully');
+                dispatch(login({ meta: { fileName: 'Login.jsx' } })); // Dispatch login success
+                localStorage.setItem('user', JSON.stringify({ email })); // Update local storage
                 navigate('/user'); // After successfully login it will navigate to user page
             } else {
                 setMessage('Password did not match.');
@@ -37,6 +48,14 @@ const Login = () => {
         } finally {
             setLoading(false); // Set loading to false
         }
+    };
+    const dispatch = useDispatch();                 
+
+    const handleLogout = () => {
+        console.log('Dispatching logout action from Login.jsx');
+        dispatch(logout({ meta: { fileName: 'Login.jsx' } })); // Dispatch logout action
+        localStorage.removeItem('user'); // Remove user from local storage
+        navigate('/login');
     };
 
     return (
@@ -82,6 +101,12 @@ const Login = () => {
                         >
                             Login
                         </button>
+                        <GoogleLogin
+                            setLoading={setLoading}
+                            setMessage={setMessage}
+                            dispatch={dispatch}
+                            navigate={navigate}
+                        />
                         <button
                             type="button"
                             onClick={() => navigate('/signup')}
