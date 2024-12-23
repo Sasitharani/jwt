@@ -140,12 +140,10 @@ app.post('/reset-password', (req, res) => {
     db.query(query, [newPassword, email], (err, results) => {
         console.log('Results password change:', results);
         console.log('Results password affectedRows:', results.affectedRows);
-        if (results.affectedRows==0) {
-            console.error('Error updating password:', err);
-            res.status(500).send('Error resetting password. Please try again.');
-            return;
+        if (results.affectedRows) {
+            res.status(200).send({ message: 'Password reset successfully' });
         }
-        res.status(200).send({ message: 'Password reset successfully' });
+       
     });
 });
 // Hash password route
