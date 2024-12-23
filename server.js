@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
+import nodemailer from 'nodemailer';
 
 dotenv.config();
 
@@ -95,7 +96,55 @@ app.post('/check-email', (req, res) => {
         }
     });
 });
+app.post('/send-reset-email', async (req, res) => {
+    const { email, code } = req.body;
 
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        auth: {
+            user: 'sasitharani@gmail.com',
+            pass: 'xwwhhaozejfdiavv',
+        },
+    });
+
+    const resetLink = `http://localhost:3000/forgot-password?code=${code}`;
+
+    const htmlContent = `
+        <h2>Password Reset Request</h2>
+        <p>Click the link below to reset your password:</p>
+        <a href="${resetLink}">${resetLink}</a>
+    `;
+
+    try {
+        await transporter.sendMail({
+            from: '"Support" <sasitharani@gmail.com>',
+            to: email,
+            subject: "Password Reset",
+            html: htmlContent,
+        });
+        res.status(200).send({ message: 'Reset email sent successfully' });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).send('Error sending email. Please try again.');
+    }
+});
+
+app.post('/reset-password', (req, res) => {
+    const { email, newPassword } = req.body;
+    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+
+    const query = 'UPDATE userdb SET password = ? WHERE email = ?';
+    db.query(query, [hashedPassword, email], (err, results) => {
+        if (err) {
+            console.error('Error updating password:', err);
+            res.status(500).send('Error resetting password. Please try again.');
+            return;
+        }
+        res.status(200).send({ message: 'Password reset successfully' });
+    });
+});
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');
