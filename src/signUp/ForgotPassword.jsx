@@ -69,6 +69,8 @@ const ForgotPassword = () => {
                 email,
                 newPassword
             });
+            console.log('response.status:', response.status);
+            console.log('response.data:', response.data);
             if (response.status === 200) {
                 Swal.fire({
                     title: 'Password changed successfully!',
@@ -82,6 +84,7 @@ const ForgotPassword = () => {
                 setMessage('Error resetting password. Please try again.');
             }
         } catch (error) {
+            console.error('Error:', error);
             setMessage('Error resetting password. Please try again.');
         } finally {
             setLoading(false);
