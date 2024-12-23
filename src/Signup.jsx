@@ -7,7 +7,7 @@ import UsernameAuthentication from './signUp/Username';
 import EmailAuthentication from './signUp/Email';
 import PasswordVerification from './signUp/Password';
 import PasswordMatch from './signUp/PasswordMatch';
-import LogoutButton from './LogoutButton'; // Import LogoutButton
+
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -103,7 +103,7 @@ const Signup = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
-            <LogoutButton /> {/* Include LogoutButton */}
+         
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="loader text-gray-400"></div>

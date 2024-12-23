@@ -43,5 +43,5 @@ Take care of duplicate file with same name and diffrent loacations created
 Create a table sessions with login details email-session id(unique)--login Time--Login out--Score
 Add a column in user database Votes-- member type-- Winning amount--Transfer of amount(Yes/No) 
 
----Create forgot Password
+---Create forgot Password---Done
 ---File Upload page

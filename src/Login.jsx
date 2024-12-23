@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess,login, logout } from './store/userSlice'; // Import actions
@@ -28,13 +28,17 @@ const Login = () => {
                 email,
                 password
             });
-            const { hashedPassword } = response.data;
-            console.log(hashedPassword);
-            console.log(response.data);
+            const hashedPassword = response.data.hashedPassword;
+            const username = response.data.username; // Extract username from response
+            console.log('password', password);
+            console.log('res.data', response.data.hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
+            console.log('Password match:', passwordIsValid);
             if (passwordIsValid) {
+                console.log('Email & Username', email, username);
                 setMessage('Login Successfully');
-                dispatch(login({ meta: { fileName: 'Login.jsx' } })); // Dispatch login success
+                
+                dispatch(login({ email, username })); // Dispatch login success with email and username
                 localStorage.setItem('user', JSON.stringify({ email })); // Update local storage
                 navigate('/user'); // After successfully login it will navigate to user page
             } else {
@@ -116,6 +120,9 @@ const Login = () => {
                             Sign Up
                         </button>
                     </div>
+                    <Link to="/forgot-password" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                            Forgot Password?
+                    </Link>
                 </form>
                 {message && <p className="mt-4 text-center text-red-500">{message}</p>}
             </div>
