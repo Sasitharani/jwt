@@ -223,6 +223,9 @@ app.post('/login', async (req, res) => {
             if (!passwordIsValid) {
                 return res.status(401).send({ message: 'Invalid password!' });
             }
+            else{
+                return res.status(200).send({ message: 'Login Successfully', hashedPassword: user.password });
+            }
 
             const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
             res.status(200).json({ token });

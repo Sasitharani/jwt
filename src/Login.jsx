@@ -30,6 +30,7 @@ const Login = () => {
             });
             const { hashedPassword } = response.data;
             console.log(hashedPassword);
+            console.log(response.data);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             if (passwordIsValid) {
                 setMessage('Login Successfully');
