@@ -136,8 +136,8 @@ app.post('/reset-password', (req, res) => {
     const { email, newPassword } = req.body;
     const hashedPassword = bcrypt.hashSync(newPassword, 10);
 
-    const query = 'UPDATE userdb SET Pass = ? WHERE email = ?';
-    db.query(query, [newPassword, email], (err, results) => {
+    const query = 'UPDATE userdb SET password = ? WHERE email = ?';
+    db.query(query, [hashedPassword, email], (err, results) => {
         console.log('Results password change:', results);
         console.log('Results password affectedRows:', results.affectedRows);
         if (results.affectedRows) {
