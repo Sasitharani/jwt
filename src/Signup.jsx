@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import UsernameAuthentication from './signUp/Username';
 import EmailAuthentication from './signUp/Email';
 import PasswordVerification from './signUp/Password';
-import Swal from 'sweetalert2';
 import PasswordMatch from './signUp/PasswordMatch';
 import LogoutButton from './LogoutButton'; // Import LogoutButton
 
@@ -17,7 +18,7 @@ const Signup = () => {
     const [loading, setLoading] = useState(false); // Add loading state
     const [emailAvailable, setEmailAvailable] = useState(true); // Add email availability state
     const [passwordError, setPasswordError] = useState(' Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one digit, and one special character.'); // Add password error state
-    const [isPasswordValid, setIsPaswordValid] = useState(false); // Add form validity state
+    const [isPasswordValid, setIsPasswordValid] = useState(false); // Add form validity state
     const [isEmailValid, setIsEmailValid] = useState(false); // Add form validity state
     const[EmailMessage, setEmailMessage] = useState(''); // Add email message state
     const [passwordMatch, setPasswordMatch] = useState('');
@@ -39,7 +40,8 @@ const Signup = () => {
                 const response = await axios.post('https://jwt-rj8s.onrender.com/signup', {
                     username,
                     email,
-                    password
+                    password,
+                    phoneNumber
                 });
 
                 // Wait for the database operation to complete
@@ -134,7 +136,7 @@ const Signup = () => {
                 setPassword={setPassword}
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
-                setIsPasswordValid={setIsPaswordValid}
+                setIsPasswordValid={setIsPasswordValid}
                 isPasswordValid={isPasswordValid}
                 />
                 <PasswordMatch
@@ -165,6 +167,9 @@ const Signup = () => {
                                 Login
                             </button>
                         </div>
+                        <Link to="/forgot-password" className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                            Forgot Password?
+                        </Link>
                     </div>
                 </form>
                 {message && <p className="mt-4 text-center text-red-500">{message}</p>}

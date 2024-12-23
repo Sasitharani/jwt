@@ -4,6 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import store from './store/store';
 import Signup from './Signup';
 import Login from './Login';
+import ForgotPassword from './signUp/ForgotPassword';
 import Pass from './Pass';
 import User from './User';
 import './index.css'; // Import Tailwind CSS
@@ -24,9 +25,10 @@ const App = () => {
       <Router>
         <Header /> {/* Include the Header component */}
         <Routes>
-          <Route path="/" element={<Login />} /> {/* Set GoogleLoginPage as the home page */}
+          <Route path="/" element={<Navigate to="/signup" />} /> {/* Set GoogleLoginPage as the home page */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/user" element={<PrivateRoute element={<User />} />} />
           <Route path="/subscription" element={<PrivateRoute element={<Subscription />} />} />
           <Route path="/payment" element={<PrivateRoute element={<Payment />} />} />

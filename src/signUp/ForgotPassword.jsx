@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -18,16 +17,18 @@ const ForgotPassword = () => {
         setLoading(true);
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
-            if (response.data.available) {
-                setMessage('Email does not exist. Sign up with a new email.');
-            } else {
+            console.log('response:', response.data.available);
+            if (!response.data.available) {
                 const code = generateRandomCode();
                 setResetCode(code);
                 await sendResetEmail(email, code);
                 setMessage('Reset link sent to your email.');
                 setShowResetForm(true);
+            } else {
+                setMessage('This email is not registered with us. Please sign in');
             }
         } catch (error) {
+            console.log(error.response);
             setMessage('Error checking email. Please try again.');
         } finally {
             setLoading(false);
