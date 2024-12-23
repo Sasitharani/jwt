@@ -106,7 +106,7 @@ app.post('/send-reset-email', async (req, res) => {
         secure: false,
         auth: {
             user: 'sasitharani@gmail.com',
-            pass: 'xwwhhaozejfdiavv',
+            pass: 'zcyjkhdknezjzkrg',
         },
     });
 
