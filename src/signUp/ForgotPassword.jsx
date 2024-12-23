@@ -37,10 +37,32 @@ const ForgotPassword = () => {
 
     const handleResetPassword = async (e) => {
         e.preventDefault();
+        if (newPassword.length < 8) {
+            setMessage('Password must be at least 8 characters long.');
+            return;
+        } else if (!/[A-Z]/.test(newPassword)) {
+            setMessage('Password must contain at least one uppercase letter.');
+            return;
+        } else if (!/[a-z]/.test(newPassword)) {
+            setMessage('Password must contain at least one lowercase letter.');
+            return;
+        } else if (!/[0-9]/.test(newPassword)) {
+            setMessage('Password must contain at least one digit.');
+            return;
+        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+            setMessage('Password must contain at least one special character.');
+            return;
+        } else {
+            setMessage('');
+        }
+    
         if (newPassword !== confirmPassword) {
             setMessage('Passwords do not match.');
             return;
+        } else {
+            setMessage('Passwords matched.');
         }
+    
         setLoading(true);
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/reset-password', {
@@ -65,7 +87,6 @@ const ForgotPassword = () => {
             setLoading(false);
         }
     };
-
     const generateRandomCode = () => {
         const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         const numbers = '0123456789';

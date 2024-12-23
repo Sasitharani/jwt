@@ -138,6 +138,7 @@ app.post('/reset-password', (req, res) => {
 
     const query = 'UPDATE userdb SET password = ? WHERE email = ?';
     db.query(query, [hashedPassword, email], (err, results) => {
+        console.log('Results password change:', results);
         if (err) {
             console.error('Error updating password:', err);
             res.status(500).send('Error resetting password. Please try again.');

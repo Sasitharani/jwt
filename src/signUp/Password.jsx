@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PasswordVerification = ({ password, setPassword, passwordError, setPasswordError,setIsPasswordValid,IsPasswordForm }) => {
-    const validatePassword = (password) => {
+  const validatePassword = (password) => {
         if (password.length < 8) {
             setPasswordError('Password must be at least 8 characters long.');
         } else if (!/[A-Z]/.test(password)) {
