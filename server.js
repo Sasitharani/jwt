@@ -97,6 +97,7 @@ app.post('/check-email', (req, res) => {
     });
 });
 app.post('/send-reset-email', async (req, res) => {
+    console.log("send-reser-email hit");
     const { email, code } = req.body;
 
     let transporter = nodemailer.createTransport({
