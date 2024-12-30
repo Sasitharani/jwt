@@ -6,8 +6,15 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
 import nodemailer from 'nodemailer';
+import upload from './upload.js'; // Import the upload middleware
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,6 +22,60 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
+
+// Ensure the uploads directory exists with the current date as the name
+const currentDate = new Date().toISOString().split('T')[0];
+const uploadsDir = path.join(__dirname, currentDate);
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'sasitharani@gmail.com',
+    pass: 'zfikzmnxyuicssim',
+  },
+});
+
+app.post('/api/send-email', upload.single('file'), (req, res) => {
+  const { name, email, phone, message } = req.body;
+  const file = req.file;
+
+  console.log('File:', file); // Debugging information
+
+  // Move the file to the current date folder
+  const newFilePath = path.join(uploadsDir, file.originalname);
+  fs.renameSync(file.path, newFilePath);
+
+  const mailOptions = {
+    from: 'sasitharani@gmail.com',
+    to: ['sasitharani@gmail.com', 'hrd@insphile.in'], // add the recipient's email addresses
+    subject: 'Insphile-New Contact Form Submission',
+    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+    attachments: file ? [{ filename: file.originalname, path: newFilePath }] : [],
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      return res.status(500).json({ error: 'Error sending email', details: error.message });
+    }
+    console.log('Email sent:', info.response);
+    res.status(200).json({ message: 'Email sent successfully.' });
+
+    // Delete the file after sending the email
+    if (file) {
+      fs.unlink(newFilePath, (err) => {
+        if (err) {
+          console.error('Error deleting file:', err);
+        }
+      });
+    }
+  });
+});
 
 // Signup route
 app.post('/signup', async (req, res) => {
@@ -223,12 +284,9 @@ app.post('/login', async (req, res) => {
             if (!passwordIsValid) {
                 return res.status(401).send({ message: 'Invalid password!' });
             }
-            else{
-                return res.status(200).send({ message: 'Login Successfully', hashedPassword: user.password });
-            }
 
             const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-            res.status(200).json({ token });
+            return res.status(200).json({ token, message: 'Login Successfully', hashedPassword: user.password });
         });
     } catch (error) {
         res.status(500).send('Error logging in');
@@ -247,6 +305,11 @@ app.get('/me', (req, res) => {
         }
         res.status(200).send(decoded);
     });
+});
+
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
 app.listen(PORT, () => {
