@@ -7,6 +7,7 @@ import Login from './Login';
 import ForgotPassword from './signUp/ForgotPassword';
 import Pass from './Pass';
 import User from './User';
+import UploadImg from './UploadImg'; // Import the UploadImg component
 import './index.css'; // Import Tailwind CSS
 import './tailwind.css';
 import GoogleLoginPage from './GoogleLoginPage';
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/user" element={<PrivateRoute element={<User />} />} />
           <Route path="/subscription" element={<PrivateRoute element={<Subscription />} />} />
           <Route path="/payment" element={<PrivateRoute element={<Payment />} />} />
+          <Route path="/upload-img" element={<UploadImg />} /> {/* Add the UploadImg route */}
         </Routes>
       </Router>
     </Provider>

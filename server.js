@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
 import nodemailer from 'nodemailer';
-import upload from './upload.js'; // Import the upload middleware
+import upload from './upload.js'; // Ensure this path is correct
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -52,8 +52,8 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   const mailOptions = {
     from: 'sasitharani@gmail.com',
-    to: ['sasitharani@gmail.com', 'hrd@insphile.in'], // add the recipient's email addresses
-    subject: 'Insphile-New Contact Form Submission',
+    to: ['sasitharani@gmail.com'], // add the recipient's email addresses
+    subject: 'Contest New Image Submission',
     text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
     attachments: file ? [{ filename: file.originalname, path: newFilePath }] : [],
   };
@@ -66,14 +66,14 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
     console.log('Email sent:', info.response);
     res.status(200).json({ message: 'Email sent successfully.' });
 
-    // Delete the file after sending the email
-    if (file) {
-      fs.unlink(newFilePath, (err) => {
-        if (err) {
-          console.error('Error deleting file:', err);
-        }
-      });
-    }
+    // Remove the code that deletes the file after sending the email
+    // if (file) {
+    //   fs.unlink(newFilePath, (err) => {
+    //     if (err) {
+    //       console.error('Error deleting file:', err);
+    //     }
+    //   });
+    // }
   });
 });
 

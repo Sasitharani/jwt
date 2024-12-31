@@ -13,8 +13,8 @@ const UploadImg = () => {
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const validFileTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+    const maxSize = 1 * 1024 * 1024; // 1MB
 
     if (selectedFile && !validFileTypes.includes(selectedFile.type)) {
       setError('Invalid file type. Only image files, PDF, and Word documents are allowed.');
@@ -23,7 +23,7 @@ const UploadImg = () => {
     }
 
     if (selectedFile && selectedFile.size > maxSize) {
-      setError('File size exceeds 5MB. Please upload a smaller file.');
+      setError('File size exceeds 1MB. Please upload a smaller file.');
       setFile(null);
       return;
     }
@@ -32,14 +32,10 @@ const UploadImg = () => {
     setFile(selectedFile);
   };
 
-  const handleFileUpload = async () => {
-    if (!file) {
-      setError('Please select a file to upload');
-      return;
-    }
+  const handleFileUpload = async (event) => {
     event.preventDefault();
     if (!file) {
-      alert('Please select a file to upload.');
+      setError('Please select a file to upload');
       return;
     }
 
@@ -127,13 +123,9 @@ const UploadImg = () => {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-    
-
-
-
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
-            File (Only image files, PDF, and Word documents are allowed. Max size: 5MB)
+            File (Only image files, PDF, and Word documents are allowed. Max size: 1MB)
           </label>
           <input
             type="file"
@@ -149,6 +141,13 @@ const UploadImg = () => {
             className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Submit
+          </button>
+          <button
+            type="button"
+            onClick={handleFileUpload}
+            className="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            Upload File
           </button>
         </div>
       </form>
