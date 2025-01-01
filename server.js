@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
 import nodemailer from 'nodemailer';
-import upload from './upload.js'; // Ensure this path is correct
+import multer from 'multer'; // Import multer
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -23,12 +23,22 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-// Ensure the uploads directory exists with the current date as the name
-const currentDate = new Date().toISOString().split('T')[0];
-const uploadsDir = path.join(__dirname, currentDate);
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
-}
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const uploadsDir = path.join(__dirname, 'uploads', currentDate);
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -40,6 +50,25 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Endpoint to handle file uploads
+app.post('/upload-file', upload.single('file'), (req, res) => {
+  const file = req.file;
+
+  if (file) {
+    console.log('File:', file); // Debugging information
+
+    // Move the file to the current date folder
+    const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+    fs.renameSync(file.path, newFilePath);
+
+    console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
+
+    res.status(200).json({ message: 'File uploaded successfully.', filePath: newFilePath });
+  } else {
+    res.status(400).json({ message: 'Error uploading file.' });
+  }
+});
+
 app.post('/api/send-email', upload.single('file'), (req, res) => {
   const { name, email, phone, message } = req.body;
   const file = req.file;
@@ -47,8 +76,10 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Move the file to the current date folder
-  const newFilePath = path.join(uploadsDir, file.originalname);
+  const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
   fs.renameSync(file.path, newFilePath);
+
+  console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
 
   const mailOptions = {
     from: 'sasitharani@gmail.com',
@@ -314,4 +345,15 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+});
+
+// Ensure the uploads directory exists
+app.get('/create-uploads-folder', (req, res) => {
+  const uploadDir = path.join(__dirname, 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+    res.send('Uploads folder created.');
+  } else {
+    res.send('Uploads folder already exists.');
+  }
 });
