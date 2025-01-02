@@ -10,6 +10,7 @@ import multer from 'multer'; // Import multer
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import ftp from 'basic-ftp'; // Import basic-ftp
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use(bodyParser.json());
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadsDir = '/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads';
+    const uploadsDir = path.join(__dirname, 'uploads');
     console.log('Uploads directory:', uploadsDir); // Log the uploads directory
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
@@ -51,43 +52,71 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Function to upload file to FTP server
+async function uploadToFTP(localFilePath, remoteFilePath) {
+  const client = new ftp.Client();
+  client.ftp.verbose = true;
+  try {
+    await client.access({
+      host: "68.178.150.66",
+      user: "l3ppzni4r1in",
+      password: "SasiJaga09$",
+      secure: false
+    });
+    console.log(`Uploading ${localFilePath} to ${remoteFilePath}`);
+    await client.uploadFrom(localFilePath, remoteFilePath);
+    console.log(`File uploaded to FTP: ${remoteFilePath}`);
+  } catch (err) {
+    console.error('Error uploading to FTP:', err);
+  }
+  client.close();
+}
+
 // Endpoint to handle file uploads
-app.post('/upload-file', upload.single('file'), (req, res) => {
+app.post('/upload-file', upload.single('file'), async (req, res) => {
   const file = req.file;
 
   if (file) {
     console.log('File:', file); // Debugging information
 
     // Move the file to the uploads folder
-    const newFilePath = path.join('/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads', file.originalname);
-    fs.renameSync(file.path, newFilePath);
+    const localFilePath = path.join(__dirname, 'uploads', file.originalname);
+    fs.renameSync(file.path, localFilePath);
 
-    console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
+    console.log('File uploaded to local directory:', localFilePath); // Log the full path of the uploaded file
 
-    res.status(200).json({ message: 'File uploaded successfully.', filePath: newFilePath });
+    // Upload the file to the FTP server
+    const remoteFilePath = `/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads/${file.originalname}`;
+    await uploadToFTP(localFilePath, remoteFilePath);
+
+    res.status(200).json({ message: 'File uploaded successfully.', filePath: remoteFilePath });
   } else {
     res.status(400).json({ message: 'Error uploading file.' });
   }
 });
 
-app.post('/api/send-email', upload.single('file'), (req, res) => {
+app.post('/api/send-email', upload.single('file'), async (req, res) => {
   const { name, email, phone, message } = req.body;
   const file = req.file;
 
   console.log('File:', file); // Debugging information
 
   // Move the file to the uploads folder
-  const newFilePath = path.join('/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads', file.originalname);
-  fs.renameSync(file.path, newFilePath);
+  const localFilePath = path.join(__dirname, 'uploads', file.originalname);
+  fs.renameSync(file.path, localFilePath);
 
-  console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
+  console.log('File uploaded to local directory:', localFilePath); // Log the full path of the uploaded file
+
+  // Upload the file to the FTP server
+  const remoteFilePath = `/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads/${file.originalname}`;
+  await uploadToFTP(localFilePath, remoteFilePath);
 
   const mailOptions = {
     from: 'sasitharani@gmail.com',
     to: ['sasitharani@gmail.com'], // add the recipient's email addresses
     subject: 'Contest New Image Submission',
     text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-    attachments: file ? [{ filename: file.originalname, path: newFilePath }] : [],
+    attachments: file ? [{ filename: file.originalname, path: localFilePath }] : [],
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -100,7 +129,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
     // Remove the code that deletes the file after sending the email
     // if (file) {
-    //   fs.unlink(newFilePath, (err) => {
+    //   fs.unlink(localFilePath, (err) => {
     //     if (err) {
     //       console.error('Error deleting file:', err);
     //     }
