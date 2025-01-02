@@ -6,11 +6,10 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
 import nodemailer from 'nodemailer';
-import multer from 'multer'; // Import multer
-import { Readable } from 'stream'; // Import Readable stream
-import ftp from 'basic-ftp'; // Import basic-ftp
-import { fileURLToPath } from 'url'; // Import fileURLToPath
-import path from 'path'; // Import path module
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import formidable from 'formidable'; // Import formidable
 
 dotenv.config();
 
@@ -23,8 +22,6 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
-
-const upload = multer(); // Initialize multer without specifying a storage location
 
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -56,24 +53,33 @@ async function uploadToFTP(fileStream, remoteFilePath) {
   client.close();
 }
 
-// Endpoint to handle file uploads
-app.post('/upload-file', upload.single('file'), async (req, res) => {
-  const file = req.file;
+// Endpoint to handle file uploads using formidable
+app.post('/upload-file', (req, res) => {
+  console.log("Entered the post method");
+  const form = new formidable.IncomingForm();
+  const uploadFolder = path.join(__dirname, 'uploads');
 
-  if (file) {
-    console.log('File:', file); // Debugging information
-
-    // Create a readable stream from the file buffer
-    const fileStream = Readable.from(file.buffer);
-
-    // Upload the file to the FTP server
-    const remoteFilePath = `www.contests4all.com/uploads`;
-    await uploadToFTP(fileStream, remoteFilePath);
-
-    res.status(200).json({ message: 'File uploaded successfully.', filePath: remoteFilePath });
+  // Ensure the uploads folder exists
+  if (!fs.existsSync(uploadFolder)) {
+    fs.mkdirSync(uploadFolder);
+    console.log(`Created uploads folder at ${uploadFolder}`);
   } else {
-    res.status(400).json({ message: 'Error uploading file.' });
+    console.log(`Uploads folder already exists at ${uploadFolder}`);
   }
+
+  form.uploadDir = uploadFolder;
+  form.keepExtensions = true;
+
+  form.parse(req, (err, fields, files) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error uploading file');
+      return;
+    }
+
+    console.log(`File uploaded to ${files.file.path}`);
+    res.status(200).send('File uploaded successfully');
+  });
 });
 
 app.post('/api/send-email', upload.single('file'), async (req, res) => {
