@@ -85,7 +85,7 @@ app.post('/upload-file', (req, res) => {
 // Endpoint to handle email sending with file upload using formidable
 app.post('/api/send-email', (req, res) => {
   const form = formidable({ multiples: true });
-  const uploadFolder = path.join(__dirname, 'uploads');
+  const uploadFolder = path.join(process.cwd(), 'uploads');
 
   // Ensure the uploads folder exists
   if (!fs.existsSync(uploadFolder)) {
@@ -375,7 +375,7 @@ app.listen(PORT, () => {
 
 // Ensure the uploads directory exists
 app.get('/create-uploads-folder', (req, res) => {
-  const uploadDir = path.join(__dirname, 'uploads');
+  const uploadDir = path.join(process.cwd(), 'uploads');
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
     res.send('Uploads folder created.');
