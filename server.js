@@ -26,10 +26,11 @@ app.use(bodyParser.json());
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const currentDate = new Date().toISOString().split('T')[0];
-    const uploadsDir = path.join(__dirname, 'uploads', currentDate);
+    const uploadsDir = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads');
+    console.log('Uploads directory:', uploadsDir); // Log the uploads directory
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
+      console.log('Uploads directory created:', uploadsDir); // Log directory creation
     }
     cb(null, uploadsDir);
   },
@@ -57,8 +58,8 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
   if (file) {
     console.log('File:', file); // Debugging information
 
-    // Move the file to the current date folder
-    const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+    // Move the file to the uploads folder
+    const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', file.originalname);
     fs.renameSync(file.path, newFilePath);
 
     console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
@@ -75,8 +76,8 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   console.log('File:', file); // Debugging information
 
-  // Move the file to the current date folder
-  const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  // Move the file to the uploads folder
+  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', file.originalname);
   fs.renameSync(file.path, newFilePath);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
