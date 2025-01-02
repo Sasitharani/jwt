@@ -85,7 +85,7 @@ app.post('/upload-file', upload.single('file'), async (req, res) => {
 
     console.log('File uploaded to local directory:', localFilePath); // Log the full path of the uploaded file
 
-    // Upload the file to the FTP server
+    // Upload the file to the FTP server// Upload the file to the FTP server
     const remoteFilePath = `/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads/${file.originalname}`;
     await uploadToFTP(localFilePath, remoteFilePath);
 
