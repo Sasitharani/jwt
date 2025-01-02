@@ -43,7 +43,7 @@ const UploadImg = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:3004/upload-file', {
+      const response = await fetch('https://jwt-rj8s.onrender.com/upload-file', {
         method: 'POST',
         body: formData,
       });
@@ -73,7 +73,7 @@ const UploadImg = () => {
     }
 
     try {
-      const response = await fetch('https://staterreactwithtailwind.onrender.com/api/send-email', {
+      const response = await fetch('https://your-render-server-url/api/send-email', {
         method: 'POST',
         body: formData,
       });
