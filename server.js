@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadsDir = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads');
+    const uploadsDir = '/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads';
     console.log('Uploads directory:', uploadsDir); // Log the uploads directory
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
@@ -59,7 +59,7 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
     console.log('File:', file); // Debugging information
 
     // Move the file to the uploads folder
-    const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', file.originalname);
+    const newFilePath = path.join('/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads', file.originalname);
     fs.renameSync(file.path, newFilePath);
 
     console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
@@ -77,7 +77,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Move the file to the uploads folder
-  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', file.originalname);
+  const newFilePath = path.join('/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads', file.originalname);
   fs.renameSync(file.path, newFilePath);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
