@@ -13,16 +13,12 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-// Get the current file's URL and convert it to a file path
 const __filename = fileURLToPath(import.meta.url);
-console.log('Current file URL:', import.meta.url); // Log the current file URL
-
-// Get the directory name of the current file
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Use the port from environment variables or default to 5000
-
+const PORT = process.env.PORT || 5000;
+const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
@@ -101,6 +97,14 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
     console.log('Email sent:', info.response);
     res.status(200).json({ message: 'Email sent successfully.' });
 
+    // Remove the code that deletes the file after sending the email
+    // if (file) {
+    //   fs.unlink(newFilePath, (err) => {
+    //     if (err) {
+    //       console.error('Error deleting file:', err);
+    //     }
+    //   });
+    // }
   });
 });
 
