@@ -9,6 +9,7 @@ import nodemailer from 'nodemailer';
 import multer from 'multer'; // Import multer
 import { Readable } from 'stream'; // Import Readable stream
 import ftp from 'basic-ftp'; // Import basic-ftp
+import { fileURLToPath } from 'url'; // Import fileURLToPath
 
 dotenv.config();
 
