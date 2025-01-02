@@ -42,7 +42,7 @@ async function uploadToFTP(fileStream, remoteFilePath) {
   client.ftp.verbose = true;
   try {
     await client.access({
-      host: "68.178.150.66",
+      host: "ftp.ksrelectricals.in",
       user: "l3ppzni4r1in",
       password: "SasiJaga09$",
       secure: false
@@ -67,7 +67,7 @@ app.post('/upload-file', upload.single('file'), async (req, res) => {
     const fileStream = Readable.from(file.buffer);
 
     // Upload the file to the FTP server
-    const remoteFilePath = `/home/l3ppzni4r1in/public_html/www.contests4all.com/uploads`;
+    const remoteFilePath = `/www.contests4all.com/uploads`;
     await uploadToFTP(fileStream, remoteFilePath);
 
     res.status(200).json({ message: 'File uploaded successfully.', filePath: remoteFilePath });
