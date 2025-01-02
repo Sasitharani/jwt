@@ -55,9 +55,9 @@ async function uploadToFTP(fileStream, remoteFilePath) {
 
 // Endpoint to handle file uploads using formidable
 app.post('/upload-file', (req, res) => {
-  console.log("Entered the post method");
-  const form = formidable({ multiples: true });
-  const uploadFolder = path.join(__dirname, 'uploads');
+    console.log("Entered the post method");
+    const form = new formidable.IncomingForm();
+    const uploadFolder = path.join(process.cwd(), 'uploads');
 
   // Ensure the uploads folder exists
   if (!fs.existsSync(uploadFolder)) {
