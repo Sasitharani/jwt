@@ -82,34 +82,55 @@ app.post('/upload-file', (req, res) => {
   });
 });
 
-app.post('/api/send-email', upload.single('file'), async (req, res) => {
-  const { name, email, phone, message } = req.body;
-  const file = req.file;
+// Endpoint to handle email sending with file upload using formidable
+app.post('/api/send-email', (req, res) => {
+  const form = new formidable.IncomingForm();
+  const uploadFolder = path.join(__dirname, 'uploads');
 
-  console.log('File:', file); // Debugging information
+  // Ensure the uploads folder exists
+  if (!fs.existsSync(uploadFolder)) {
+    fs.mkdirSync(uploadFolder);
+    console.log(`Created uploads folder at ${uploadFolder}`);
+  } else {
+    console.log(`Uploads folder already exists at ${uploadFolder}`);
+  }
 
-  // Create a readable stream from the file buffer
-  const fileStream = Readable.from(file.buffer);
+  form.uploadDir = uploadFolder;
+  form.keepExtensions = true;
 
-  // Upload the file to the FTP server
-  const remoteFilePath = `www.contests4all.com/uploads/${file.originalname}`;
-  await uploadToFTP(fileStream, remoteFilePath);
-
-  const mailOptions = {
-    from: 'sasitharani@gmail.com',
-    to: ['sasitharani@gmail.com'], // add the recipient's email addresses
-    subject: 'Contest New Image Submission',
-    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-    attachments: file ? [{ filename: file.originalname, path: remoteFilePath }] : [],
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-      return res.status(500).json({ error: 'Error sending email', details: error.message });
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error uploading file');
+      return;
     }
-    console.log('Email sent:', info.response);
-    res.status(200).json({ message: 'Email sent successfully.' });
+
+    const { name, email, phone, message } = fields;
+    const file = files.file;
+
+    console.log('File:', file); // Debugging information
+
+    // Upload the file to the FTP server
+    const remoteFilePath = `www.contests4all.com/uploads/${file.originalFilename}`;
+    const fileStream = fs.createReadStream(file.filepath);
+    await uploadToFTP(fileStream, remoteFilePath);
+
+    const mailOptions = {
+      from: 'sasitharani@gmail.com',
+      to: ['sasitharani@gmail.com'], // add the recipient's email addresses
+      subject: 'Contest New Image Submission',
+      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+      attachments: file ? [{ filename: file.originalFilename, path: remoteFilePath }] : [],
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+        return res.status(500).json({ error: 'Error sending email', details: error.message });
+      }
+      console.log('Email sent:', info.response);
+      res.status(200).json({ message: 'Email sent successfully.' });
+    });
   });
 });
 
