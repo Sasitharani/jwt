@@ -9,7 +9,7 @@ const AllUploads = () => {
 
   useEffect(() => {
     // Fetch images from the server
-    fetch('/api/images')
+    fetch('https://jwt-rj8s.onrender.com/api/images')
       .then(response => response.json())
       .then(data => setImages(data))
       .catch(error => console.error('Error fetching images:', error));
