@@ -52,3 +52,6 @@ Upload working
 You will get a mail in sasitharani@gmail.com
 also it is present in uploads folder with date 
 GIT COMMIT:"######Finally upload working#######"
+
+
+Need a page that will show the admin all the images uploaded--working

@@ -14,6 +14,8 @@ import GoogleLoginPage from './GoogleLoginPage';
 import Header from './components/Header';
 import Subscription from './components/Subscription';
 import Payment from './components/Payment';
+import ImageGallery from './upload/AllUploads';
+import Vote from './voting/Vote';
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -34,6 +36,8 @@ const App = () => {
           <Route path="/subscription" element={<PrivateRoute element={<Subscription />} />} />
           <Route path="/payment" element={<PrivateRoute element={<Payment />} />} />
           <Route path="/upload-img" element={<UploadImg />} /> {/* Add the UploadImg route */}
+          <Route path="/voting/vote" element={<Vote />} /> {/* Add the Vote route */}
+          <Route path="/image-gallery" element={<ImageGallery />} /> {/* Add the ImageGallery route */}
         </Routes>
       </Router>
     </Provider>

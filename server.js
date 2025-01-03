@@ -370,6 +370,39 @@ app.get('/me', (req, res) => {
     });
 });
 
+app.get('/api/images', (req, res) => {
+  const uploadsDir = path.join(__dirname, 'www.contests4all.com/uploads');
+  const images = [];
+
+  fs.readdir(uploadsDir, (err, dates) => {
+    if (err) {
+      console.error('Error reading uploads directory:', err);
+      return res.status(500).send('Error reading uploads directory');
+    }
+
+    dates.forEach(date => {
+      const dateDir = path.join(uploadsDir, date);
+      fs.readdir(dateDir, (err, files) => {
+        if (err) {
+          console.error(`Error reading directory for date ${date}:`, err);
+          return;
+        }
+
+        files.forEach(file => {
+          images.push({
+            name: file,
+            url: `/uploads/${date}/${file}`
+          });
+        });
+
+        if (images.length === dates.length) {
+          res.json(images);
+        }
+      });
+    });
+  });
+});
+
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
