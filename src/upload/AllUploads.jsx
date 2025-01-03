@@ -28,6 +28,7 @@ const AllUploads = () => {
 
   return (
     <div className="image-gallery">
+        <div>Images</div>
       {currentImages.map((image, index) => (
         <div key={index} className="image-row">
           <div className="image-column">

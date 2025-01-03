@@ -69,7 +69,7 @@ const Header = () => {
                         </button>
                         {dropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-white text-black rounded-md shadow-lg">
-                                <Link to="/member-type" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Member Type</Link>
+                                <Link to="/upload/AllUploads" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Uploads</Link>
                                 <Link to="/points" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Points Available</Link>
                                 <Link to="/instructions" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Instructions</Link>
                                 <Link to="/help" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Help</Link>
