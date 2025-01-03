@@ -28,7 +28,6 @@ console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
 const storage = multer.memoryStorage(); // Use memory storage to avoid saving to disk
-
 const upload = multer({ storage });
 
 const transporter = nodemailer.createTransport({
@@ -44,11 +43,8 @@ const transporter = nodemailer.createTransport({
 // Endpoint to handle file uploads
 app.post('/upload-file', upload.single('file'), (req, res) => {
   const file = req.file;
-  const filePath = path.join(__dirname, 'uploads', req.file.originalname);
 
   if (file) {
-    console.log('File:', file); // Debugging information
-
     console.log('File:', file); // Debugging information
 
     const client = new ftp();
@@ -74,13 +70,15 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
         });
       });
     });
-  
-      client.connect({
-        host: "68.178.150.66",
-        user: "l3ppzni4r1in",
-        password: "SasiJaga09$",
-      });
-  } 
+
+    client.connect({
+      host: "68.178.150.66",
+      user: "l3ppzni4r1in",
+      password: "SasiJaga09$",
+    });
+  } else {
+    res.status(400).send('No file uploaded.');
+  }
 });
 
 app.post('/api/send-email', upload.single('file'), (req, res) => {
@@ -95,7 +93,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Construct the new file path using an absolute path
-  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
 
   // Ensure the directory exists
   const dir = path.dirname(newFilePath);
