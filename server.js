@@ -86,7 +86,13 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
     fs.mkdirSync(dir, { recursive: true });
   }
 
-  fs.writeFileSync(newFilePath, file.buffer);
+  try {
+    fs.writeFileSync(newFilePath, file.buffer);
+    console.log('File written to:', newFilePath); // Log the full path of the uploaded file
+  } catch (err) {
+    console.error('Error writing file:', err);
+    return res.status(500).send('Error writing file');
+  }
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
 
