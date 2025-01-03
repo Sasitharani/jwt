@@ -43,7 +43,7 @@ const UploadImg = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://jwt-rj8s.onrender.com/upload-file', {
+      const response = await fetch('https://jwwupload-file', {
         method: 'POST',
         body: formData,
       });
