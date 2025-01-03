@@ -47,6 +47,8 @@ Add a column in user database Votes-- member type-- Winning amount--Transfer of 
 ---File Upload page
 
 
-02-01-2025
-still the upload directory is at /opt/render/project/src/uploads
-nsure that the uploads directory is correctly created and used regardless of the environment, you can use path.join(process.cwd(), 'uploads') to dynamically determine the current working directory of the application.
+03-01-2025
+Upload working
+You will get a mail in sasitharani@gmail.com
+also it is present in uploads folder with date 
+GIT COMMIT:"######Finally upload working#######"
