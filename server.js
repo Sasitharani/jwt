@@ -23,13 +23,13 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-console.log("DirName;",__dirname)
+console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const currentDate = new Date().toISOString().split('T')[0];
-    const uploadsDir = path.join(__dirname, 'uploads', currentDate);
+    const uploadsDir = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', currentDate);
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
@@ -60,7 +60,7 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
     console.log('File:', file); // Debugging information
 
     // Move the file to the current date folder
-    const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+    const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
     fs.renameSync(file.path, newFilePath);
 
     console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
@@ -78,7 +78,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Move the file to the current date folder
-  const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
   fs.renameSync(file.path, newFilePath);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
