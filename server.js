@@ -78,7 +78,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   // Move the file to the current date folder
   const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
-  fs.renameSync(file.path, newFilePath);
+  fs.writeFileSync(newFilePath, file.buffer);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
 
