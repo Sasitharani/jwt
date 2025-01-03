@@ -55,13 +55,14 @@ async function uploadToFTP(fileStream, remoteFilePath) {
 
 // Endpoint to handle file uploads using formidable
 app.post('/upload-file', (req, res) => {
-  console.log("Entered the post method check");
+  console.log("Entered the post method");
   const form = formidable({ multiples: true });
-  const uploadFolder = path.join(process.cwd(), 'uploads');
+  const uploadDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+  const uploadFolder = path.join(__dirname, 'uploads', uploadDate);
 
   // Ensure the uploads folder exists
   if (!fs.existsSync(uploadFolder)) {
-    fs.mkdirSync(uploadFolder);
+    fs.mkdirSync(uploadFolder, { recursive: true });
     console.log(`Created uploads folder at ${uploadFolder}`);
   } else {
     console.log(`Uploads folder already exists at ${uploadFolder}`);
@@ -85,11 +86,12 @@ app.post('/upload-file', (req, res) => {
 // Endpoint to handle email sending with file upload using formidable
 app.post('/api/send-email', (req, res) => {
   const form = formidable({ multiples: true });
-  const uploadFolder = path.join(process.cwd(), 'uploads');
+  const uploadDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
+  const uploadFolder = path.join(__dirname, 'uploads', uploadDate);
 
   // Ensure the uploads folder exists
   if (!fs.existsSync(uploadFolder)) {
-    fs.mkdirSync(uploadFolder);
+    fs.mkdirSync(uploadFolder, { recursive: true });
     console.log(`Created uploads folder at ${uploadFolder}`);
   } else {
     console.log(`Uploads folder already exists at ${uploadFolder}`);
@@ -375,7 +377,7 @@ app.listen(PORT, () => {
 
 // Ensure the uploads directory exists
 app.get('/create-uploads-folder', (req, res) => {
-  const uploadDir = path.join(process.cwd(), 'uploads');
+  const uploadDir = path.join(__dirname, 'uploads');
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir);
     res.send('Uploads folder created.');
