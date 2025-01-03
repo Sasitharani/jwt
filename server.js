@@ -74,13 +74,18 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   const { name, email, phone, message } = req.body;
   const file = req.file;
 
+  if (!file) {
+    console.error('No file uploaded.');
+    return res.status(400).send('No file uploaded.');
+  }
+
   console.log('File:', file); // Debugging information
 
-  // Move the file to the current date folder
-  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
-  
-  
+  // Construct the new file path using an absolute path
+  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+
   // Ensure the directory exists
+  const dir = path.dirname(newFilePath);
   if (!fs.existsSync(dir)) {
     console.log(`Directory does not exist, creating: ${dir}`);
     fs.mkdirSync(dir, { recursive: true });
@@ -88,6 +93,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
     console.log(`Directory exists: ${dir}`);
   }
 
+  // Write the file buffer to the new file path
   try {
     fs.writeFileSync(newFilePath, file.buffer);
     console.log('File written to:', newFilePath); // Log the full path of the uploaded file
@@ -112,16 +118,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
       return res.status(500).json({ error: 'Error sending email', details: error.message });
     }
     console.log('Email sent:', info.response);
-    res.status(200).json({ message: 'Email sent successfully.' });
-
-    // Remove the code that deletes the file after sending the email
-    // if (file) {
-    //   fs.unlink(newFilePath, (err) => {
-    //     if (err) {
-    //       console.error('Error deleting file:', err);
-    //     }
-    //   });
-    // }
+    res.status(200).send('Email sent successfully');
   });
 });
 
