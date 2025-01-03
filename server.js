@@ -372,7 +372,7 @@ app.get('/me', (req, res) => {
 
 app.get('/api/images', (req, res) => {
     console.log("Images hit");
-  const uploadsDir = path.join('www.contests4all.com/uploads');
+  const uploadsDir = path.join('/public_html/www.contests4all.com/uploads');
   const images = [];
 
   fs.readdir(uploadsDir, (err, dates) => {
