@@ -27,19 +27,7 @@ app.use(bodyParser.json());
 console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const currentDate = new Date().toISOString().split('T')[0];
-    const uploadsDir = path.join(__dirname, 'uploads');
-    if (!fs.existsSync(uploadsDir)) {
-      fs.mkdirSync(uploadsDir, { recursive: true });
-    }
-    cb(null, uploadsDir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, file.originalname);
-  },
-});
+const storage = multer.memoryStorage(); // Use memory storage to avoid saving to disk
 
 const upload = multer({ storage });
 
@@ -64,7 +52,7 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
     // Move the file to the current date folder
     const client = new ftp();
     client.on('ready', () => {
-        client.put(filePath, '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
+        client.put(req.file.buffer,  '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
           if (err) {
             res.status(500).send('File upload failed');
             client.end();
