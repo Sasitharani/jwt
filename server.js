@@ -77,7 +77,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Move the file to the current date folder
-  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
   
   
   // Ensure the directory exists
@@ -85,7 +85,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
-  
+
   fs.writeFileSync(newFilePath, file.buffer);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
