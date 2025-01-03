@@ -52,7 +52,7 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
     // Move the file to the current date folder
     const client = new ftp();
     client.on('ready', () => {
-        client.put(req.file.buffer,  '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
+        client.put(file.buffer,  '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
           if (err) {
             res.status(500).send('File upload failed');
             client.end();
