@@ -23,6 +23,8 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
+console.log("DirName;",__dirname)
+
 // Set up multer for file uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
