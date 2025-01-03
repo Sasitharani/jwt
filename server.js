@@ -116,7 +116,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
           to: ['sasitharani@gmail.com'], // add the recipient's email addresses
           subject: 'Contest New Image Submission',
           text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-          attachments: [{ filename: file.originalname, path: remoteFilePath }],
+          attachments: [{ filename: file.originalname, content: file.buffer }],
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
