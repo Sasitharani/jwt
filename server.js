@@ -10,6 +10,7 @@ import multer from 'multer'; // Import multer
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import ftp from 'ftp';
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ console.log("DirName:", __dirname);
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const currentDate = new Date().toISOString().split('T')[0];
-    const uploadsDir = path.join('public_html', 'www.contests4all.com', 'uploads', currentDate);
+    const uploadsDir = path.join(__dirname, 'uploads');
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
@@ -55,20 +56,30 @@ const transporter = nodemailer.createTransport({
 // Endpoint to handle file uploads
 app.post('/upload-file', upload.single('file'), (req, res) => {
   const file = req.file;
+  const filePath = path.join(__dirname, 'uploads', req.file.originalname);
 
   if (file) {
     console.log('File:', file); // Debugging information
 
     // Move the file to the current date folder
-    const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
-    fs.renameSync(file.path, newFilePath);
-
-    console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
-
-    res.status(200).json({ message: 'File uploaded successfully.', filePath: newFilePath });
-  } else {
-    res.status(400).json({ message: 'Error uploading file.' });
-  }
+    const client = new ftp();
+    client.on('ready', () => {
+        client.put(filePath, '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
+          if (err) {
+            res.status(500).send('File upload failed');
+            client.end();
+            return;
+          }
+          res.send('File uploaded successfully');
+          client.end();
+        });
+      });
+      client.connect({
+        host: "68.178.150.66",
+        user: "l3ppzni4r1in",
+        password: "SasiJaga09$",
+      });
+  } 
 });
 
 app.post('/api/send-email', upload.single('file'), (req, res) => {
@@ -78,7 +89,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   console.log('File:', file); // Debugging information
 
   // Move the file to the current date folder
-  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
   fs.renameSync(file.path, newFilePath);
 
   console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
