@@ -29,7 +29,7 @@ console.log("DirName:", __dirname);
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const currentDate = new Date().toISOString().split('T')[0];
-    const uploadsDir = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', currentDate);
+    const uploadsDir = path.join('public_html', 'www.contests4all.com', 'uploads', currentDate);
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
