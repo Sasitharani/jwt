@@ -356,51 +356,60 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// Protected route
-app.get('/me', (req, res) => {
-    const token = req.headers['x-access-token'];
-    if (!token) {
-        return res.status(401).send({ message: 'No token provided!' });
-    }
-    jwt.verify(token, SECRET_KEY, (err, decoded) => {
-        if (err) {
-            return res.status(500).send({ message: 'Failed to authenticate token.' });
-        }
-        res.status(200).send(decoded);
-    });
-});
 
 app.get('/api/images', (req, res) => {
-    console.log("Images hit");
-  const uploadsDir = path.join('/public_html/www.contests4all.com/uploads');
+  console.log("Images hit");
+  const client = new ftp();
   const images = [];
 
-  fs.readdir(uploadsDir, (err, dates) => {
-    if (err) {
-      console.error('Error reading uploads directory:', err);
-      return res.status(500).send('Error reading uploads directory');
-    }
+  client.on('ready', () => {
+    client.list('/public_html/www.contests4all.com/uploads', (err, dates) => {
+      if (err) {
+        console.error('Error reading uploads directory:', err);
+        res.status(500).send('Error reading uploads directory');
+        client.end();
+        return;
+      }
 
-    dates.forEach(date => {
-      const dateDir = path.join(uploadsDir, date);
-      fs.readdir(dateDir, (err, files) => {
-        if (err) {
-          console.error(`Error reading directory for date ${date}:`, err);
-          return;
-        }
+      let pending = dates.length;
+      if (!pending) {
+        res.json(images);
+        client.end();
+        return;
+      }
 
-        files.forEach(file => {
-          images.push({
-            name: file,
-            url: `/uploads/${date}/${file}`
+      dates.forEach(date => {
+        const dateDir = `/public_html/www.contests4all.com/uploads/${date.name}`;
+        client.list(dateDir, (err, files) => {
+          if (err) {
+            console.error(`Error reading directory for date ${date.name}:`, err);
+            if (!--pending) {
+              res.json(images);
+              client.end();
+            }
+            return;
+          }
+
+          files.forEach(file => {
+            images.push({
+              name: file.name,
+              url: `/uploads/${date.name}/${file.name}`
+            });
           });
-        });
 
-        if (images.length === dates.length) {
-          res.json(images);
-        }
+          if (!--pending) {
+            res.json(images);
+            client.end();
+          }
+        });
       });
     });
+  });
+
+  client.connect({
+    host: "68.178.150.66",
+    user: "l3ppzni4r1in",
+    password: "SasiJaga09$",
   });
 });
 
