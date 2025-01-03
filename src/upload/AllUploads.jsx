@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './ImageGallery.css';
+import './AllUpload.css';
 
 const AllUploads = () => {
   const [images, setImages] = useState([]);
