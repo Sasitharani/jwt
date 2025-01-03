@@ -49,19 +49,32 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
   if (file) {
     console.log('File:', file); // Debugging information
 
-    // Move the file to the current date folder
+    console.log('File:', file); // Debugging information
+
     const client = new ftp();
     client.on('ready', () => {
-        client.put(file.buffer,  '/public_html/www.contests4all.com/uploads/' + req.file.originalname, (err) => {
+      const remoteFilePath = `/public_html/www.contests4all.com/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
+      client.mkdir(path.dirname(remoteFilePath), true, (err) => {
+        if (err) {
+          console.error('Error creating remote directory:', err);
+          res.status(500).send('Error creating remote directory');
+          client.end();
+          return;
+        }
+        client.put(file.buffer, remoteFilePath, (err) => {
           if (err) {
+            console.error('Error uploading file:', err);
             res.status(500).send('File upload failed');
             client.end();
             return;
           }
+          console.log('File uploaded to:', remoteFilePath);
           res.send('File uploaded successfully');
           client.end();
         });
       });
+    });
+  
       client.connect({
         host: "68.178.150.66",
         user: "l3ppzni4r1in",
@@ -75,14 +88,14 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   const file = req.file;
 
   if (!file) {
-    console.error('No file uploaded.');
+    console.error('Please Select a file before Submit.');
     return res.status(400).send('No file uploaded.');
   }
 
   console.log('File:', file); // Debugging information
 
   // Construct the new file path using an absolute path
-  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const newFilePath = path.join(__dirname, 'public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
 
   // Ensure the directory exists
   const dir = path.dirname(newFilePath);
