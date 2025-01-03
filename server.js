@@ -81,9 +81,11 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
   
   
   // Ensure the directory exists
-  const dir = path.dirname(newFilePath);
   if (!fs.existsSync(dir)) {
+    console.log(`Directory does not exist, creating: ${dir}`);
     fs.mkdirSync(dir, { recursive: true });
+  } else {
+    console.log(`Directory exists: ${dir}`);
   }
 
   try {
