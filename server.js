@@ -371,6 +371,7 @@ app.get('/me', (req, res) => {
 });
 
 app.get('/api/images', (req, res) => {
+    console.log("Images hit");
   const uploadsDir = path.join(__dirname, 'www.contests4all.com/uploads');
   const images = [];
 
