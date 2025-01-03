@@ -92,44 +92,51 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   console.log('File:', file); // Debugging information
 
-  // Construct the new file path using an absolute path
-  const newFilePath = path.join('public_html', 'www.contests4all.com', 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  const client = new ftp();
+  client.on('ready', () => {
+    const remoteFilePath = `/public_html/www.contests4all.com/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
+    client.mkdir(path.dirname(remoteFilePath), true, (err) => {
+      if (err) {
+        console.error('Error creating remote directory:', err);
+        res.status(500).send('Error creating remote directory');
+        client.end();
+        return;
+      }
+      client.put(file.buffer, remoteFilePath, (err) => {
+        if (err) {
+          console.error('Error uploading file:', err);
+          res.status(500).send('File upload failed');
+          client.end();
+          return;
+        }
+        console.log('File uploaded to:', remoteFilePath);
 
-  // Ensure the directory exists
-  const dir = path.dirname(newFilePath);
-  if (!fs.existsSync(dir)) {
-    console.log(`Directory does not exist, creating: ${dir}`);
-    fs.mkdirSync(dir, { recursive: true });
-  } else {
-    console.log(`Directory exists: ${dir}`);
-  }
+        const mailOptions = {
+          from: 'sasitharani@gmail.com',
+          to: ['sasitharani@gmail.com'], // add the recipient's email addresses
+          subject: 'Contest New Image Submission',
+          text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+          attachments: [{ filename: file.originalname, path: remoteFilePath }],
+        };
 
-  // Write the file buffer to the new file path
-  try {
-    fs.writeFileSync(newFilePath, file.buffer);
-    console.log('File written to:', newFilePath); // Log the full path of the uploaded file
-  } catch (err) {
-    console.error('Error writing file:', err);
-    return res.status(500).send('Error writing file');
-  }
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.error('Error sending email:', error);
+            res.status(500).json({ error: 'Error sending email', details: error.message });
+          } else {
+            console.log('Email sent:', info.response);
+            res.status(200).send('Email sent successfully');
+          }
+          client.end();
+        });
+      });
+    });
+  });
 
-  console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
-
-  const mailOptions = {
-    from: 'sasitharani@gmail.com',
-    to: ['sasitharani@gmail.com'], // add the recipient's email addresses
-    subject: 'Contest New Image Submission',
-    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-    attachments: file ? [{ filename: file.originalname, path: newFilePath }] : [],
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-      return res.status(500).json({ error: 'Error sending email', details: error.message });
-    }
-    console.log('Email sent:', info.response);
-    res.status(200).send('Email sent successfully');
+  client.connect({
+    host: "68.178.150.66",
+    user: "l3ppzni4r1in",
+    password: "SasiJaga09$",
   });
 });
 
