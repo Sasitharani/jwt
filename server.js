@@ -6,10 +6,10 @@ import jwt from 'jsonwebtoken';
 import cors from 'cors';
 import db from './db.js'; // Import the connection pool
 import nodemailer from 'nodemailer';
+import multer from 'multer'; // Import multer
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import formidable from 'formidable'; // Import formidable
 
 dotenv.config();
 
@@ -23,6 +23,23 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const currentDate = new Date().toISOString().split('T')[0];
+    const uploadsDir = path.join(__dirname, 'uploads', currentDate);
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+    cb(null, uploadsDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
@@ -33,106 +50,61 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Function to upload file to FTP server
-async function uploadToFTP(fileStream, remoteFilePath) {
-  const client = new ftp.Client();
-  client.ftp.verbose = true;
-  try {
-    await client.access({
-      host: "68.178.150.66",
-      user: "l3ppzni4r1in",
-      password: "SasiJaga09$",
-      secure: false
-    });
-    console.log(`Uploading to ${remoteFilePath}`);
-    await client.uploadFrom(fileStream, remoteFilePath);
-    console.log(`File uploaded to FTP: ${remoteFilePath}`);
-  } catch (err) {
-    console.error('Error uploading to FTP:', err);
-  }
-  client.close();
-}
+// Endpoint to handle file uploads
+app.post('/upload-file', upload.single('file'), (req, res) => {
+  const file = req.file;
 
-// Endpoint to handle file uploads using formidable
-app.post('/upload-file', (req, res) => {
-  console.log("Entered the post method");
-  const form = formidable({ multiples: true });
-  const uploadDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
-  const uploadFolder = path.join(__dirname, 'uploads', uploadDate);
-
-  // Ensure the uploads folder exists
-  if (!fs.existsSync(uploadFolder)) {
-    fs.mkdirSync(uploadFolder, { recursive: true });
-    console.log(`Created uploads folder at ${uploadFolder}`);
-  } else {
-    console.log(`Uploads folder already exists at ${uploadFolder}`);
-  }
-
-  form.uploadDir = uploadFolder;
-  form.keepExtensions = true;
-
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error uploading file');
-      return;
-    }
-
-    console.log(`File uploaded to ${files.file.path}`);
-    res.status(200).send('File uploaded successfully');
-  });
-});
-
-// Endpoint to handle email sending with file upload using formidable
-app.post('/api/send-email', (req, res) => {
-  const form = formidable({ multiples: true });
-  const uploadDate = new Date().toISOString().split('T')[0]; // Get the current date in YYYY-MM-DD format
-  const uploadFolder = path.join(__dirname, 'uploads', uploadDate);
-
-  // Ensure the uploads folder exists
-  if (!fs.existsSync(uploadFolder)) {
-    fs.mkdirSync(uploadFolder, { recursive: true });
-    console.log(`Created uploads folder at ${uploadFolder}`);
-  } else {
-    console.log(`Uploads folder already exists at ${uploadFolder}`);
-  }
-
-  form.uploadDir = uploadFolder;
-  form.keepExtensions = true;
-
-  form.parse(req, async (err, fields, files) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error uploading file');
-      return;
-    }
-
-    const { name, email, phone, message } = fields;
-    const file = files.file;
-
+  if (file) {
     console.log('File:', file); // Debugging information
 
-    // Upload the file to the FTP server
-    const remoteFilePath = `www.contests4all.com/uploads/${file.originalFilename}`;
-    const fileStream = fs.createReadStream(file.filepath);
-    await uploadToFTP(fileStream, remoteFilePath);
+    // Move the file to the current date folder
+    const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+    fs.renameSync(file.path, newFilePath);
 
-    const mailOptions = {
-      from: 'sasitharani@gmail.com',
-      to: ['sasitharani@gmail.com'], // add the recipient's email addresses
-      subject: 'Contest New Image Submission',
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-      attachments: file ? [{ filename: file.originalFilename, path: remoteFilePath }] : [],
-    };
+    console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email:', error);
-        return res.status(500).json({ error: 'Error sending email', details: error.message });
-      }
-      console.log('Email sent:', info.response);
-      res.status(200).json({ message: 'Email sent successfully.' });
-    });
+    res.status(200).json({ message: 'File uploaded successfully.', filePath: newFilePath });
+  } else {
+    res.status(400).json({ message: 'Error uploading file.' });
+  }
+});
+
+app.post('/api/send-email', upload.single('file'), (req, res) => {
+  const { name, email, phone, message } = req.body;
+  const file = req.file;
+
+  console.log('File:', file); // Debugging information
+
+  // Move the file to the current date folder
+  const newFilePath = path.join(__dirname, 'uploads', new Date().toISOString().split('T')[0], file.originalname);
+  fs.renameSync(file.path, newFilePath);
+
+  console.log('File uploaded to:', newFilePath); // Log the full path of the uploaded file
+
+  const mailOptions = {
+    from: 'sasitharani@gmail.com',
+    to: ['sasitharani@gmail.com'], // add the recipient's email addresses
+    subject: 'Contest New Image Submission',
+    text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
+    attachments: file ? [{ filename: file.originalname, path: newFilePath }] : [],
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+      return res.status(500).json({ error: 'Error sending email', details: error.message });
+    }
+    console.log('Email sent:', info.response);
+    res.status(200).json({ message: 'Email sent successfully.' });
+
+    // Remove the code that deletes the file after sending the email
+    // if (file) {
+    //   fs.unlink(newFilePath, (err) => {
+    //     if (err) {
+    //       console.error('Error deleting file:', err);
+    //     }
+    //   });
+    // }
   });
 });
 
