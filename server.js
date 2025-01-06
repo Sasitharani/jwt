@@ -97,7 +97,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   const client = new ftp();
   client.on('ready', () => {
-    const remoteFilePath = `/public_html/www.contests4all.com/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
+    const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedDate}${userEmail}/${file.originalname}`;
     client.mkdir(path.dirname(remoteFilePath), true, (err) => {
       if (err) {
         console.error('Error creating remote directory:', err);
@@ -429,13 +429,3 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-// Ensure the uploads directory exists
-app.get('/create-uploads-folder', (req, res) => {
-  const uploadDir = path.join(__dirname, 'uploads');
-  if (!fs.existsSync(uploadDir)) {
-    fs.mkdirSync(uploadDir);
-    res.send('Uploads folder created.');
-  } else {
-    res.send('Uploads folder already exists.');
-  }
-});

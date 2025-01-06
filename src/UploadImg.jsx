@@ -138,13 +138,6 @@ const UploadImg = () => {
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
         <div className="flex items-center justify-between">
           <button
-            type="button"
-            onClick={handleFileUpload}
-            className="w-full py-2 px-4 bg-green-600 text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-          >
-            Upload File
-          </button>
-          <button
             type="submit"
             className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

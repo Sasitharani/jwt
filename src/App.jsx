@@ -17,7 +17,7 @@ import Payment from './components/Payment';
 import ImageGallery from './upload/AllUploads';
 import Vote from './voting/Vote';
 import AllUploads from './upload/AllUploads';
-import UploadImage from './upload/AllUploads'; // Import the UploadImage component
+import UploadImage from './UploadImg'; // Import the UploadImage component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
