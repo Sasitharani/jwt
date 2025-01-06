@@ -61,3 +61,7 @@ EOD
 1)Design admin photo selection page.
 2)Design user voter page
 3)Find how to import photo
+
+All done
+tommorow create a page that will delete the values in database as well as delete the uploads from the hosting after voting closes
+or after a particular time
