@@ -47,7 +47,14 @@ const Vote = () => {
         <p>No images selected for voting.</p>
       )}
       <button onClick={handleConfirmClick} className="confirm-button" disabled={loading}>
-        {loading ? 'Loading...' : 'Confirm'}
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-6 h-6 animate-spin mr-2"></div>
+            Loading...
+          </div>
+        ) : (
+          'Confirm'
+        )}
       </button>
     </div>
   );

@@ -76,7 +76,8 @@ const Header = () => {
                                 <Link to="/instructions" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Instructions</Link>
                                 <Link to="/help" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Help</Link>
                                 <Link to="/subscription" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Subscription</Link>
-                                
+                                <Link to="/voting/UserVoting1" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Voting</Link>
+                                <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 w-full text-left">Logout</button>
                             </div>
                         )}
                     </div>

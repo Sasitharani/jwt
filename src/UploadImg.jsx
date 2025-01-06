@@ -114,7 +114,7 @@ const UploadImg = () => {
       {loading && (
         <div className="loading-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
           <div className="text-white text-lg">
-            <div className="loader border-t-4 border-b-4 border-white rounded-full w-12 h-12 mb-4 animate-spin"></div>
+            <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 mb-4 animate-spin"></div>
             Please wait, we are uploading your image...
           </div>
         </div>
