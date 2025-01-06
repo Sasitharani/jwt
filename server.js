@@ -104,7 +104,8 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
     const date = new Date();
     const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
     const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
-    const userEmail = req.body.email.slice(0, req.body.email.indexOf('@')).replace(/[^a-zA-Z0-9]/g, '');
+    const userEmail = req.body.email
+    console.log('User Email',userEmail)
     const fileExtension = path.extname(file.originalname);
     const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
     client.mkdir(path.dirname(remoteFilePath), true, (err) => {
