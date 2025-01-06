@@ -371,6 +371,7 @@ app.get('/api/images', (req, res) => {
         client.end();
         return;
       }
+      console.log('Remote directory hit: /public_html/www.contests4all.com/uploads');
 
       let pending = dates.length;
       if (!pending) {
