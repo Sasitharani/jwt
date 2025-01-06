@@ -30,6 +30,29 @@ function UserVoting1() {
     setSelectedImage(null);
   };
 
+  const handleLikeClick = async (image) => {
+    try {
+      const response = await fetch('https://jwt-rj8s.onrender.com/api/voting', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ path: image.path }),
+      });
+
+      if (response.ok) {
+        const updatedImages = currentImages.map((img) =>
+          img.path === image.path ? { ...img, votes: img.votes + 1 } : img
+        );
+        setCurrentImages(updatedImages);
+      } else {
+        console.error('Error updating votes');
+      }
+    } catch (error) {
+      console.error('Error updating votes:', error);
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">User Voting</h1>
@@ -51,8 +74,11 @@ function UserVoting1() {
               <div className="p-4 flex justify-between items-center">
                 <span className="text-gray-700">Image {index + 1}</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-gray-700">No Of Votes</span>
-                  <button className="text-blue-500 hover:text-blue-700">
+                  <span className="text-gray-700">No Of Votes: {image.votes}</span>
+                  <button
+                    className="text-blue-500 hover:text-blue-700"
+                    onClick={() => handleLikeClick(image)}
+                  >
                     <FaThumbsUp />
                   </button>
                 </div>

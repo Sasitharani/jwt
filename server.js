@@ -430,8 +430,26 @@ app.post('/api/img-for-vote1', (req, res) => {
   });
 });
 
+app.post('/api/voting', (req, res) => {
+  const { path } = req.body;
+
+  if (!path) {
+    return res.status(400).send('Invalid data');
+  }
+
+  const query = 'UPDATE vote1 SET votes = votes + 1 WHERE path = ?';
+
+  db.query(query, [path], (err, results) => {
+    if (err) {
+      console.error('Error updating votes:', err);
+      return res.status(500).send('Error updating votes');
+    }
+    res.status(200).send('Votes updated successfully');
+  });
+});
+
 app.get('/api/get-images-vote1', (req, res) => {
-  const query = 'SELECT path FROM vote1';
+  const query = 'SELECT path, votes FROM vote1';
 
   db.query(query, (err, results) => {
     if (err) {
