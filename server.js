@@ -40,53 +40,53 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Endpoint to handle file uploads
-app.post('/upload-file', upload.single('file'), (req, res) => {
-  const file = req.file;
+// // Endpoint to handle file uploads
+// app.post('/upload-file', upload.single('file'), (req, res) => {
+//   const file = req.file;
 
-  if (file) {
-    console.log('File:', file); // Debugging information
+//   if (file) {
+//     console.log('File:', file); // Debugging information
 
-    const client = new ftp();
-    client.on('ready', () => {
-      const date = new Date();
-      const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
-      const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
-      // const userEmail = req.body.email.slice(0, req.body.email.indexOf('@')).replace(/[^a-zA-Z0-9]/g, '');
-      const userEmail = req.body.email
-      console.log('User Email',userEmail)
-      const fileExtension = path.extname(file.originalname);
-      const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
-      client.mkdir(path.dirname(remoteFilePath), true, (err) => {
-        if (err) {
-          console.error('Error creating remote directory:', err);
-          res.status(500).send('Error creating remote directory');
-          client.end();
-          return;
-        }
-        client.put(file.buffer, remoteFilePath, (err) => {
-          if (err) {
-            console.error('Error uploading file:', err);
-            res.status(500).send('File upload failed');
-            client.end();
-            return;
-          }
-          console.log('File uploaded to:', remoteFilePath);
-          res.send('File uploaded successfully');
-          client.end();
-        });
-      });
-    });
+//     const client = new ftp();
+//     client.on('ready', () => {
+//       const date = new Date();
+//       const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
+//       const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
+//       // const userEmail = req.body.email.slice(0, req.body.email.indexOf('@')).replace(/[^a-zA-Z0-9]/g, '');
+//       const userEmail = req.body.email
+//       console.log('User Email',userEmail)
+//       const fileExtension = path.extname(file.originalname);
+//       const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
+//       client.mkdir(path.dirname(remoteFilePath), true, (err) => {
+//         if (err) {
+//           console.error('Error creating remote directory:', err);
+//           res.status(500).send('Error creating remote directory');
+//           client.end();
+//           return;
+//         }
+//         client.put(file.buffer, remoteFilePath, (err) => {
+//           if (err) {
+//             console.error('Error uploading file:', err);
+//             res.status(500).send('File upload failed');
+//             client.end();
+//             return;
+//           }
+//           console.log('File uploaded to:', remoteFilePath);
+//           res.send('File uploaded successfully');
+//           client.end();
+//         });
+//       });
+//     });
 
-    client.connect({
-      host: "68.178.150.66",
-      user: "l3ppzni4r1in",
-      password: "SasiJaga09$",
-    });
-  } else {
-    res.status(400).send('No file uploaded.');
-  }
-});
+//     client.connect({
+//       host: "68.178.150.66",
+//       user: "l3ppzni4r1in",
+//       password: "SasiJaga09$",
+//     });
+//   } else {
+//     res.status(400).send('No file uploaded.');
+//   }
+// });
 
 app.post('/api/send-email', upload.single('file'), (req, res) => {
   const { name, email, phone, message } = req.body;
@@ -377,7 +377,7 @@ app.get('/api/images', (req, res) => {
   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 
   client.on('ready', () => {
-    client.list('/public_html/www.contests4all.com/uploads', (err, dates) => {
+    client.list('/public_html/www.contests4all.com/public/img/uploads', (err, dates) => {
       if (err) {
         console.error('Error reading uploads directory:', err);
         res.status(500).send('Error reading uploads directory');
