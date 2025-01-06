@@ -17,6 +17,7 @@ import Payment from './components/Payment';
 import ImageGallery from './upload/AllUploads';
 import Vote from './voting/Vote';
 import AllUploads from './upload/AllUploads';
+import UploadImage from './upload/AllUploads'; // Import the UploadImage component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/voting/vote" element={<Vote />} /> {/* Add the Vote route */}
           <Route path="/image-gallery" element={<ImageGallery />} /> {/* Add the ImageGallery route */}
           <Route path="//upload/AllUploads" element={<AllUploads />} /> {/* Add the Vote route */}
+          <Route path="/uploadImage" element={<UploadImage />} /> {/* Add the UploadImage route */}
         </Routes>
       </Router>
     </Provider>

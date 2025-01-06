@@ -102,7 +102,7 @@ const Signup = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
+        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative z-10">
          
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">

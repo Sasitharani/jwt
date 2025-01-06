@@ -56,3 +56,8 @@ GIT COMMIT:"######Finally upload working#######"
 
 Need a page that will show the admin all the images uploaded--working
 EOD
+
+06-01-2025
+1)Design admin photo selection page.
+2)Design user voter page
+3)Find how to import photo

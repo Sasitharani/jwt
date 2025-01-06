@@ -27,7 +27,7 @@ const AllUploads = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="image-gallery">
+    <div className="image-gallery relative 10">
         <div>Images</div>
       {currentImages.map((image, index) => (
         <div key={index} className="image-row">

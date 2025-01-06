@@ -361,6 +361,7 @@ app.get('/api/images', (req, res) => {
   console.log("Images hit");
   const client = new ftp();
   const images = [];
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 
   client.on('ready', () => {
     client.list('/public_html/www.contests4all.com/uploads', (err, dates) => {
@@ -391,10 +392,12 @@ app.get('/api/images', (req, res) => {
           }
 
           files.forEach(file => {
-            images.push({
-              name: file.name,
-              url: `/uploads/${date.name}/${file.name}`
-            });
+            if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
+              images.push({
+                name: file.name,
+                url: `/uploads/${date.name}/${file.name}`
+              });
+            }
           });
 
           if (!--pending) {
