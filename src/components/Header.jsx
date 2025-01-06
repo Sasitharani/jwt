@@ -15,6 +15,7 @@ const Header = () => {
     useEffect(() => {
         console.log('1.#########From Header isLoggedIn from slice:', isLoggedIn); // Log isLoggedIn value
         const email = localStorage.getItem('email');
+     
         if (email && isLoggedIn) {
             dispatch(loginSuccess({ email }, { meta: { fileName: 'Header.jsx' } }));
             console.log('Logged in');

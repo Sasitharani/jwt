@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
 
 const UploadImg = () => {
   const [name, setName] = useState('');
@@ -10,6 +11,8 @@ const UploadImg = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+
+  const userEmail = useSelector((state) => state.user.email);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -59,18 +62,21 @@ const UploadImg = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setEmail(userEmail);
+    console.log('email', userEmail);
     setSubmitted(false);
     setError('');
     setLoading(true);
 
     const formData = new FormData();
     formData.append('name', name);
-    formData.append('email', email);
+    formData.append('email', userEmail);
     formData.append('phone', phone);
     formData.append('message', message);
     if (file) {
       formData.append('file', file);
     }
+    console.log('Form Data', formData.email);
 
     try {
       const response = await fetch('https://jwt-rj8s.onrender.com/api/send-email', {
