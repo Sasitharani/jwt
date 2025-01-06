@@ -399,16 +399,16 @@ app.get('/api/images', (req, res) => {
     });
   });
 
-
+  client.connect({
+    host: "68.178.150.66",
+    user: "l3ppzni4r1in",
+    password: "SasiJaga09$",
 
 
     });
 
 
-  client.connect({
-    host: "68.178.150.66",
-    user: "l3ppzni4r1in",
-    password: "SasiJaga09$",
+
   });
 
 
