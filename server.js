@@ -430,6 +430,18 @@ app.post('/api/img-for-vote1', (req, res) => {
   });
 });
 
+app.get('/api/get-images-vote1', (req, res) => {
+  const query = 'SELECT path FROM vote1';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching images:', err);
+      return res.status(500).send('Error fetching images');
+    }
+    res.status(200).json(results);
+  });
+});
+
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });
