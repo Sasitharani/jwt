@@ -24,9 +24,11 @@ const UploadImage = () => {
             <div>
                 {files.map((file, index) => (
                     <div key={index}>
-                        <a href={`https://www.contests4all/uploads/2025-01-03/${file}`} target="_blank" rel="noopener noreferrer">
-                            {file}
-                        </a>
+                        <img 
+                            src={`https://www.contests4all.com/uploads/2025-01-03/${file}`} 
+                            alt={file} 
+                            className="image" 
+                        />
                     </div>
                 ))}
             </div>

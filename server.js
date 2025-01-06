@@ -49,7 +49,10 @@ app.post('/upload-file', upload.single('file'), (req, res) => {
 
     const client = new ftp();
     client.on('ready', () => {
-      const remoteFilePath = `/public_html/www.contests4all.com/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
+      const date = new Date();
+      const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
+      const userEmail = req.body.email.slice(0, req.body.email.indexOf('@'));
+      const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedDate}${userEmail}/${file.originalname}`;
       client.mkdir(path.dirname(remoteFilePath), true, (err) => {
         if (err) {
           console.error('Error creating remote directory:', err);
