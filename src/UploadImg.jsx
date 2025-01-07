@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom'; // Import Link
 
 const UploadImg = () => {
   const [name, setName] = useState('');
@@ -151,6 +152,14 @@ const UploadImg = () => {
           </button>
         </div>
       </form>
+      <div className="mt-4 text-center">
+        <Link
+          to="/compress-image"
+          className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          If more than 1 MB, compress your image here
+        </Link>
+      </div>
     </div>
   );
 };

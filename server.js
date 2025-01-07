@@ -400,7 +400,7 @@ app.get('/api/images', (req, res) => {
             );
             }
           });
-          console.log('Fetched image:', images); 
+          console.log('Fetched image:', images.name); 
           if (!--pending) {
             res.json(images);
             client.end();
