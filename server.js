@@ -418,7 +418,7 @@ app.post('/api/img-for-vote1', (req, res) => {
     return res.status(400).send('Invalid data');
   }
 
-  const query = 'INSERT INTO vote1 (path) VALUES ?';
+  const query = 'INSERT INTO vote1 (path,email) VALUES ?';
   const values = checkedImages.map(image => [image]);
 
   db.query(query, [values], (err, results) => {
@@ -457,6 +457,24 @@ app.get('/api/get-images-vote1', (req, res) => {
       return res.status(500).send('Error fetching images');
     }
     res.status(200).json(results);
+  });
+});
+
+app.post('/api/delete-image', (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).send('Invalid data');
+  }
+
+  const query = 'DELETE FROM images WHERE url = ?';
+
+  db.query(query, [url], (err, results) => {
+    if (err) {
+      console.error('Error deleting image:', err);
+      return res.status(500).send('Error deleting image');
+    }
+    res.status(200).send('Image deleted successfully');
   });
 });
 
