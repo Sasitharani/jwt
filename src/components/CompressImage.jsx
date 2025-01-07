@@ -98,7 +98,7 @@ const CompressImage = () => {
           </div>
         )}
         {/* Add an ad in the middle column after the content */}
-        <div className="mt-8 bg-gray-200 p-4 rounded-lg shadow-md">
+        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 p-4 rounded-lg shadow-md mx-auto" style={{ width: '33%' }}>
           <h2 className="text-xl font-bold mb-4">Ad</h2>
           {/* Add your ad content here */}
         </div>

@@ -395,7 +395,7 @@ app.get('/api/images', (req, res) => {
             if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
               images.push({
                 name: file.name,
-                url: `${file.name}`
+                url: `public/img/uploads/${file.name}`
               }
             );
             }
