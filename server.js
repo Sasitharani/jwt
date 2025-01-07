@@ -463,6 +463,7 @@ app.get('/api/get-images-vote1', (req, res) => {
 app.post('/api/delete-image', (req, res) => {
   const { url } = req.body;
 
+  console.log('URL:', url);
   if (!url) {
     return res.status(400).send('Path does not exist. Inform the technical team');
   }

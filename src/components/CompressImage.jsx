@@ -82,8 +82,6 @@ const CompressImage = () => {
       </button>
       {compressedFile && (
         <div className="mt-4">
-          <h2 className="text-xl font-bold mb-2">Compressed Image:</h2>
-          <img src={URL.createObjectURL(compressedFile)} alt="Compressed" className="max-w-full h-auto" />
           <p className="mt-2">Compressed Size: {(compressedFile.size / 1024 / 1024).toFixed(2)} MB</p>
           <a
             href={URL.createObjectURL(compressedFile)}
