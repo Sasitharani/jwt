@@ -395,12 +395,12 @@ app.get('/api/images', (req, res) => {
             if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
               images.push({
                 name: file.name,
-                url: `public/img/uploads/${file.name}`
+                url: `${file.name}`
               }
             );
             }
           });
-          console.log('Fetched image:', images.name); 
+          console.log('Fetched image:', images); 
           if (!--pending) {
             res.json(images);
             client.end();
