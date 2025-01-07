@@ -364,15 +364,14 @@ app.get('/api/images', (req, res) => {
   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 
   client.on('ready', () => {
-    client.list('/public_html/www.contests4all.com/uploads', (err, dates) => {
+    client.list('/public_html/www.contests4all.com/public/img/uploads', (err, dates) => {
       if (err) {
         console.error('Error reading uploads directory:', err);
         res.status(500).send('Error reading uploads directory');
         client.end();
         return;
       }
-      console.log('Remote directory hit: /public_html/www.contests4all.com/uploads');
-
+   
       let pending = dates.length;
       if (!pending) {
         res.json(images);
@@ -381,7 +380,7 @@ app.get('/api/images', (req, res) => {
       }
 
       dates.forEach(date => {
-        const dateDir = `/public_html/www.contests4all.com/uploads/${date.name}`;
+        const dateDir = `/public_html/www.contests4all.com/public/img/uploads/${date.name}`;
         client.list(dateDir, (err, files) => {
           if (err) {
             console.error(`Error reading directory for date ${date.name}:`, err);
@@ -396,7 +395,7 @@ app.get('/api/images', (req, res) => {
             if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
               images.push({
                 name: file.name,
-                url: `/uploads/${date.name}/${file.name}`
+                url: `/img/uploads/${file.name}`
               }
             );
             }
