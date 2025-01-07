@@ -40,53 +40,46 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// // Endpoint to handle file uploads
-// app.post('/upload-file', upload.single('file'), (req, res) => {
-//   const file = req.file;
+// Endpoint to handle file uploads
+app.post('/upload-file', upload.single('file'), (req, res) => {
+  const file = req.file;
 
-//   if (file) {
-//     console.log('File:', file); // Debugging information
+  if (file) {
+    console.log('File:', file); // Debugging information
 
-//     const client = new ftp();
-//     client.on('ready', () => {
-//       const date = new Date();
-//       const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
-//       const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
-//       // const userEmail = req.body.email.slice(0, req.body.email.indexOf('@')).replace(/[^a-zA-Z0-9]/g, '');
-//       const userEmail = req.body.email
-//       console.log('User Email',userEmail)
-//       const fileExtension = path.extname(file.originalname);
-//       const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
-//       client.mkdir(path.dirname(remoteFilePath), true, (err) => {
-//         if (err) {
-//           console.error('Error creating remote directory:', err);
-//           res.status(500).send('Error creating remote directory');
-//           client.end();
-//           return;
-//         }
-//         client.put(file.buffer, remoteFilePath, (err) => {
-//           if (err) {
-//             console.error('Error uploading file:', err);
-//             res.status(500).send('File upload failed');
-//             client.end();
-//             return;
-//           }
-//           console.log('File uploaded to:', remoteFilePath);
-//           res.send('File uploaded successfully');
-//           client.end();
-//         });
-//       });
-//     });
+    const client = new ftp();
+    client.on('ready', () => {
+      const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
+      client.mkdir(path.dirname(remoteFilePath), true, (err) => {
+        if (err) {
+          console.error('Error creating remote directory:', err);
+          res.status(500).send('Error creating remote directory');
+          client.end();
+          return;
+        }
+        client.put(file.buffer, remoteFilePath, (err) => {
+          if (err) {
+            console.error('Error uploading file:', err);
+            res.status(500).send('File upload failed');
+            client.end();
+            return;
+          }
+          console.log('File uploaded to:', remoteFilePath);
+          res.send('File uploaded successfully');
+          client.end();
+        });
+      });
+    });
 
-//     client.connect({
-//       host: "68.178.150.66",
-//       user: "l3ppzni4r1in",
-//       password: "SasiJaga09$",
-//     });
-//   } else {
-//     res.status(400).send('No file uploaded.');
-//   }
-// });
+    client.connect({
+      host: "68.178.150.66",
+      user: "l3ppzni4r1in",
+      password: "SasiJaga09$",
+    });
+  } else {
+    res.status(400).send('No file uploaded.');
+  }
+});
 
 app.post('/api/send-email', upload.single('file'), (req, res) => {
   const { name, email, phone, message } = req.body;
@@ -101,13 +94,7 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
   const client = new ftp();
   client.on('ready', () => {
-    const date = new Date();
-    const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
-    const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
-    const userEmail = req.body.email
-    console.log('User Email',userEmail)
-    const fileExtension = path.extname(file.originalname);
-    const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
+    const remoteFilePath = `/public_html/www.contests4all.com/uploads/${new Date().toISOString().split('T')[0]}/${file.originalname}`;
     client.mkdir(path.dirname(remoteFilePath), true, (err) => {
       if (err) {
         console.error('Error creating remote directory:', err);
@@ -377,108 +364,51 @@ app.get('/api/images', (req, res) => {
   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
 
   client.on('ready', () => {
-    client.list('/public_html/www.contests4all.com/public/img/uploads', (err, files) => {
+    client.list('/public_html/www.contests4all.com/uploads', (err, dates) => {
       if (err) {
         console.error('Error reading uploads directory:', err);
         res.status(500).send('Error reading uploads directory');
         client.end();
         return;
       }
+      console.log('Remote directory hit: /public_html/www.contests4all.com/uploads');
 
-      files.forEach(file => {
-        if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
-          images.push({
-            name: file.name,
-            url: `/public/img/uploads/${file.name}`
-          });
-        }
-      });
-
-      res.json(images);
-      client.end();
-    });
-  });
-
-  client.connect({
-    host: "68.178.150.66",
-    user: "l3ppzni4r1in",
-    password: "SasiJaga09$",
-
-
-    });
-
-
-
-  });
-
-app.post('/api/img-for-vote1', (req, res) => {
-  const { checkedImages } = req.body;
-
-  if (!checkedImages || !Array.isArray(checkedImages)) {
-    return res.status(400).send('Invalid data');
-  }
-
-  const query = 'INSERT INTO vote1 (path,email) VALUES ?';
-  const values = checkedImages.map(image => [image]);
-
-  db.query(query, [values], (err, results) => {
-    if (err) {
-      console.error('Error saving votes:', err);
-      return res.status(500).send('Error saving votes');
-    }
-    res.status(200).send('Votes saved successfully');
-  });
-});
-
-app.post('/api/voting', (req, res) => {
-  const { path } = req.body;
-
-  if (!path) {
-    return res.status(400).send('Invalid data');
-  }
-
-  const query = 'UPDATE vote1 SET votes = votes + 1 WHERE path = ?';
-
-  db.query(query, [path], (err, results) => {
-    if (err) {
-      console.error('Error updating votes:', err);
-      return res.status(500).send('Error updating votes');
-    }
-    res.status(200).send('Votes updated successfully');
-  });
-});
-
-app.get('/api/get-images-vote1', (req, res) => {
-  const query = 'SELECT path, votes FROM vote1';
-
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching images:', err);
-      return res.status(500).send('Error fetching images');
-    }
-    res.status(200).json(results);
-  });
-});
-
-app.post('/api/delete-image', (req, res) => {
-  const { url } = req.body;
-
-  console.log('URL:', url); // Log the URL to ensure it's being received correctly
-  if (!url) {
-    return res.status(400).send('Path does not exist. Inform the technical team');
-  }
-
-  const client = new ftp();
-  client.on('ready', () => {
-    const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${path.basename(url)}`;
-    client.delete(remoteFilePath, (err) => {
-      if (err) {
-        console.error('Error deleting image from FTP server:', err);
-        return res.status(500).send('Error deleting image from FTP server');
+      let pending = dates.length;
+      if (!pending) {
+        res.json(images);
+        client.end();
+        return;
       }
-      console.log('Image deleted from FTP server:', remoteFilePath);
-      res.status(200).send('Image deleted successfully');
-      client.end();
+
+      dates.forEach(date => {
+        const dateDir = `/public_html/www.contests4all.com/uploads/${date.name}`;
+        client.list(dateDir, (err, files) => {
+          if (err) {
+            console.error(`Error reading directory for date ${date.name}:`, err);
+            if (!--pending) {
+              res.json(images);
+              client.end();
+            }
+            return;
+          }
+
+          files.forEach(file => {
+            if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
+              images.push({
+                name: file.name,
+                url: `/uploads/${date.name}/${file.name}`
+              }
+            );
+            }
+          });
+          console.log('Fetched image:', images.name); 
+          if (!--pending) {
+            res.json(images);
+            client.end();
+            
+          }
+        });
+      });
     });
   });
 
@@ -498,3 +428,13 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
+// Ensure the uploads directory exists
+app.get('/create-uploads-folder', (req, res) => {
+  const uploadDir = path.join(__dirname, 'uploads');
+  if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+    res.send('Uploads folder created.');
+  } else {
+    res.send('Uploads folder already exists.');
+  }
+});

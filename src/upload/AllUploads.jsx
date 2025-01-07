@@ -16,10 +16,8 @@ const AllUploads = () => {
       try {
         const response = await fetch('https://jwt-rj8s.onrender.com/api/images');
         const data = await response.json();
-        const voteResponse = await fetch('https://jwt-rj8s.onrender.com/api/get-images-vote1');
-        const voteImages = await voteResponse.json();
-        const filteredImages = data.filter(image => !voteImages.some(voteImage => voteImage.path === image.url));
-        setImages(filteredImages);
+        console.log('All Images from FTP:', data.map(image => ({ name: image.name, url: image.url }))); // Log all images with name and URL
+        setImages(data);
       } catch (error) {
         console.error('Error fetching images:', error);
       }
@@ -71,13 +69,13 @@ const AllUploads = () => {
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
   const currentImages = images.slice(indexOfFirstImage, indexOfLastImage);
-  console.log('currentImages', currentImages);  
+  console.log('Current Images:', currentImages.map(image => ({ name: image.name, url: image.url }))); // Log current images with name and URL
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="image-gallery relative 10">
-      <h2 className='text-6xl m-5 bg-red-200 opacity-35 rounded-2xl border-2 border-red-600 p-4'>Filter Images to send for Voting</h2>
+      <h2 className='text-6xl m-5 bg-red-200 opacity-35 rounded-2xl border-2 border-red-600 p-4'>All Images from FTP</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentImages.map((image, index) => (
           <div key={index} className="image-row flex flex-col items-center">
