@@ -53,6 +53,10 @@ function UserVoting1() {
     }
   };
 
+  // Find the image with the highest number of votes
+  const highestVotedImage = currentImages.reduce((max, image) => (image.votes > max.votes ? image : max), currentImages[0]);
+  console.log('Highest Voted Image:', highestVotedImage); // Log the highest voted image
+
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="lg:w-1/12 bg-gray-200 p-4 h-screen order-2 lg:order-1">
@@ -68,29 +72,56 @@ function UserVoting1() {
           </div>
         ) : currentImages.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-            {currentImages.map((image, index) => (
-              <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-white">
+            {highestVotedImage && (
+              <div className="rounded-lg overflow-hidden shadow-lg bg-white border-4 border-double border-green-500">
                 <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                   <img
-                    src={`https://contests4all.com/${image.path}`}
-                    alt={`Image ${index}`}
+                    src={`https://contests4all.com/${highestVotedImage.path}`}
+                    alt="Highest Voted"
                     className="object-contain h-full w-full cursor-pointer"
-                    onClick={() => handleImageClick(image)}
+                    onClick={() => handleImageClick(highestVotedImage)}
                   />
                 </div>
                 <div className="p-4 flex justify-between items-center">
-                  <span className="text-gray-700">Image {index + 1}</span>
+                  <span className="text-gray-700">Highest Voted Image</span>
                   <div className="flex items-center space-x-2">
-                    <span className="text-gray-700">No Of Votes: {image.votes}</span>
+                    <span className="text-gray-700">No Of Votes: {highestVotedImage.votes}</span>
+                    <span className="text-green-500 animate-pulse">Current Winner</span>
                     <button
                       className="text-blue-500 hover:text-blue-700"
-                      onClick={() => handleLikeClick(image)}
+                      onClick={() => handleLikeClick(highestVotedImage)}
                     >
                       <FaThumbsUp />
                     </button>
                   </div>
                 </div>
               </div>
+            )}
+            {currentImages.map((image, index) => (
+              image !== highestVotedImage && (
+                <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-white">
+                  <div className="w-full h-48 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={`https://contests4all.com/${image.path}`}
+                      alt={`Image ${index}`}
+                      className="object-contain h-full w-full cursor-pointer"
+                      onClick={() => handleImageClick(image)}
+                    />
+                  </div>
+                  <div className="p-4 flex justify-between items-center">
+                    <span className="text-gray-700">Image {index + 1}</span>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-gray-700">No Of Votes: {image.votes}</span>
+                      <button
+                        className="text-blue-500 hover:text-blue-700"
+                        onClick={() => handleLikeClick(image)}
+                      >
+                        <FaThumbsUp />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
             ))}
           </div>
         ) : (
