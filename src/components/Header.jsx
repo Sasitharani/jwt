@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaBell, FaShoppingCart, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
-import { logout, loginSuccess,login } from '../store/userSlice'; // Import logout and loginSuccess actions
+import { logout, loginSuccess, login } from '../store/userSlice'; // Import logout and loginSuccess actions
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Header = () => {
@@ -77,6 +77,7 @@ const Header = () => {
                                 <Link to="/help" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Help</Link>
                                 <Link to="/subscription" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Subscription</Link>
                                 <Link to="/voting/UserVoting1" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Voting</Link>
+                                <Link to="/compress-image" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Compress Image</Link>
                                 <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 w-full text-left">Logout</button>
                             </div>
                         )}

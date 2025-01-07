@@ -469,7 +469,7 @@ app.post('/api/delete-image', (req, res) => {
 
   const query = 'DELETE FROM vote1 WHERE path = ?';
 
-  db.query(query, [url], (err, results) => {
+  db.query(query, [path], (err, results) => {
     if (err) {
       console.error('Error deleting image:', err);
       return res.status(500).send('Error deleting image');
