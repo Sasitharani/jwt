@@ -467,7 +467,7 @@ app.post('/api/delete-image', (req, res) => {
     return res.status(400).send('Invalid data');
   }
 
-  const query = 'DELETE FROM images WHERE url = ?';
+  const query = 'DELETE FROM vote1 WHERE url = ?';
 
   db.query(query, [url], (err, results) => {
     if (err) {
