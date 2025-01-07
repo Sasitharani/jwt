@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom'; // Import Link
 
 const CompressImage = () => {
   const [file, setFile] = useState(null);
@@ -101,6 +102,15 @@ const CompressImage = () => {
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 p-4 rounded-lg shadow-md mx-auto" style={{ width: '33%' }}>
           <h2 className="text-xl font-bold mb-4">Ad</h2>
           {/* Add your ad content here */}
+        </div>
+        {/* Add a button to navigate back to UploadImg */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/upload-img"
+            className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Back to Image Uploads
+          </Link>
         </div>
       </div>
       <div className="w-1/12 bg-gray-200 p-4 h-screen">
