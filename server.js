@@ -461,10 +461,10 @@ app.get('/api/get-images-vote1', (req, res) => {
 });
 
 app.post('/api/delete-image', (req, res) => {
-  const { url } = req.body;
+  const { path } = req.body;
 
-  if (!url) {
-    return res.status(400).send('Invalid data');
+  if (!path) {
+    return res.status(400).send('Path does not exist. Inform the technical team');
   }
 
   const query = 'DELETE FROM vote1 WHERE path = ?';
