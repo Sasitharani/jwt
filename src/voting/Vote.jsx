@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux'; // Import useSelector
 
 const Vote = () => {
   const location = useLocation();
   const { checkedImages } = location.state || { checkedImages: [] };
   const [loading, setLoading] = useState(false);
+  const email = useSelector((state) => state.user.email); // Get email from Redux store
   console.log('Checked Images:', checkedImages);
+  console.log('User Email:', email); // Console the value of email
 
   const handleConfirmClick = async () => {
     setLoading(true);
@@ -16,7 +19,7 @@ const Vote = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ checkedImages }),
+        body: JSON.stringify({ checkedImages, email }), // Include email in the request body
       });
 
       if (response.ok) {

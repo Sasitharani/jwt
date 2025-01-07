@@ -412,14 +412,14 @@ app.get('/api/images', (req, res) => {
   });
 
 app.post('/api/img-for-vote1', (req, res) => {
-  const { checkedImages } = req.body;
+  const { checkedImages, email } = req.body; // Get email from req.body
 
   if (!checkedImages || !Array.isArray(checkedImages)) {
     return res.status(400).send('Invalid data');
   }
 
-  const query = 'INSERT INTO vote1 (path,email) VALUES ?';
-  const values = checkedImages.map(image => [image]);
+  const query = 'INSERT INTO vote1 (path, email) VALUES ?';
+  const values = checkedImages.map(image => [image, email]); // Include email in the values
 
   db.query(query, [values], (err, results) => {
     if (err) {
