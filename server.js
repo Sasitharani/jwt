@@ -463,19 +463,29 @@ app.get('/api/get-images-vote1', (req, res) => {
 app.post('/api/delete-image', (req, res) => {
   const { url } = req.body;
 
-  console.log('URL:', url);
+  console.log('URL:', url); // Log the URL to ensure it's being received correctly
   if (!url) {
     return res.status(400).send('Path does not exist. Inform the technical team');
   }
 
-  const query = 'DELETE FROM vote1 WHERE path = ?';
+  const client = new ftp();
+  client.on('ready', () => {
+    const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${path.basename(url)}`;
+    client.delete(remoteFilePath, (err) => {
+      if (err) {
+        console.error('Error deleting image from FTP server:', err);
+        return res.status(500).send('Error deleting image from FTP server');
+      }
+      console.log('Image deleted from FTP server:', remoteFilePath);
+      res.status(200).send('Image deleted successfully');
+      client.end();
+    });
+  });
 
-  db.query(query, [url], (err, results) => {
-    if (err) {
-      console.error('Error deleting image:', err);
-      return res.status(500).send('Error deleting image');
-    }
-    res.status(200).send('Image deleted successfully');
+  client.connect({
+    host: "68.178.150.66",
+    user: "l3ppzni4r1in",
+    password: "SasiJaga09$",
   });
 });
 
