@@ -54,12 +54,12 @@ function UserVoting1() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="lg:w-1/12 bg-gray-200 p-4 h-screen order-2 lg:order-1">
+    <div className="flex">
+      <div className="w-1/12 bg-gray-200 p-4 h-screen">
         <h2 className="text-xl font-bold mb-4">Ads</h2>
         {/* Add your ad content here */}
       </div>
-      <div className="lg:w-10/12 p-4 order-1 lg:order-2">
+      <div className="w-10/12 p-4">
         <h1 className="text-2xl font-bold mb-4">User Voting</h1>
         {loading ? (
           <div className="flex items-center justify-center">
