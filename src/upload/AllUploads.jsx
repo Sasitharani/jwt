@@ -80,11 +80,11 @@ const AllUploads = () => {
       <h2 className='text-6xl m-5 bg-red-200 opacity-35 rounded-2xl border-2 border-red-600 p-4'>Filter Images to send for Voting</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentImages.map((image, index) => (
-          <div key={index} className="image-row">
+          <div key={index} className="image-row flex flex-col items-center">
             <div className="image-column flex items-center justify-center">
               <img src={`https://contests4all.com/${image.url}`} alt={image.name} className="image object-contain" />
             </div>
-            <div className="checkbox-column">
+            <div className="checkbox-column mt-2">
               <input
                 type="checkbox"
                 onChange={() => handleCheckboxChange(image.url)}
