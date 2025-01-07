@@ -63,6 +63,9 @@ const CompressImage = () => {
     <div className="flex flex-col items-center mt-4">
       <h1 className="text-2xl font-bold mb-4">Compress Image to 1MB</h1>
       <input type="file" onChange={handleFileChange} className="mb-4" />
+      {file && (
+        <p className="mb-4">Original Size: {(file.size / 1024 / 1024).toFixed(2)} MB</p>
+      )}
       <button
         onClick={handleCompressClick}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -81,7 +84,14 @@ const CompressImage = () => {
         <div className="mt-4">
           <h2 className="text-xl font-bold mb-2">Compressed Image:</h2>
           <img src={URL.createObjectURL(compressedFile)} alt="Compressed" className="max-w-full h-auto" />
-          <p className="mt-2">Size: {(compressedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+          <p className="mt-2">Compressed Size: {(compressedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+          <a
+            href={URL.createObjectURL(compressedFile)}
+            download={compressedFile.name}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
+          >
+            Download Image
+          </a>
         </div>
       )}
     </div>

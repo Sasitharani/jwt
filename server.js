@@ -461,15 +461,15 @@ app.get('/api/get-images-vote1', (req, res) => {
 });
 
 app.post('/api/delete-image', (req, res) => {
-  const { path } = req.body;
+  const { url } = req.body;
 
-  if (!path) {
+  if (!url) {
     return res.status(400).send('Path does not exist. Inform the technical team');
   }
 
   const query = 'DELETE FROM vote1 WHERE path = ?';
 
-  db.query(query, [path], (err, results) => {
+  db.query(query, [url], (err, results) => {
     if (err) {
       console.error('Error deleting image:', err);
       return res.status(500).send('Error deleting image');
