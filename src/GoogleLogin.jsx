@@ -14,7 +14,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
       console.log('User:', user);
       const { displayName, email } = user;
 
-      const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/google-login', {
+      const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/api/google-login', {
         email,
         name: displayName
       });

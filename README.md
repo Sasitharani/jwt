@@ -85,4 +85,4 @@ Membership type
 
 ###########API Delete Working
 #########get all images Working
-########Login Route Working
+########Google Login Route Working
