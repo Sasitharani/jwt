@@ -22,6 +22,7 @@ import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import p
 import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Import hashThePasswordRoute
 import comparePasswordRoute from './src/routes/comparePaswswordRoute.js'; // Import comparePasswordRoute
 import imgForVote1Route from './src/routes/imgForVote1Route.js'; // Import imgForVote1Route
+import getImagesInVote1PageRoute from './src/routes/getImagesInVote1Route.js'; // Import getImagesInVote1PageRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -66,6 +67,9 @@ app.use('/api', comparePasswordRoute);
 
 // Use the imported imgForVote1Route
 app.use('/api', imgForVote1Route);
+
+// Use the imported getImagesInVote1PageRoute
+app.use('/api', getImagesInVote1PageRoute);
 
 //console.log("DirName:", __dirname);
 
@@ -190,24 +194,24 @@ app.use('/api', imgForVote1Route);
 //     });
 // });
 
-app.post('/api/img-for-vote1', (req, res) => {
-  const { checkedImages, email } = req.body; // Get email from req.body
+// app.post('/api/img-for-vote1', (req, res) => {
+//   const { checkedImages, email } = req.body; // Get email from req.body
 
-  if (!checkedImages || !Array.isArray(checkedImages)) {
-    return res.status(400).send('Invalid data');
-  }
+//   if (!checkedImages || !Array.isArray(checkedImages)) {
+//     return res.status(400).send('Invalid data');
+//   }
 
-  const query = 'INSERT INTO vote1 (path, email) VALUES ?';
-  const values = checkedImages.map(image => [image, email]); // Include email in the values
+//   const query = 'INSERT INTO vote1 (path, email) VALUES ?';
+//   const values = checkedImages.map(image => [image, email]); // Include email in the values
 
-  db.query(query, [values], (err, results) => {
-    if (err) {
-      console.error('Error saving votes:', err);
-      return res.status(500).send('Error saving votes');
-    }
-    res.status(200).send('Votes saved successfully');
-  });
-});
+//   db.query(query, [values], (err, results) => {
+//     if (err) {
+//       console.error('Error saving votes:', err);
+//       return res.status(500).send('Error saving votes');
+//     }
+//     res.status(200).send('Votes saved successfully');
+//   });
+// });
 
 app.post('/api/voting', (req, res) => {
   const { path } = req.body;
