@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
+import '../../index.css';
 
 function UserVoting1() {
   const [currentImages, setCurrentImages] = useState([]);

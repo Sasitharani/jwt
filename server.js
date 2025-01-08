@@ -11,7 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import ftp from 'ftp';
-import deleteImageRoute from './src/routes/deleteImageRoute.js';
+import deleteImageRoute from './src/routes/deleteImageRoute';
 
 dotenv.config();
 
