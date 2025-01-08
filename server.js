@@ -11,6 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import ftp from 'ftp';
+import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -23,24 +24,8 @@ const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-const loadRoutes = async () => {
-  try {
-    const deleteImageRoute = await import('./src/routes/deleteImageRoute.js');
-    console.log('Successfully loaded deleteImageRoute.js');
-    app.use('/api', deleteImageRoute.default);
-  } catch (error) {
-    console.error('Error loading deleteImageRoute.js:', error);
-    try {
-      const deleteImageRoute = await import('./src/routes/deleteImageRoute');
-      console.log('Successfully loaded deleteImageRoute');
-      app.use('/api', deleteImageRoute.default);
-    } catch (error) {
-      console.error('Error loading deleteImageRoute:', error);
-    }
-  }
-};
-
-loadRoutes();
+// Use the imported deleteImageRoute
+app.use('/api', deleteImageRoute);
 
 console.log("DirName:", __dirname);
 

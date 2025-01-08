@@ -3,6 +3,6 @@ import { deleteImage } from '../controllers/deleteImageController.js'; // Ensure
 
 const router = express.Router();
 
-router.post('/api/delete-image', deleteImage);
+router.post('/delete-image', deleteImage); // Ensure the correct route path
 
 export default router;
