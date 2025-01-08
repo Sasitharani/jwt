@@ -5,7 +5,11 @@ export default {
         './public/index.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: ['Montserrat', 'sans-serif'], // Add Montserrat font
+      },
+    },
   },
   plugins: [],
 }

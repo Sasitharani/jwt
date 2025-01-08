@@ -1,5 +1,5 @@
-const ftp = require('ftp');
-const path = require('path');
+import ftp from 'ftp';
+import path from 'path';
 
 const deleteImage = (req, res) => {
     const { url } = req.body;
@@ -30,4 +30,4 @@ const deleteImage = (req, res) => {
     });
 };
 
-module.exports = { deleteImage };
+export { deleteImage };
