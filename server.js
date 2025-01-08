@@ -13,6 +13,7 @@ import { fileURLToPath } from 'url';
 import ftp from 'ftp';
 import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
 import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
+import loginRoute from './src/routes/loginRoute.js'; // Import loginRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,6 +31,9 @@ app.use('/api', deleteImageRoute);
 
 // Use the imported getAllImagesRoute
 app.use('/api', getAllImagesRoute);
+
+// Use the imported loginRoute
+app.use('/api', loginRoute);
 
 console.log("DirName:", __dirname);
 
@@ -298,37 +302,6 @@ app.post('/compare', (req, res) => {
         res.status(200).send({ retrievedPassword, isMatch });
     });
 });
-
-// Login route
-app.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const query = 'SELECT * FROM userdb WHERE email = ?';
-        db.query(query, [email], async (err, results) => {
-            if (err) {
-                console.error('Error fetching data:', err);
-                res.status(500).send('Login failed. Please try again.');
-                return;
-            }
-            const user = results[0];
-
-            if (!user) {
-                return res.status(404).send({ message: 'User not found!' });
-            }
-
-            const passwordIsValid = await bcrypt.compare(password, user.password);
-            if (!passwordIsValid) {
-                return res.status(401).send({ message: 'Invalid password!' });
-            }
-
-            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-            return res.status(200).json({ token, message: 'Login Successfully', hashedPassword: user.password });
-        });
-    } catch (error) {
-        res.status(500).send('Error logging in');
-    }
-});
-
 
 app.post('/api/img-for-vote1', (req, res) => {
   const { checkedImages, email } = req.body; // Get email from req.body
