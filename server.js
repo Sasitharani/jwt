@@ -22,7 +22,7 @@ import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import p
 import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Import hashThePasswordRoute
 import comparePasswordRoute from './src/routes/comparePaswswordRoute.js'; // Import comparePasswordRoute
 import imgForVote1Route from './src/routes/imgForVote1Route.js'; // Import imgForVote1Route
-import getImagesInVote1PageRoute from './src/routes/getImagesInVote1Route.js'; // Import getImagesInVote1PageRoute
+import getImagesInVote1PageRoute from './src/routes/getImagesInVote1PageRoute.js'; // Import getImagesInVote1PageRoute
 import voteForVote1Route from './src/routes/voteForVote1Route.js'; // Import voteForVote1Route
 dotenv.config();
 
@@ -217,35 +217,35 @@ app.use('/api', voteForVote1Route);
 //   });
 // });
 
-app.post('/api/voting', (req, res) => {
-  const { path } = req.body;
+// app.post('/api/voting', (req, res) => {
+//   const { path } = req.body;
 
-  if (!path) {
-    return res.status(400).send('Invalid data');
-  }
+//   if (!path) {
+//     return res.status(400).send('Invalid data');
+//   }
 
-  const query = 'UPDATE vote1 SET votes = votes + 1 WHERE path = ?';
+//   const query = 'UPDATE vote1 SET votes = votes + 1 WHERE path = ?';
 
-  db.query(query, [path], (err, results) => {
-    if (err) {
-      console.error('Error updating votes:', err);
-      return res.status(500).send('Error updating votes');
-    }
-    res.status(200).send('Votes updated successfully');
-  });
-});
+//   db.query(query, [path], (err, results) => {
+//     if (err) {
+//       console.error('Error updating votes:', err);
+//       return res.status(500).send('Error updating votes');
+//     }
+//     res.status(200).send('Votes updated successfully');
+//   });
+// });
 
-app.get('/api/get-images-vote1', (req, res) => {
-  const query = 'SELECT path, votes FROM vote1';
+// app.get('/api/get-images-vote1', (req, res) => {
+//   const query = 'SELECT path, votes FROM vote1';
 
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching images:', err);
-      return res.status(500).send('Error fetching images');
-    }
-    res.status(200).json(results);
-  });
-});
+//   db.query(query, (err, results) => {
+//     if (err) {
+//       console.error('Error fetching images:', err);
+//       return res.status(500).send('Error fetching images');
+//     }
+//     res.status(200).json(results);
+//   });
+// });
 
 
 
