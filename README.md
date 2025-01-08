@@ -89,3 +89,4 @@ Membership type
 ########Login Signup working
 ########Check Email Availability Working
 ########File Upload Send Email Working
+########Reset Password Working
