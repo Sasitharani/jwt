@@ -14,7 +14,7 @@ import ftp from 'ftp';
 import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
 import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
 import loginRoute from './src/routes/loginRoute.js'; // Import loginRoute
-import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Import googleLoginRoute
+import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Ensure the correct path
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -37,7 +37,7 @@ app.use('/api', getAllImagesRoute);
 app.use('/api', loginRoute);
 
 // Use the imported googleLoginRoute
-app.use('/api', googleLoginRoute);
+app.use('/api', googleLoginRoute); // Ensure the correct route
 
 console.log("DirName:", __dirname);
 
