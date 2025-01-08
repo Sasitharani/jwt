@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
-import '../../index.css';
+import '../index.css';
 
 function UserVoting1() {
   const [currentImages, setCurrentImages] = useState([]);
@@ -66,7 +66,7 @@ function UserVoting1() {
       </div>
       <div className="lg:w-10/12 p-4 order-1 lg:order-2">
      
-<h1 className="text-6xl my-10 font-bold mb-4 text-center font-montserrat">
+<h1 className="text-6xl my-10 mb-4 text-center font-montserrat">
   Vote for the best image. The image with the highest votes will win Rs 100.
 </h1>
         {loading ? (
