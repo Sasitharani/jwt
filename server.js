@@ -14,6 +14,7 @@ import ftp from 'ftp';
 import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
 import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
 import loginRoute from './src/routes/loginRoute.js'; // Import loginRoute
+import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Import googleLoginRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +35,9 @@ app.use('/api', getAllImagesRoute);
 
 // Use the imported loginRoute
 app.use('/api', loginRoute);
+
+// Use the imported googleLoginRoute
+app.use('/api', googleLoginRoute);
 
 console.log("DirName:", __dirname);
 
@@ -137,45 +141,6 @@ app.post('/signup', async (req, res) => {
         });
     } catch (error) {
         res.status(500).send('Error registering user');
-    }
-});
-
-// Google login route
-app.post('/google-login', async (req, res) => {
-  console.log("Google Login hit");
-    const { email, name } = req.body;
-    try {
-        const query = 'SELECT * FROM userdb WHERE email = ?';
-        db.query(query, [email], async (err, results) => {
-            if (err) {
-                console.error('Error fetching data:', err);
-                res.status(500).send('Google login failed. Please try again.');
-                return;
-            }
-            let user = results[0];
-
-            if (!user) {
-                // If user does not exist, create a new user
-                const query = `
-                    INSERT INTO userdb (username, email)
-                    VALUES (?, ?)
-                `;
-                const values = [name, email];
-                db.query(query, values, (err, results) => {
-                    if (err) {
-                        console.error('Error inserting data:', err);
-                        res.status(500).send('Google login failed. Please try again.');
-                        return;
-                    }
-                    user = { id: results.insertId, username: name, email };
-                });
-            }
-
-            const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-            res.status(200).json({ token });
-        });
-    } catch (error) {
-        res.status(500).send('Error logging in with Google');
     }
 });
 
