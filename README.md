@@ -90,5 +90,5 @@ Membership type
 ########Check Email Availability Working
 ########File Upload Send Email Working
 ########Reset Password Working
-
+##########Voting working
 Have to work on password reset
