@@ -19,6 +19,7 @@ import signupRoute from './src/routes/signupRoute.js'; // Import signupRoute
 import checkEmailAvailabilityRoute from './src/routes/checkEmailAvailabilityRoute.js'; // Import checkEmailAvailabilityRoute
 import fileUploadSendEmailRoute from './src/routes/fileUploadSendEmailRoute.js'; // Import fileUploadSendEmailRoute
 import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import passwordResetRoute
+import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Import hashThePasswordRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -55,6 +56,9 @@ app.use('/api', fileUploadSendEmailRoute);
 // Use the imported passwordResetRoute
 app.use('/api', passwordResetRoute);
 
+// Use the imported hashThePasswordRoute
+app.use('/api', hashThePasswordRoute);
+
 console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
@@ -72,56 +76,56 @@ const transporter = nodemailer.createTransport({
 });
 
 // Password reset route
-app.post('/send-reset-email', async (req, res) => {
-    console.log("send-reser-email hit");
-    const { email, code } = req.body;
+// app.post('/send-reset-email', async (req, res) => {
+//     console.log("send-reser-email hit");
+//     const { email, code } = req.body;
 
-    let transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 587,
-        secure: false,
-        auth: {
-            user: 'sasitharani@gmail.com',
-            pass: 'zcyjkhdknezjzkrg',
-        },
-    });
+//     let transporter = nodemailer.createTransport({
+//         host: 'smtp.gmail.com',
+//         port: 587,
+//         secure: false,
+//         auth: {
+//             user: 'sasitharani@gmail.com',
+//             pass: 'zcyjkhdknezjzkrg',
+//         },
+//     });
 
-    const resetLink = `http://www.contests4all.com/forgot-password?code=${code}`;
+//     const resetLink = `http://www.contests4all.com/forgot-password?code=${code}`;
 
-    const htmlContent = `
-        <h2>Password Reset Request</h2>
-        <p>Click the link below to reset your password:</p>
-        <a href="${resetLink}">${resetLink}</a>
-    `;
+//     const htmlContent = `
+//         <h2>Password Reset Request</h2>
+//         <p>Click the link below to reset your password:</p>
+//         <a href="${resetLink}">${resetLink}</a>
+//     `;
 
-    try {
-        await transporter.sendMail({
-            from: '"Support" <sasitharani@gmail.com>',
-            to: [email, 'sasitharani@gmail.com'],
-            subject: "Password Reset",
-            html: htmlContent,
-        });
-        res.status(200).send({ message: 'Reset email sent successfully' });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).send('Error sending email. Please try again.');
-    }
-});
+//     try {
+//         await transporter.sendMail({
+//             from: '"Support" <sasitharani@gmail.com>',
+//             to: [email, 'sasitharani@gmail.com'],
+//             subject: "Password Reset",
+//             html: htmlContent,
+//         });
+//         res.status(200).send({ message: 'Reset email sent successfully' });
+//     } catch (error) {
+//         console.error('Error sending email:', error);
+//         res.status(500).send('Error sending email. Please try again.');
+//     }
+// });
 
-app.post('/reset-password', (req, res) => {
-    const { email, newPassword } = req.body;
-    const hashedPassword = bcrypt.hashSync(newPassword, 10);
+// app.post('/reset-password', (req, res) => {
+//     const { email, newPassword } = req.body;
+//     const hashedPassword = bcrypt.hashSync(newPassword, 10);
 
-    const query = 'UPDATE userdb SET password = ? WHERE email = ?';
-    db.query(query, [hashedPassword, email], (err, results) => {
-        console.log('Results password change:', results);
-        console.log('Results password affectedRows:', results.affectedRows);
-        if (results.affectedRows) {
-            res.status(200).send({ message: 'Password reset successfully' });
-        }
+//     const query = 'UPDATE userdb SET password = ? WHERE email = ?';
+//     db.query(query, [hashedPassword, email], (err, results) => {
+//         console.log('Results password change:', results);
+//         console.log('Results password affectedRows:', results.affectedRows);
+//         if (results.affectedRows) {
+//             res.status(200).send({ message: 'Password reset successfully' });
+//         }
        
-    });
-});
+//     });
+// });
 // Hash password route
 app.post('/hash', (req, res) => {
     console.log('Hashing');

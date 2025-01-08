@@ -90,3 +90,5 @@ Membership type
 ########Check Email Availability Working
 ########File Upload Send Email Working
 ########Reset Password Working
+
+Have to work on password reset
