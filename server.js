@@ -438,11 +438,6 @@ app.get('/api/get-images-vote1', (req, res) => {
 //     });
 //   });
 
-  client.connect({
-    host: "68.178.150.66",
-    user: "l3ppzni4r1in",
-    password: "SasiJaga09$",
-  });
 
 
 app.use((err, req, res, next) => {
