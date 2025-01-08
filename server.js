@@ -23,6 +23,7 @@ import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Impo
 import comparePasswordRoute from './src/routes/comparePaswswordRoute.js'; // Import comparePasswordRoute
 import imgForVote1Route from './src/routes/imgForVote1Route.js'; // Import imgForVote1Route
 import getImagesInVote1PageRoute from './src/routes/getImagesInVote1Route.js'; // Import getImagesInVote1PageRoute
+import voteForVote1Route from './src/routes/voteForVote1Route.js'; // Import voteForVote1Route
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -70,6 +71,9 @@ app.use('/api', imgForVote1Route);
 
 // Use the imported getImagesInVote1PageRoute
 app.use('/api', getImagesInVote1PageRoute);
+
+// Use the imported voteForVote1Route
+app.use('/api', voteForVote1Route);
 
 //console.log("DirName:", __dirname);
 
