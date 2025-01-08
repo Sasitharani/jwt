@@ -64,9 +64,9 @@ function UserVoting1() {
         {/* Add your ad content here */}
       </div>
       <div className="lg:w-10/12 p-4 order-1 lg:order-2">
-        <h1 className="text-6xl m-y-10  font-bold mb-4 text-center">
-          Vote for the best image. The image with the highest votes will win Rs 100.
-        </h1>
+      <h1 className="text-6xl my-10 font-bold mb-4 text-center font-custom">
+        Vote for the best image. The image with the highest votes will win Rs 100.
+      </h1>
         {loading ? (
           <div className="flex items-center justify-center">
             <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
