@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteImage } from './controllers/deleteImageController';
+import { deleteImage } from '../controllers/deleteImageController';
 
 const router = express.Router();
 
