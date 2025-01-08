@@ -16,6 +16,7 @@ import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import get
 import loginRoute from './src/routes/loginRoute.js'; // Import loginRoute
 import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Ensure the correct path
 import signupRoute from './src/routes/signupRoute.js'; // Import signupRoute
+import checkEmailAvailabilityRoute from './src/routes/checkEmailAvailabilityRoute.js'; // Import checkEmailAvailabilityRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +43,9 @@ app.use('/api', googleLoginRoute); // Ensure the correct route
 
 // Use the imported signupRoute
 app.use('/api', signupRoute);
+
+// Use the imported checkEmailAvailabilityRoute
+app.use('/api', checkEmailAvailabilityRoute);
 
 console.log("DirName:", __dirname);
 
@@ -126,23 +130,6 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 
 
 // Check email availability route
-app.post('/check-email', (req, res) => {
-    const { email } = req.body;
-
-    const query = 'SELECT * FROM userdb WHERE email = ?';
-    db.query(query, [email], (err, results) => {
-        if (err) {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Error checking email. Please try again.');
-            return;
-        }
-        if (results.length > 0) {
-            res.status(200).send({ available: false });
-        } else {
-            res.status(200).send({ available: true });
-        }
-    });
-});
 app.post('/send-reset-email', async (req, res) => {
     console.log("send-reser-email hit");
     const { email, code } = req.body;
