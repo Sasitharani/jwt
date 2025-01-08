@@ -33,6 +33,7 @@ const AllUploads = () => {
         const todayImages = groupedImages.filter(image => image.date === today);
         const yesterdayImages = groupedImages.filter(image => image.date === yesterday);
 
+        
         console.group('Grouped Images');
         console.group('Today');
         console.log(todayImages.map(image => image.name));
