@@ -12,6 +12,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import ftp from 'ftp';
 import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
+import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,6 +27,9 @@ app.use(bodyParser.json());
 
 // Use the imported deleteImageRoute
 app.use('/api', deleteImageRoute);
+
+// Use the imported getAllImagesRoute
+app.use('/api', getAllImagesRoute);
 
 console.log("DirName:", __dirname);
 
@@ -326,47 +330,6 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.get('/api/images', (req, res) => {
-  console.log("Images hit");
-  const client = new ftp();
-  const images = [];
-  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
-
-  client.on('ready', () => {
-    client.list('/public_html/www.contests4all.com/public/img/uploads', (err, files) => {
-      if (err) {
-        console.error('Error reading uploads directory:', err);
-        res.status(500).send('Error reading uploads directory');
-        client.end();
-        return;
-      }
-
-      files.forEach(file => {
-        if (imageExtensions.includes(path.extname(file.name).toLowerCase())) {
-          images.push({
-            name: file.name,
-            url: `/public/img/uploads/${file.name}`
-          });
-        }
-      });
-
-      res.json(images);
-      client.end();
-    });
-  });
-
-  client.connect({
-    host: "68.178.150.66",
-    user: "l3ppzni4r1in",
-    password: "SasiJaga09$",
-
-
-    });
-
-
-
-  });
-
 app.post('/api/img-for-vote1', (req, res) => {
   const { checkedImages, email } = req.body; // Get email from req.body
 
@@ -416,27 +379,6 @@ app.get('/api/get-images-vote1', (req, res) => {
   });
 });
 
-// app.post('/api/delete-image', (req, res) => {
-//   const { url } = req.body;
-
-//   console.log('URL:', url); // Log the URL to ensure it's being received correctly
-//   if (!url) {
-//     return res.status(400).send('Path does not exist. Inform the technical team');
-//   }
-
-//   const client = new ftp();
-//   client.on('ready', () => {
-//     const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${path.basename(url)}`;
-//     client.delete(remoteFilePath, (err) => {
-//       if (err) {
-//         console.error('Error deleting image from FTP server:', err);
-//         return res.status(500).send('Error deleting image from FTP server');
-//       }
-//       console.log('Image deleted from FTP server:', remoteFilePath);
-//       res.status(200).send('Image deleted successfully');
-//       client.end();
-//     });
-//   });
 
 
 
