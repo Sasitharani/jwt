@@ -70,7 +70,7 @@ Regulating views.
 tommorow create a page that will delete the values in database as well as delete the uploads from the hosting after voting closes
 or after a particular time
 
-
+clear db vote1
 Work with Voting Limitations
 admin authorisation
 if users are loading images and it goes more than 10 how to create a new page after admin approval
@@ -81,4 +81,5 @@ userfeedback
 technical error logging
 
 Membership type
+
 
