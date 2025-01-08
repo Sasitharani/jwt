@@ -67,7 +67,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Check email availability route
+// Password reset route
 app.post('/send-reset-email', async (req, res) => {
     console.log("send-reser-email hit");
     const { email, code } = req.body;
