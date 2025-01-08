@@ -66,7 +66,7 @@ function UserVoting1() {
       </div>
       <div className="lg:w-10/12 p-4 order-1 lg:order-2">
      
-<h1 className="text-6xl my-10 mb-4 text-center font-montserrat">
+<h1 className="text-4xl my-10 mb-4 text-center font-montserrat bg-slate-100 rounded-2xl p-4 gradient-border">
   Vote for the best image. The image with the highest votes will win Rs 100.
 </h1>
         {loading ? (

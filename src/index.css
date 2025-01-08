@@ -30,3 +30,36 @@
   .blink {
     animation: blink 1s infinite;
   }
+
+.gradient-border {
+  position: relative;
+  padding: 4px;
+  border-radius: 1rem;
+  background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
+  background-size: 300% 300%;
+  animation: gradient-animation 5s ease infinite;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: inherit;
+  background: inherit;
+  z-index: -1;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
