@@ -17,7 +17,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/check-email', { email });
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/check-email', { email });
             console.log('response:', response.data.available);
             if (!response.data.available) {
                 const code = generateRandomCode();

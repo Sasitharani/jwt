@@ -42,7 +42,7 @@ app.post('/signup', (req, res) => {
 
 });
 // Check email availability route
-app.post('/check-email', (req, res) => {
+app.post('/api/check-email', (req, res) => {
     const { email } = req.body;
 
     const query = 'SELECT * FROM userdb WHERE email = ?';

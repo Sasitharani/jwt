@@ -87,3 +87,4 @@ Membership type
 #########get all images Working
 ########Google Login Route Working
 ########Login Signup working
+########Check Email Availability Working
