@@ -15,6 +15,7 @@ import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import delet
 import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
 import loginRoute from './src/routes/loginRoute.js'; // Import loginRoute
 import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Ensure the correct path
+import signupRoute from './src/routes/signupRoute.js'; // Import signupRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -38,6 +39,9 @@ app.use('/api', loginRoute);
 
 // Use the imported googleLoginRoute
 app.use('/api', googleLoginRoute); // Ensure the correct route
+
+// Use the imported signupRoute
+app.use('/api', signupRoute);
 
 console.log("DirName:", __dirname);
 
@@ -120,29 +124,6 @@ app.post('/api/send-email', upload.single('file'), (req, res) => {
 });
 });
 
-
-// Signup route
-app.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body;
-    try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const query = `
-            INSERT INTO userdb (username, password, email)
-            VALUES (?, ?, ?)
-        `;
-        const values = [username, hashedPassword, email];
-        db.query(query, values, (err, results) => {
-            if (err) {
-                console.error('Error inserting data:', err);
-                res.status(500).send('Signup failed. Please try again.');
-                return;
-            }
-            res.status(200).send({ message: 'User registered successfully!' });
-        });
-    } catch (error) {
-        res.status(500).send('Error registering user');
-    }
-});
 
 // Check email availability route
 app.post('/check-email', (req, res) => {
