@@ -21,6 +21,7 @@ import fileUploadSendEmailRoute from './src/routes/fileUploadSendEmailRoute.js';
 import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import passwordResetRoute
 import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Import hashThePasswordRoute
 import comparePasswordRoute from './src/routes/comparePaswswordRoute.js'; // Import comparePasswordRoute
+import imgForVote1Route from './src/routes/imgForVote1Route.js'; // Import imgForVote1Route
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -62,6 +63,9 @@ app.use('/api', hashThePasswordRoute);
 
 // Use the imported comparePasswordRoute
 app.use('/api', comparePasswordRoute);
+
+// Use the imported imgForVote1Route
+app.use('/api', imgForVote1Route);
 
 //console.log("DirName:", __dirname);
 
@@ -155,36 +159,36 @@ app.use('/api', comparePasswordRoute);
 // });
 
 // Compare password route
-app.post('/compare', (req, res) => {
-    const { password } = req.body;
+// app.post('/compare', (req, res) => {
+//     const { password } = req.body;
 
-    console.log('Received password :-', password);
+//     console.log('Received password :-', password);
 
-    const query = 'SELECT * FROM userdb WHERE password = ?';
+//     const query = 'SELECT * FROM userdb WHERE password = ?';
 
-    db.query(query, [password], (err, results) => {
-        if (err) {
-            console.error('Error fetching data:', err);
-            res.status(500).send('Login failed. Please try again.');
-            return;
-        }
+//     db.query(query, [password], (err, results) => {
+//         if (err) {
+//             console.error('Error fetching data:', err);
+//             res.status(500).send('Login failed. Please try again.');
+//             return;
+//         }
 
-        // Access the retrieved values
-        const retrievedValue = results[0]; // Assuming you want the first row
-        console.log('Retrieved Value:', retrievedValue);
+//         // Access the retrieved values
+//         const retrievedValue = results[0]; // Assuming you want the first row
+//         console.log('Retrieved Value:', retrievedValue);
 
-        // Extract only the password field
-        const retrievedPassword = retrievedValue.Pass;
-        console.log('Retrieved Password:', retrievedPassword);
+//         // Extract only the password field
+//         const retrievedPassword = retrievedValue.Pass;
+//         console.log('Retrieved Password:', retrievedPassword);
 
-        // Compare passwords
-        const isMatch = bcrypt.compareSync(password, retrievedPassword);
-        console.log('Password match:', isMatch);
+//         // Compare passwords
+//         const isMatch = bcrypt.compareSync(password, retrievedPassword);
+//         console.log('Password match:', isMatch);
 
-        // Send the retrieved password and comparison result in the response
-        res.status(200).send({ retrievedPassword, isMatch });
-    });
-});
+//         // Send the retrieved password and comparison result in the response
+//         res.status(200).send({ retrievedPassword, isMatch });
+//     });
+// });
 
 app.post('/api/img-for-vote1', (req, res) => {
   const { checkedImages, email } = req.body; // Get email from req.body
