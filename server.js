@@ -18,6 +18,7 @@ import googleLoginRoute from './src/routes/googleLoginRoute.js'; // Ensure the c
 import signupRoute from './src/routes/signupRoute.js'; // Import signupRoute
 import checkEmailAvailabilityRoute from './src/routes/checkEmailAvailabilityRoute.js'; // Import checkEmailAvailabilityRoute
 import fileUploadSendEmailRoute from './src/routes/fileUploadSendEmailRoute.js'; // Import fileUploadSendEmailRoute
+import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import passwordResetRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -51,6 +52,9 @@ app.use('/api', checkEmailAvailabilityRoute);
 // Use the imported fileUploadSendEmailRoute
 app.use('/api', fileUploadSendEmailRoute);
 
+// Use the imported passwordResetRoute
+app.use('/api', passwordResetRoute);
+
 console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
@@ -82,7 +86,7 @@ app.post('/send-reset-email', async (req, res) => {
         },
     });
 
-    const resetLink = `http://localhost:3000/forgot-password?code=${code}`;
+    const resetLink = `http://www.contests4all.com/forgot-password?code=${code}`;
 
     const htmlContent = `
         <h2>Password Reset Request</h2>

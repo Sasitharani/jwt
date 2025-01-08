@@ -1,5 +1,5 @@
 import express from 'express';
-import { checkEmailAvailability } from '../controllers/checkEmailAvailabilityController.js'; // Ensure the correct path
+import { checkEmailAvailability } from './checkEmailAvailabilityController.js'; // Ensure the correct path
 
 const router = express.Router();
 
