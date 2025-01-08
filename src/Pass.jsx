@@ -14,7 +14,7 @@ const Pass = () => {
         const hpassword= bcrypt.hashSync(password, 8)
         console.log(hpassword)
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/hash', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api-hash', {
                 username: 'test',
                 email: 'test',
                 password:password,
@@ -33,7 +33,7 @@ const Pass = () => {
     const handleComparePassword = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/compare', {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api-compare', {
                 password: userInput,
             });
             const { isMatch } = response.data;

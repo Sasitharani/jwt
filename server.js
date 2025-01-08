@@ -20,6 +20,7 @@ import checkEmailAvailabilityRoute from './src/routes/checkEmailAvailabilityRout
 import fileUploadSendEmailRoute from './src/routes/fileUploadSendEmailRoute.js'; // Import fileUploadSendEmailRoute
 import passwordResetRoute from './src/routes/passwordResetRoute.js'; // Import passwordResetRoute
 import hashThePasswordRoute from './src/routes/hashThePasswordRoute.js'; // Import hashThePasswordRoute
+import comparePasswordRoute from './src/routes/comparePaswswordRoute.js'; // Import comparePasswordRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -59,21 +60,24 @@ app.use('/api', passwordResetRoute);
 // Use the imported hashThePasswordRoute
 app.use('/api', hashThePasswordRoute);
 
-console.log("DirName:", __dirname);
+// Use the imported comparePasswordRoute
+app.use('/api', comparePasswordRoute);
+
+//console.log("DirName:", __dirname);
 
 // Set up multer for file uploads
-const storage = multer.memoryStorage(); // Use memory storage to avoid saving to disk
-const upload = multer({ storage });
+// const storage = multer.memoryStorage(); // Use memory storage to avoid saving to disk
+// const upload = multer({ storage });
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: 'sasitharani@gmail.com',
-    pass: 'zfikzmnxyuicssim',
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   host: 'smtp.gmail.com',
+//   port: 587,
+//   secure: false,
+//   auth: {
+//     user: 'sasitharani@gmail.com',
+//     pass: 'zfikzmnxyuicssim',
+//   },
+// });
 
 // Password reset route
 // app.post('/send-reset-email', async (req, res) => {
@@ -127,28 +131,28 @@ const transporter = nodemailer.createTransport({
 //     });
 // });
 // Hash password route
-app.post('/hash', (req, res) => {
-    console.log('Hashing');
-    const { username, email, password, hpassword } = req.body;
+// app.post('/hash', (req, res) => {
+//     console.log('Hashing');
+//     const { username, email, password, hpassword } = req.body;
 
-    console.log('Hashed Password during Pass:', hpassword);
+//     console.log('Hashed Password during Pass:', hpassword);
 
-    const query = `
-        INSERT INTO userdb (username, password, email, Pass)
-        VALUES (?, ?, ?, ?)
-    `;
-    const values = [username, password, email, hpassword];
+//     const query = `
+//         INSERT INTO userdb (username, password, email, Pass)
+//         VALUES (?, ?, ?, ?)
+//     `;
+//     const values = [username, password, email, hpassword];
 
-    db.query(query, values, (err, results) => {
-        if (err) {
-            console.error('Error inserting data:', err);
-            res.status(500).send('Signup failed. Please try again.');
-            return;
-        }
-        const result = results[0];
-        res.status(201).send({ message: 'User registered successfully!', result });
-    });
-});
+//     db.query(query, values, (err, results) => {
+//         if (err) {
+//             console.error('Error inserting data:', err);
+//             res.status(500).send('Signup failed. Please try again.');
+//             return;
+//         }
+//         const result = results[0];
+//         res.status(201).send({ message: 'User registered successfully!', result });
+//     });
+// });
 
 // Compare password route
 app.post('/compare', (req, res) => {
