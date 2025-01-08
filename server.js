@@ -11,6 +11,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import ftp from 'ftp';
+import deleteImageRoute from './routes/deleteImageRoute.js';
 
 dotenv.config();
 
@@ -460,27 +461,27 @@ app.get('/api/get-images-vote1', (req, res) => {
   });
 });
 
-app.post('/api/delete-image', (req, res) => {
-  const { url } = req.body;
+// app.post('/api/delete-image', (req, res) => {
+//   const { url } = req.body;
 
-  console.log('URL:', url); // Log the URL to ensure it's being received correctly
-  if (!url) {
-    return res.status(400).send('Path does not exist. Inform the technical team');
-  }
+//   console.log('URL:', url); // Log the URL to ensure it's being received correctly
+//   if (!url) {
+//     return res.status(400).send('Path does not exist. Inform the technical team');
+//   }
 
-  const client = new ftp();
-  client.on('ready', () => {
-    const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${path.basename(url)}`;
-    client.delete(remoteFilePath, (err) => {
-      if (err) {
-        console.error('Error deleting image from FTP server:', err);
-        return res.status(500).send('Error deleting image from FTP server');
-      }
-      console.log('Image deleted from FTP server:', remoteFilePath);
-      res.status(200).send('Image deleted successfully');
-      client.end();
-    });
-  });
+//   const client = new ftp();
+//   client.on('ready', () => {
+//     const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${path.basename(url)}`;
+//     client.delete(remoteFilePath, (err) => {
+//       if (err) {
+//         console.error('Error deleting image from FTP server:', err);
+//         return res.status(500).send('Error deleting image from FTP server');
+//       }
+//       console.log('Image deleted from FTP server:', remoteFilePath);
+//       res.status(200).send('Image deleted successfully');
+//       client.end();
+//     });
+//   });
 
   client.connect({
     host: "68.178.150.66",
@@ -488,6 +489,9 @@ app.post('/api/delete-image', (req, res) => {
     password: "SasiJaga09$",
   });
 });
+
+app.use(deleteImageRoute);
+
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal Server Error', details: err.message });

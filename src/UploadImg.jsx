@@ -160,6 +160,24 @@ const UploadImg = () => {
           If more than 1 MB, compress your image here
         </Link>
       </div>
+      <div className="mt-8 text-center">
+        <h2 className="text-xl font-bold mb-4">Rules</h2>
+        <ul className="list-disc list-inside text-left">
+          <li>No Sexual images</li>
+          <li>Image should not have Human faces. Avoid selfies.</li>
+          <li>Allowed photos:
+            <ul className="list-disc list-inside ml-4">
+              <li>Nature</li>
+              <li>Objects</li>
+              <li>Animals</li>
+              <li>Birds</li>
+              <li>Insects</li>
+            </ul>
+          </li>
+          <li>Use own images. Photos uploaded from the internet will be rejected.</li>
+        </ul>
+        <p className="mt-4 text-red-500">If the above rules are not followed, the photos will not be selected.</p>
+      </div>
     </div>
   );
 };
