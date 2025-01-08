@@ -42,7 +42,7 @@ const Header = () => {
 
     return (
         <header className="bg-black p-4 text-white flex justify-between items-center">
-            <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"></link>
+          
             <div className="flex items-center">
                 <img src="/path/to/logo.png" alt="Logo" className="h-8 mr-4" />
                 <Link to="/" className="text-md font-bold">Contests4All</Link>
