@@ -77,7 +77,7 @@ function UserVoting1() {
         ) : currentImages.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
             {highestVotedImage && (
-              <div className="rounded-lg overflow-hidden shadow-lg bg-white border-4 border-double border-green-500">
+              <div className="col-span-2 rounded-lg overflow-hidden shadow-lg bg-white border-4 animate-multicolor-border">
                 <div className="w-full h-48 flex items-center justify-center overflow-hidden">
                   <img
                     src={`https://contests4all.com/${highestVotedImage.path}`}

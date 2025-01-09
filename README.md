@@ -91,4 +91,17 @@ Membership type
 ########File Upload Send Email Working
 ########Reset Password Working
 ##########Voting working
+
 Have to work on password reset
+
+create a db voteManagement with following column names
+SrNo-AutoIncrement-Primary key
+Username
+email
+phone
+MaxLikes
+LikesUsed
+MaxImages
+ImagesUploaded
+MemeberShip
+

@@ -20,6 +20,8 @@ import AllUploads from './upload/AllUploads';
 import UploadImage from './UploadImg'; // Import the UploadImage component
 import UserVoting1 from './voting/UserVoting1'; // Import the UserVoting1 component
 import CompressImage from './components/CompressImage'; // Import the CompressImage component
+import Test from './components/Test';
+import DailyAutomation from './components/dailyAutomation'; // Import the DailyAutomation component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -46,6 +48,8 @@ const App = () => {
           <Route path="/uploadImage" element={<UploadImage />} /> {/* Add the UploadImage route */}
           <Route path="/voting/UserVoting1" element={<UserVoting1 />} /> {/* Add the UserVoting1 route */}
           <Route path="/compress-image" element={<CompressImage />} /> {/* Add the CompressImage route */}
+          <Route path="/test" element={<Test />} />
+          <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
         </Routes>
       </Router>
     </Provider>

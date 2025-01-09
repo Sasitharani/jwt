@@ -21,45 +21,43 @@
         transform: rotate(360deg);
     }
 }
+
 @keyframes blink {
-    0% { opacity: 1; }
+    0%, 100% { opacity: 1; }
     50% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  
-  .blink {
+}
+
+.animate-blink {
     animation: blink 1s infinite;
-  }
-
-.gradient-border {
-  position: relative;
-  padding: 4px;
-  border-radius: 1rem;
-  background: linear-gradient(45deg, #ff6b6b, #f06595, #cc5de8, #845ef7, #5c7cfa, #339af0, #22b8cf, #20c997, #51cf66, #94d82d, #fcc419, #ff922b);
-  background-size: 300% 300%;
-  animation: gradient-animation 5s ease infinite;
 }
 
-.gradient-border::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: inherit;
-  background: inherit;
-  z-index: -1;
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
 }
 
-@keyframes gradient-animation {
+.animate-wiggle {
+    animation: wiggle 1s infinite;
+}
+
+@keyframes multicolor-border {
   0% {
-    background-position: 0% 50%;
+    border-color: red;
+  }
+  25% {
+    border-color: yellow;
   }
   50% {
-    background-position: 100% 50%;
+    border-color: green;
+  }
+  75% {
+    border-color: blue;
   }
   100% {
-    background-position: 0% 50%;
+    border-color: red;
   }
+}
+
+.animate-multicolor-border {
+  animation: multicolor-border 4s infinite, bounce 1s infinite;
 }
