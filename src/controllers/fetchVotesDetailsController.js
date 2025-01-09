@@ -45,7 +45,7 @@ const fetchVotesDetails = async (req, res) => {
                 return;
             }
 
-            if (result.recordset.length > 0) {
+            if (result.recordset && result.recordset.length > 0) {
                 res.status(200).json(result.recordset);
             } else {
                 res.status(404).send('No data found');
