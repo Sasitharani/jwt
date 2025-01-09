@@ -15,6 +15,8 @@ const VotesTable = () => {
             try {
                 const response = await axios.get('https://jwt-rj8s.onrender.com/api/fetchVotesDetails');
                 setVotesData(response.data);
+                console.log('Response:', response.data);
+                setVotesData(response.data);
             } catch (error) {
                 console.error('Error fetching votes details:', error);
             }

@@ -20,6 +20,7 @@ const updateVotes = async (req, res) => {
             console.log('Query result:', result);
 
             if (result.recordset && result.recordset.length > 0) {
+                console.log('MaxLikes and LikesUsed fetched:', result.recordset[0]);
                 const { MaxLikes, LikesUsed } = result.recordset[0];
 
                 if (MaxLikes > 0 && MaxLikes != LikesUsed) {
