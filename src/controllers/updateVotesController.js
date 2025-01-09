@@ -1,5 +1,5 @@
 import sql from 'mssql';
-import sweetalert from 'sweetalert';
+import sweetalert from 'sweetalert2';
 import db from '../../db.js'; // Ensure the correct path
 
 const updateVotes = async (req, res) => {
