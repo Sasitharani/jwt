@@ -18,7 +18,7 @@ const updateVotes = async (req, res) => {
             }
 
             console.log('Query result:', result);
-
+            console.log('Result recordset:', result.recordset);
             if (result.recordset && result.recordset.length > 0) {
                 console.log('MaxLikes and LikesUsed fetched:', result.recordset[0]);
                 const { MaxLikes, LikesUsed } = result.recordset[0];
@@ -31,14 +31,18 @@ const updateVotes = async (req, res) => {
                             res.status(500).send('Server error');
                             return;
                         }
+                        console.log('Vote updated successfully');
                         res.status(200).send('Vote updated successfully');
                     });
                 } else {
+                    console.log('All likes used, no likes left');
                     res.status(400).send('All likes used, no likes left');
                 }
             } else {
+                console.log('No data found');
                 res.status(404).send('No data found');
             }
+    
         });
     } catch (err) {
         console.error('Error in updateVotes:', err);
