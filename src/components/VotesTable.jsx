@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { use } from 'react';
 
 const VotesTable = () => {
     const [votesData, setVotesData] = useState([]);
     const username = useSelector(state => state.user.username);
     const email = useSelector(state => state.user.email);
+
+    console.log('Username-Email',username, email);
 
     useEffect(() => {
         const fetchVotesDetails = async () => {

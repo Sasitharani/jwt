@@ -1,16 +1,14 @@
 import sql from 'mssql';
 import db from '../../db.js';
 
-const checkAndInsertDefaultValues = async (tableName) => {
+const checkAndInsertDefaultValues = async (tableName, username, email) => {
     try {
-        const pool = await sql.connect(/* your database config */);
-        const result = await db.query(`SELECT * FROM ${tableName}`);
+        const result = db.query(`SELECT * FROM ${tableName}`);
 
         if (result.recordset.length === 0) {
-            await db.query(`
+          db.query(`
                 INSERT INTO ${tableName} (username, email, MaxLikes)
-                SELECT username, email, 10
-                FROM user_slice
+                VALUES ('${username}', '${email}', 10)
             `);
         }
     } catch (err) {
@@ -22,11 +20,11 @@ const checkAndInsertDefaultValues = async (tableName) => {
 const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
+    const { username, email } = req.body;
 
     try {
-        await checkAndInsertDefaultValues(tableName);
-        const pool = await sql.connect(/* your database config */);
-        const result = await db.query(`SELECT * FROM ${tableName}`);
+        await checkAndInsertDefaultValues(tableName, username, email);
+        const result = db.query(`SELECT * FROM ${tableName}`);
 
         if (result.recordset.length > 0) {
             res.status(200).json(result.recordset);
