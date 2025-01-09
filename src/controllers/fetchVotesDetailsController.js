@@ -1,4 +1,3 @@
-import sql from 'mssql';
 import db from '../../db.js';
 
 const checkAndInsertDefaultValues = async (tableName, username, email) => {
@@ -10,12 +9,22 @@ const checkAndInsertDefaultValues = async (tableName, username, email) => {
                 throw new Error('Error checking or inserting default values');
             }
 
-            if (result.recordset.length === 0) {
+            console.log('Result of SELECT query:', result);
+
+            if (result && result.recordset && result.recordset.length === 0) {
                 const insertQuery = `
                     INSERT INTO ${tableName} (username, email, MaxLikes)
                     VALUES (?, ?, 10)
                 `;
-                const values = [username, email];
+                if (username && email) {
+                    const values = [username, email];
+                    db.query(insertQuery, values, (err, result) => {
+                        if (err) {
+                            console.error('Error inserting data:', err);
+                            throw new Error('Error checking or inserting default values');
+                        }
+                    });
+                }
                 db.query(insertQuery, values, (err, result) => {
                     if (err) {
                         console.error('Error inserting data:', err);
@@ -44,6 +53,8 @@ const fetchVotesDetails = async (req, res) => {
                 res.status(500).send('Server error');
                 return;
             }
+
+            console.log('Result of SELECT query:', result);
 
             if (result.recordset && result.recordset.length > 0) {
                 res.status(200).json(result.recordset);
