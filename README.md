@@ -105,3 +105,17 @@ MaxImages
 ImagesUploaded
 MemeberShip
 
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS ${tableName} (
+      SrNo INT AUTO_INCREMENT PRIMARY KEY,
+      Username VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(20),
+      MaxLikes INT DEFAULT 0,
+      LikesUsed INT DEFAULT 0,
+      MaxImages INT DEFAULT 0,
+      ImagesUploaded INT DEFAULT 0,
+      Membership VARCHAR(50)
+    )
+  `;
+
