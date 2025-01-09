@@ -26,6 +26,7 @@ import getImagesInVote1PageRoute from './src/routes/getImagesInVote1PageRoute.js
 import voteForVote1Route from './src/routes/voteForVote1Route.js'; // Import voteForVote1Route
 import createUserSessionDBRoute from './src/routes/createUserSessionDBRoute.js'; // Import createUserSessionDBRoute
 import fetchVotesDetailsRoute from './src/routes/fetchVotesDetailsRoute.js'; // Import fetchVotesDetailsRoute
+import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import updateVotesRoute
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -82,6 +83,9 @@ app.use('/api', createUserSessionDBRoute);
 
 // Use the imported fetchVotesDetailsRoute
 app.use('/api', fetchVotesDetailsRoute);
+
+// Use the imported updateVotesRoute
+app.use('/api', updateVotesRoute);
 
 //console.log("DirName:", __dirname);
 

@@ -1,21 +1,24 @@
 import sql from 'mssql';
 import sweetalert from 'sweetalert';
+import db from '../../db.js'; // Ensure the correct path
 
 const updateVotes = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `${today}Likes_20250109`;
 
+    console.log('updateVotes called');
+    console.log('Table name:', tableName);
+
     try {
-        const pool = await sql.connect(/* your database config */);
-        const result = await pool.request()
-            .query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
+       db.query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
+
+        console.log('Query result:', result);
 
         if (result.recordset.length > 0) {
             const { MaxLikes, LikesUsed } = result.recordset[0];
 
             if (MaxLikes > 0 && MaxLikes != LikesUsed) {
-                await pool.request()
-                    .query(`UPDATE ${tableName} SET LikesUsed = LikesUsed + 1`);
+                db.query(`UPDATE ${tableName} SET LikesUsed = LikesUsed + 1`);
 
                 res.status(200).send('Vote updated successfully');
             } else {
@@ -26,7 +29,7 @@ const updateVotes = async (req, res) => {
             res.status(404).send('No data found');
         }
     } catch (err) {
-        console.error(err);
+        console.error('Error in updateVotes:', err);
         res.status(500).send('Server error');
     }
 };
