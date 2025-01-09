@@ -9,9 +9,9 @@ const checkAndInsertDefaultValues = async (tableName, username, email) => {
                 throw new Error('Error checking or inserting default values');
             }
 
-            console.log('Result of SELECT query:', results);
+            console.log('results.length) of SELECT query:', results.length);
 
-            if (results && results.length === 0) {
+            if (results.length === 0) {
                 const insertQuery = `
                     INSERT INTO ${tableName} (username, email, MaxLikes)
                     VALUES (?, ?, 10)
