@@ -1,8 +1,12 @@
 import db from '../../db.js'; // Ensure the correct path
 
 const createUserSessionDB = (req, res) => {
+  const today = new Date();
+  const formattedDate = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
+  const tableName = `todaysDateLikes_${formattedDate}`;
+
   const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS voteManagement (
+    CREATE TABLE IF NOT EXISTS ${tableName} (
       SrNo INT AUTO_INCREMENT PRIMARY KEY,
       Username VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
