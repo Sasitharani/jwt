@@ -10,15 +10,15 @@ const updateVotes = async (req, res) => {
     console.log('Table name:', tableName);
 
     try {
-       db.query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
+        const result = await db.query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
 
         console.log('Query result:', result);
 
-        if (result.recordset.length > 0) {
-            const { MaxLikes, LikesUsed } = result.recordset[0];
+        if (result.length > 0) {
+            const { MaxLikes, LikesUsed } = result[0];
 
             if (MaxLikes > 0 && MaxLikes != LikesUsed) {
-                db.query(`UPDATE ${tableName} SET LikesUsed = LikesUsed + 1`);
+                await db.query(`UPDATE ${tableName} SET LikesUsed = LikesUsed + 1`);
 
                 res.status(200).send('Vote updated successfully');
             } else {
