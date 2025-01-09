@@ -10,7 +10,7 @@ const VotesTable = () => {
     useEffect(() => {
         const fetchVotesDetails = async () => {
             try {
-                const response = await axios.get('/api/fetchVotesDetails');
+                const response = await axios.get('https://jwt-rj8s.onrender.com/api/fetchVotesDetails');
                 setVotesData(response.data);
             } catch (error) {
                 console.error('Error fetching votes details:', error);
