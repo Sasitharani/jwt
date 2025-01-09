@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
-import updateVotesController from '../controllers/updateVotesController';
+import updateVotes from '../controllers/updateVotesController';
 
-router.post('/updateVotes', updateVotesController.updateVotes);
+router.post('/updateVotes', updateVotes);
 
-module.exports = router;
+export default router;

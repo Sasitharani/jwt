@@ -1,5 +1,5 @@
-const sql = require('mssql');
-const sweetalert = require('sweetalert');
+import sql from 'mssql';
+import sweetalert from 'sweetalert';
 
 const updateVotes = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
@@ -31,6 +31,4 @@ const updateVotes = async (req, res) => {
     }
 };
 
-module.exports = {
-    updateVotes
-};
+export { updateVotes };
