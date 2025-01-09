@@ -25,12 +25,6 @@ const checkAndInsertDefaultValues = async (tableName, username, email) => {
                         }
                     });
                 }
-                db.query(insertQuery, values, (err, result) => {
-                    if (err) {
-                        console.error('Error inserting data:', err);
-                        throw new Error('Error checking or inserting default values');
-                    }
-                });
             }
         });
     } catch (err) {
