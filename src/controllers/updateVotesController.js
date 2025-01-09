@@ -33,7 +33,6 @@ const updateVotes = async (req, res) => {
                         res.status(200).send('Vote updated successfully');
                     });
                 } else {
-                    sweetalert('All likes used, no likes left');
                     res.status(400).send('All likes used, no likes left');
                 }
             } else {
