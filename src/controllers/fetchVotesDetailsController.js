@@ -37,7 +37,7 @@ const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
     const { username, email } = req.body;
-
+//     const username = useSelector(state => state.user.username);
     try {
         await checkAndInsertDefaultValues(tableName, username, email);
         const query = `SELECT * FROM ${tableName}`;
