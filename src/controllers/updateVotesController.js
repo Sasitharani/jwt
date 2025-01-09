@@ -10,7 +10,7 @@ const updateVotes = async (req, res) => {
     console.log('Table name:', tableName);
 
     try {
-        const [result] = await db.promise().query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
+        const [result] = db.query(`SELECT MaxLikes, LikesUsed FROM ${tableName}`);
 
         console.log('Query result:', result);
 
