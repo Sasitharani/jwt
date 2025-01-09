@@ -1,8 +1,8 @@
-const sql = require('mssql');
+import sql from 'mssql';
 
 const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
-    const tableName = `${today}Likes_20250109`;
+    const tableName = `${today}Likes`;
 
     try {
         const pool = await sql.connect(/* your database config */);
@@ -20,6 +20,6 @@ const fetchVotesDetails = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     fetchVotesDetails
 };

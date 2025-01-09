@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const updateVotesController = require('../controllers/updateVotesController');
+import updateVotesController from '../controllers/updateVotesController';
 
 router.post('/updateVotes', updateVotesController.updateVotes);
 

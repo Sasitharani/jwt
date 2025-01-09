@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const fetchVotesDetailsController = require('../controllers/fetchVotesDetailsController');
+import { fetchVotesDetails } from '../controllers/fetchVotesDetailsController.js';
 
-router.get('/fetchVotesDetails', fetchVotesDetailsController.fetchVotesDetails);
+router.get('/fetchVotesDetails', fetchVotesDetails);
 
-module.exports = router;
+export default router;
