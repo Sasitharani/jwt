@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import swal from 'sweetalert';
+import swal from 'sweetalert2';
 
 const UpdateVotesButton = () => {
     const handleClick = async () => {
