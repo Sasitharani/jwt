@@ -19,7 +19,8 @@ const updateVotes = async (req, res) => {
 
             console.log('In updateVotesController Query results length:', results.length);
 
-            if (results && results.length > 0) {
+            if (results.length === 0) {
+                console.log("Enter the if loop in updateVotesController");
                 console.log('MaxLikes and LikesUsed fetched:', results[0]);
                 const { MaxLikes, LikesUsed } = results[0];
 
@@ -39,8 +40,7 @@ const updateVotes = async (req, res) => {
                     res.status(400).send('All likes used, no likes left');
                 }
             } else {
-                console.log('No data found');
-                res.status(404).send('No data found');
+                console.log("Enter the else loop in updateVotesController");
             }
         });
     } catch (err) {
