@@ -17,6 +17,7 @@ const fetchVotesDetails = async (req, res) => {
             console.log('Result of SELECT query from fetch vote details:', results);
 
             if (results && results.length > 0) {
+                console.log('Result of SELECT query from fetch vote details:', results);
                 res.status(200).json(results);
             } else {
                 res.status(404).send('No data found');
@@ -28,6 +29,4 @@ const fetchVotesDetails = async (req, res) => {
     }
 };
 
-export {
-    fetchVotesDetails
-};
+export { fetchVotesDetails };

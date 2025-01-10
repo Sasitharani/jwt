@@ -20,6 +20,7 @@ const VotesTable = () => {
                 console.log('Response:', response.data);
             } catch (error) {
                 console.error('Error fetching votes details:', error);
+                console.log('Response:', response.data);
             }
         };
 
@@ -42,8 +43,8 @@ const VotesTable = () => {
                     {votesData.map((vote, index) => (
                         <tr key={index}>
                             <td className="py-2 px-4 border-b">{index + 1}</td>
-                            <td className="py-2 px-4 border-b">{username}</td>
-                            <td className="py-2 px-4 border-b">{email}</td>
+                            <td className="py-2 px-4 border-b">{vote.username}</td>
+                            <td className="py-2 px-4 border-b">{vote.email}</td>
                             <td className="py-2 px-4 border-b">{vote.MaxLikes}</td>
                             <td className="py-2 px-4 border-b">{vote.LikesUsed}</td>
                         </tr>

@@ -36,6 +36,7 @@ const FetchVotesButton = () => {
                 username,
                 email
             });
+            console.log('Response:', response.data);
             Swal.fire('Success', 'Votes details fetched successfully', 'success');
             console.log('Response:', response.data);
         } catch (error) {
