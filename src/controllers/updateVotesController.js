@@ -11,9 +11,6 @@ const updateVotes = async (req, res) => {
 
     console.log('Received email:', email);
 
-    if (!username) {
-        username = 'google login';
-    }
 
     try {
         const query = `SELECT * FROM ${tableName}`;
