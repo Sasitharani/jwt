@@ -1,15 +1,18 @@
-import sweetalert from 'sweetalert2';
+import Swal from 'sweetalert2';
 import db from '../../db.js'; // Ensure the correct path
 
 const updateVotes = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
+    const { username, email } = req.body;
 
     console.log('updateVotes called');
     console.log('Table name:', tableName);
+    console.log('Received username:', username);
+    console.log('Received email:', email);
 
     try {
-        const query = `SELECT MaxLikes, LikesUsed FROM ${tableName}`;
+        const query = `SELECT * FROM ${tableName}`;
         db.query(query, (err, results) => {
             if (err) {
                 console.error('Error fetching data:', err);
@@ -21,24 +24,20 @@ const updateVotes = async (req, res) => {
 
             if (results.length === 0) {
                 console.log("Enter the if loop in updateVotesController");
-                console.log('MaxLikes and LikesUsed fetched:', results[0]);
-                const { MaxLikes, LikesUsed } = results[0];
-
-                if (MaxLikes > 0 && MaxLikes != LikesUsed) {
-                    const updateQuery = `UPDATE ${tableName} SET LikesUsed = LikesUsed + 1`;
-                    db.query(updateQuery, (err, updateResults) => {
-                        if (err) {
-                            console.error('Error updating data:', err);
-                            res.status(500).send('Server error');
-                            return;
-                        }
-                        console.log('Vote updated successfully');
-                        res.status(200).send('Vote updated successfully');
-                    });
-                } else {
-                    console.log('All likes used, no likes left');
-                    res.status(400).send('All likes used, no likes left');
-                }
+                const insertQuery = `
+                    INSERT INTO ${tableName} (username, email, MaxLikes, LikesUsed)
+                    VALUES (?, ?, 10, 1)
+                `;
+                const values = [username, email];
+                db.query(insertQuery, values, (err, insertResults) => {
+                    if (err) {
+                        console.error('Error inserting data:', err);
+                        res.status(500).send('Server error');
+                        return;
+                    }
+                    console.log('Vote updated successfully');
+                    res.status(200).send('Vote updated successfully');
+                });
             } else {
                 console.log("Enter the else loop in updateVotesController");
             }
