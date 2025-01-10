@@ -5,6 +5,7 @@ const initialState = {
     email: localStorage.getItem('email') || '',
     token: '',
     isLoggedIn: !!localStorage.getItem('email'), // Add isLoggedIn flag
+    votesData: [] // Add votesData to the initial state
 };
 
 const userSlice = createSlice({
@@ -20,6 +21,7 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.token = action.payload.token;
             state.isLoggedIn = true;
+            state.votesData = action.payload.votesData; // Update votesData
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
@@ -30,6 +32,7 @@ const userSlice = createSlice({
             }
             state.email = action.payload.email;
             state.isLoggedIn = true;
+            state.votesData = action.payload.votesData; // Update votesData
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
@@ -42,6 +45,7 @@ const userSlice = createSlice({
             state.email = '';
             state.token = '';
             state.isLoggedIn = false;
+            state.votesData = []; // Clear votesData on logout
             localStorage.removeItem('email');
             localStorage.removeItem('isLoggedIn'); // Remove isLoggedIn from localStorage
         },

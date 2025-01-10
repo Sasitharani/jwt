@@ -120,3 +120,52 @@ MemeberShip
   `;
 
 ##########continue with adding usersession and likes start afresh
+|
+
+
+
+###########Use the Following to Cast a Vote and view the Table####################
+    const fetchVotesDetails = async () => {
+        try {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+                username,
+                email
+            });
+            setVotesData(response.data);
+            console.log('Response:', response.data);
+        } catch (error) {
+            Swal.fire('Error', error.response.data, 'error');
+        }
+    };
+
+    const updateVotes = async () => {
+        try {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+                username,
+                email
+            });
+            await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+        } catch (error) {
+            Swal.fire('Error', error.response.data, 'error');
+        }
+    };
+
+    useEffect(() => {
+        fetchVotesDetails(); // Fetch votes details initially
+    }, [username, email]);
+
+
+
+    #################Use this to only view the table#############
+       const fetchVotesDetails = async () => {
+        try {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+                username,
+                email
+            });
+            setVotesData(response.data);
+            console.log('Response:', response.data);
+        } catch (error) {
+            Swal.fire('Error', error.response.data, 'error');
+        }
+    };

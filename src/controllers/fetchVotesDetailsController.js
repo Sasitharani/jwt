@@ -14,7 +14,7 @@ const fetchVotesDetails = async (req, res) => {
         db.query(query, [email], (err, results) => {
             if (err) {
                 console.error('Error fetching data:', err);
-                res.status(500).send('Server error');
+                res.status(500).send('Error In fetch your details contact technical support team');
                 return;
             }
 
@@ -29,7 +29,7 @@ const fetchVotesDetails = async (req, res) => {
             db.query(insertQuery, values, (err, insertResults) => {
                 if (err) {
                     console.error('Error inserting data:', err);
-                    res.status(500).send('Server error');
+                    res.status(500).send('Error in inserting data contact technical support team');
                     return;
                 }
                 console.log('Vote updated successfully');

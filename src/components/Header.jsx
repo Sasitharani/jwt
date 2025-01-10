@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 const Header = () => {
     const user = useSelector(state => state.user);
     const isLoggedIn = useSelector(state => state.user.isLoggedIn); // Get isLoggedIn from slice
+    const votesData = useSelector(state => state.user.votesData); // Get votesData from slice
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -81,6 +82,7 @@ const Header = () => {
                                 <Link to="/compress-image" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Compress Image</Link>
                                 <Link to="/test" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Page</Link>
                                 <Link to="/dailyAutomation" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Daily Automation</Link>
+                                <div className="dropdown">  Votes Use {votesData}</div>
                                 <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 w-full text-left">Logout</button>
                             </div>
                         )}

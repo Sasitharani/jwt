@@ -27,6 +27,11 @@ const VotesTable = () => {
         fetchVotesDetails();
     }, [username, email]);
 
+    useEffect(() => {
+        // This effect will run whenever votesData is updated
+        console.log('Updated VotesData:', votesData);
+    }, [votesData]);
+
     return (
         <div className="container mx-auto mt-8">
             <table className="min-w-full bg-white border border-gray-200">

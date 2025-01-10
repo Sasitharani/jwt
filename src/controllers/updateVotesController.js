@@ -13,39 +13,12 @@ const updateVotes = async (req, res) => {
 
 
     try {
-        const query = `SELECT * FROM ${tableName}`;
-        db.query(query, (err, results) => {
-            if (err) {
-                console.error('Error fetching data:', err);
-                res.status(500).send('Server error');
-                return;
-            }
-
-            console.log('In updateVotesController Query results length:', results.length);
-
-            if (results.length === 0) {
-                console.log("Enter the if loop in updateVotesController");
-                const insertQuery = `
-                    INSERT INTO ${tableName} (username, email, MaxLikes, LikesUsed)
-                    VALUES (?, ?, 10, 1)
-                `;
-                const values = [username, email];
-                db.query(insertQuery, values, (err, insertResults) => {
-                    if (err) {
-                        console.error('Error inserting data:', err);
-                        res.status(500).send('Server error');
-                        return;
-                    }
-                    console.log('Vote updated successfully');
-                    res.status(200).send('Vote updated successfully');
-                });
-            } else {
-                console.log("Enter the else loop in updateVotesController");
                 const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
-                db.query(selectQuery, [email], (err, selectResults) => {
+                db.query(selectQuery, [email], (err, selectResults) => 
+        {
                     if (err) {
                         console.error('Error selecting data:', err);
-                        res.status(500).send('Server error');
+                        res.status(500).send('Error in fetching the Your data contact technical support team');
                         return;
                     }
 
@@ -59,7 +32,7 @@ const updateVotes = async (req, res) => {
                             db.query(updateQuery, [email], (err, updateResults) => {
                                 if (err) {
                                     console.error('Error updating data:', err);
-                                    res.status(500).send('Server error');
+                                    res.status(500).send('Error in updating the Votes contact technical support team');
                                     return;
                                 }
                                 console.log('Vote updated successfully');
@@ -70,13 +43,18 @@ const updateVotes = async (req, res) => {
                         console.log('No data found for the given email');
                         res.status(404).send('No data found for the given email');
                     }
-                });
-            }
-        });
-    } catch (err) {
-        console.error('Error in updateVotes:', err);
-        res.status(500).send('Server error');
+            });
+        }
+        catch (err) {
+            console.error('Error selecting data:', err);
+            res.status(500).send('Error in fetching the Your data contact technical support team');
+        }
     }
-};
+
+    
+   
+
 
 export { updateVotes };
+
+

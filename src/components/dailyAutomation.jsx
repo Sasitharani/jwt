@@ -1,7 +1,8 @@
 import React from 'react';
 import CreateUserSessionButton from './CreateUserSessionButton'; // Import the CreateUserSessionButton component
-import { UpdateVotesButton, FetchVotesButton } from './updateVotes'; // Import the UpdateVotesButton and FetchVotesButton components
+
 import VotesTable from './VotesTable'; // Import the VotesTable component
+import VotesManager from './updateVotes';
 
 const DailyAutomation = () => {
   return (
@@ -11,12 +12,12 @@ const DailyAutomation = () => {
         <CreateUserSessionButton /> {/* Call the CreateUserSessionButton component */}
       </div>
       <div className="mb-4">
-        <UpdateVotesButton /> {/* Call the UpdateVotesButton component */}
+        <VotesManager/> {/* Call the UpdateVotesButton component */}
       </div>
       <div className="mb-4">
-        <FetchVotesButton /> {/* Call the FetchVotesButton component */}
+   
       </div>
-      <VotesTable /> {/* Call the VotesTable component */}
+   
     </div>
   );
 };
