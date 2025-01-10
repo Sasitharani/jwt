@@ -19,13 +19,27 @@ const fetchVotesDetails = async (req, res) => {
             }
 
             console.log('Result length of SELECT query from fetchVotesDetailsController:', results.length);
-
-            if (results && results.length > 0) {
+            if{results.length === 0} {
+            console.log("Enter the if loop in updateVotesController");
+            const insertQuery = `
+                INSERT INTO ${tableName} (username, email, MaxLikes, LikesUsed)
+                VALUES (?, ?, 10, 1)
+            `;
+            const values = [username, email];
+            db.query(insertQuery, values, (err, insertResults) => {
+                if (err) {
+                    console.error('Error inserting data:', err);
+                    res.status(500).send('Server error');
+                    return;
+                }
+                console.log('Vote updated successfully');
+                res.status(200).send('Vote updated successfully');
+                
+            });
+        } else {
                 console.log('Result of SELECT query from fetchVotesDetailsController:', results);
                 res.status(200).json(results);
-            } else {
-                res.status(404).send('No data found');
-            }
+            } 
         });
     } catch (err) {
         console.error(err);
