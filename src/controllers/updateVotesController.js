@@ -44,7 +44,7 @@ const updateVotes = async (req, res) => {
                 });
             } else {
                 console.log("Enter the else loop in updateVotesController");
-                const selectQuery = `SELECT MaxLikes, LikesUsed FROM ${tableName} WHERE email = ?`;
+                const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
                 db.query(selectQuery, [email], (err, selectResults) => {
                     if (err) {
                         console.error('Error selecting data:', err);

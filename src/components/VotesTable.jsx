@@ -23,6 +23,7 @@ const VotesTable = () => {
                 console.log('Response:', response.data);
             }
         };
+        console.log('VotesData',votesData);
 
         fetchVotesDetails();
     }, [username, email]);
