@@ -3,10 +3,10 @@ import db from '../../db.js';
 const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
-    const { username, email } = req.body;
-    console.log('fetchVotesDetails called with username fetchVotesDetailsController:', username, 'and email:', email);
+    const { email } = req.body;
+    console.log('fetchVotesDetails called with fetchVotesDetailsController:', 'and email:', email);
     console.log('Table name fetchVotesDetailsController:', tableName);
-    console.log('Received username fetchVotesDetailsController:', username);
+
     console.log('Received email fetchVotesDetailsController:', email);
 
     try {
@@ -25,7 +25,7 @@ const fetchVotesDetails = async (req, res) => {
                 INSERT INTO ${tableName} (username, email, MaxLikes, LikesUsed)
                 VALUES (?, ?, 10, 1)
             `;
-            const values = [username, email];
+            const values = ['', email];
             db.query(insertQuery, values, (err, insertResults) => {
                 if (err) {
                     console.error('Error inserting data:', err);

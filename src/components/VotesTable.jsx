@@ -20,7 +20,6 @@ const VotesTable = () => {
                 console.log('Response:', response.data);
             } catch (error) {
                 console.error('Error fetching votes details:', error);
-                console.log('Response:', response.data);
             }
         };
         console.log('VotesData',votesData);
