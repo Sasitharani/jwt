@@ -17,7 +17,7 @@ const updateVotes = async (req, res) => {
                 return;
             }
 
-            console.log('Query results:', results);
+            console.log('In updateVotesController Query results length:', results.length);
 
             if (results && results.length > 0) {
                 console.log('MaxLikes and LikesUsed fetched:', results[0]);
