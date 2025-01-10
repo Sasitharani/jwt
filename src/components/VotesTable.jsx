@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { use } from 'react';
 
 const VotesTable = () => {
     const [votesData, setVotesData] = useState([]);
     const username = useSelector(state => state.user.username);
     const email = useSelector(state => state.user.email);
 
-    console.log('Username-Email',username, email);
+    console.log('Username-Email', username, email);
 
     useEffect(() => {
         const fetchVotesDetails = async () => {
             try {
-                const response = await axios.get('https://jwt-rj8s.onrender.com/api/fetchVotesDetails');
+                const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+                    username,
+                    email
+                });
                 setVotesData(response.data);
                 console.log('Response:', response.data);
-                setVotesData(response.data);
             } catch (error) {
                 console.error('Error fetching votes details:', error);
             }
         };
 
         fetchVotesDetails();
-    }, []);
+    }, [username, email]);
 
     return (
         <div className="container mx-auto mt-8">
