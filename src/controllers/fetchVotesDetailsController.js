@@ -6,8 +6,8 @@ const fetchVotesDetails = async (req, res) => {
     const { username, email } = req.body;
 
     try {
-        const query = `SELECT * FROM ${tableName}`;
-        db.query(query, (err, results) => {
+        const query = `SELECT * FROM ${tableName} WHERE email = ?`;
+        db.query(query, [email], (err, results) => {
             if (err) {
                 console.error('Error fetching data:', err);
                 res.status(500).send('Server error');
