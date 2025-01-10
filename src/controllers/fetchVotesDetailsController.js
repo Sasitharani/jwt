@@ -4,6 +4,7 @@ const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
     const { username, email } = req.body;
+    console.log('fetchVotesDetails called with username:', username, 'and email:', email);
 
     try {
         const query = `SELECT * FROM ${tableName} WHERE email = ?`;
