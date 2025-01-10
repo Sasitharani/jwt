@@ -4,11 +4,11 @@ import db from '../../db.js'; // Ensure the correct path
 const updateVotes = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
-    let { username, email } = req.body;
+    let { email } = req.body;
 
     console.log('updateVotes called');
     console.log('Table name:', tableName);
-    console.log('Received username:', username);
+
     console.log('Received email:', email);
 
     if (!username) {
