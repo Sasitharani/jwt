@@ -40,8 +40,8 @@ const updateVotes = async (req, res) => {
                             });
                         }
                     } else {
-                        console.log('No data found for the given email');
-                        res.status(404).send('No data found for the given email');
+                        console.log('No data found for the given email.');
+                        res.status(404).send('No data found for the given email from updateVotesController');
                     }
             });
         }
@@ -50,10 +50,6 @@ const updateVotes = async (req, res) => {
             res.status(500).send('Error in fetching the Your data contact technical support team');
         }
     }
-
-    
-   
-
 
 export { updateVotes };
 

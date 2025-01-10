@@ -10,6 +10,9 @@ const VotesManager = () => {
     const email = useSelector(state => state.user.email);
     const [votesData, setVotesData] = useState([]);
 
+    console.log('Username:', username); 
+    console.log('Email:', email);
+
     const fetchVotesDetails = async () => {
         try {
             const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
@@ -17,8 +20,11 @@ const VotesManager = () => {
                 email
             });
             setVotesData(response.data);
-            console.log('Response:', response.data);
-            dispatch(loginSuccess({ votesData: response.data })); // Save votesData to Redux store
+            console.log('Response in fetchVotesDetails:', response.data);
+            // Assuming response.data is an array of vote objects
+            const likesUsed = response.data.map(vote => vote.LikesUsed);
+            console.log('LikesUsed:', likesUsed); // Log the LikesUsed values
+            dispatch(loginSuccess({ username, email, votesData: response.data })); // Save votesData to Redux store
         } catch (error) {
             Swal.fire('Error', error.response.data, 'error');
         }
@@ -31,6 +37,7 @@ const VotesManager = () => {
                 email
             });
             await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+            console.log('Response in updateVotes:', response.data.LikesUsed);
         } catch (error) {
             Swal.fire('Error', error.response.data, 'error');
         }

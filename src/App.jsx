@@ -22,6 +22,7 @@ import UserVoting1 from './voting/UserVoting1'; // Import the UserVoting1 compon
 import CompressImage from './components/CompressImage'; // Import the CompressImage component
 import Test from './components/Test';
 import DailyAutomation from './components/dailyAutomation'; // Import the DailyAutomation component
+import UserProfile from './components/UserProfile'; // Import the UserProfile component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -50,6 +51,7 @@ const App = () => {
           <Route path="/compress-image" element={<CompressImage />} /> {/* Add the CompressImage route */}
           <Route path="/test" element={<Test />} />
           <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
+          <Route path="/user-profile" element={<PrivateRoute element={<UserProfile />} />} /> {/* Add the UserProfile route */}
         </Routes>
       </Router>
     </Provider>

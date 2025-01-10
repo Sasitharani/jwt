@@ -169,3 +169,7 @@ MemeberShip
             Swal.fire('Error', error.response.data, 'error');
         }
     };
+
+
+
+    after voting number of votes should be reduced

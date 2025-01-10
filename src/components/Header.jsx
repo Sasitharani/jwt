@@ -43,7 +43,6 @@ const Header = () => {
 
     return (
         <header className="bg-black p-4 text-white flex justify-between items-center">
-          
             <div className="flex items-center">
                 <img src="/path/to/logo.png" alt="Logo" className="h-8 mr-4" />
                 <Link to="/" className="text-md font-bold">Contests4All</Link>
@@ -59,7 +58,7 @@ const Header = () => {
                     <FaQuestionCircle />
                 </Link>
                 {isLoggedIn ? ( // Check if user is logged in
-                    <div className="relative  z-50">
+                    <div className="relative z-50">
                         <button onClick={handleDropdownToggle} className="flex items-center hover:text-gray-400">
                             <FaUserCircle className="mr-2" />
                             <div className="flex flex-col items-start">
@@ -82,7 +81,14 @@ const Header = () => {
                                 <Link to="/compress-image" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Compress Image</Link>
                                 <Link to="/test" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Page</Link>
                                 <Link to="/dailyAutomation" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Daily Automation</Link>
-                                <div className="dropdown">  Votes Use {votesData}</div>
+                                <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
+                                <div className="block px-4 py-2 hover:bg-gray-200">
+                                    {Array.isArray(votesData) && votesData.map((vote, index) => (
+                                        <div key={index}>
+                                            {'Votes Used'}: {vote.LikesUsed}
+                                        </div>
+                                    ))}
+                                </div>
                                 <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 w-full text-left">Logout</button>
                             </div>
                         )}
