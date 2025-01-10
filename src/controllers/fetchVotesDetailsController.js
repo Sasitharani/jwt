@@ -3,6 +3,7 @@ import db from '../../db.js';
 const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
+    const { username, email } = req.body;
 
     try {
         const query = `SELECT * FROM ${tableName}`;
@@ -13,7 +14,7 @@ const fetchVotesDetails = async (req, res) => {
                 return;
             }
 
-            console.log('Result of SELECT query:', results);
+            console.log('Result of SELECT query from fetch vote details:', results);
 
             if (results && results.length > 0) {
                 res.status(200).json(results);
