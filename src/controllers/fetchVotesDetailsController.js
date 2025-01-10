@@ -19,7 +19,7 @@ const fetchVotesDetails = async (req, res) => {
             }
 
             console.log('Result length of SELECT query from fetchVotesDetailsController:', results.length);
-            if{results.length === 0} {
+            if (results.length === 0) {
             console.log("Enter the if loop in updateVotesController");
             const insertQuery = `
                 INSERT INTO ${tableName} (username, email, MaxLikes, LikesUsed)
