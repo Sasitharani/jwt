@@ -14,17 +14,17 @@ const Header = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log('1.#########From Header isLoggedIn from slice:', isLoggedIn); // Log isLoggedIn value
+        //console.log('1.#########From Header isLoggedIn from slice:', isLoggedIn); // Log isLoggedIn value
         const email = localStorage.getItem('email');
      
         if (email && isLoggedIn) {
             dispatch(loginSuccess({ email }, { meta: { fileName: 'Header.jsx' } }));
-            console.log('Logged in');
+            //console.log('Logged in');
         }
     }, [dispatch, isLoggedIn]);
 
     useEffect(() => {
-        console.log('User state updated:', user);
+      //  console.log('User state updated:', user);
     }, [user]);
 
     const handleDropdownToggle = () => {
@@ -36,7 +36,7 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-        console.log('Dispatching logout action from Header.jsx');
+       // console.log('Dispatching logout action from Header.jsx');
         dispatch(logout({ meta: { fileName: 'Header.jsx' } }));
         navigate('/login');
     };

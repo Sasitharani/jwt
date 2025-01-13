@@ -24,6 +24,7 @@ import Test from './components/Test';
 import DailyAutomation from './components/dailyAutomation'; // Import the DailyAutomation component
 import UserProfile from './components/UserProfile'; // Import the UserProfile component
 
+
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
   return user.isLoggedIn ? element : <Navigate to="/login" />;
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/test" element={<Test />} />
           <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
           <Route path="/user-profile" element={<PrivateRoute element={<UserProfile />} />} /> {/* Add the UserProfile route */}
+       
         </Routes>
       </Router>
     </Provider>

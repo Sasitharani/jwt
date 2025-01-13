@@ -4,14 +4,28 @@ import Swal from 'sweetalert2';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, loginSuccess, login } from '../store/userSlice'; // Import logout and loginSuccess actions
 
+const updateVotes = async (username, email, fetchVotesDetails) => {
+    try {
+        const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+            username,
+            email
+        });
+        await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+    } catch (error) {
+        console.error('Error in updateVotes:', error);
+        Swal.fire('Error', error.response.data, 'error');
+    }
+};
+
 const VotesManager = () => {
+
     const dispatch = useDispatch();
     const username = useSelector(state => state.user.username);
     const email = useSelector(state => state.user.email);
+    const votesDataFromStore = useSelector(state => state.user.votesData);
     const [votesData, setVotesData] = useState([]);
 
-    console.log('Username:', username); 
-    console.log('Email:', email);
+
 
     const fetchVotesDetails = async () => {
         try {
@@ -20,38 +34,26 @@ const VotesManager = () => {
                 email
             });
             setVotesData(response.data);
-            console.log('Response in fetchVotesDetails:', response.data);
-            // Assuming response.data is an array of vote objects
+
             const likesUsed = response.data.map(vote => vote.LikesUsed);
             console.log('LikesUsed:', likesUsed); // Log the LikesUsed values
             dispatch(loginSuccess({ username, email, votesData: response.data })); // Save votesData to Redux store
         } catch (error) {
-            Swal.fire('Error', error.response.data, 'error');
-        }
-    };
-
-    const updateVotes = async () => {
-        try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
-                username,
-                email
-            });
-            await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
-            console.log('Response in updateVotes:', response.data.LikesUsed);
-        } catch (error) {
+            console.error('Error in fetchVotesDetails:', error);
             Swal.fire('Error', error.response.data, 'error');
         }
     };
 
     useEffect(() => {
         fetchVotesDetails(); // Fetch votes details initially
+        console.log('Useeffect in updateVotes')
     }, [username, email]);
 
     const totalLikesUsed = votesData.reduce((total, vote) => total + vote.LikesUsed, 0);
 
     return (
         <div>
-            <button className='bg-green-400 text-white rounded-xl border border-gray-900 px-4 py-2' onClick={updateVotes}>
+            <button className='bg-green-400 text-white rounded-xl border border-gray-900 px-4 py-2' onClick={() => updateVotes(username, email, fetchVotesDetails)}>
                 Cast a Vote  (Likes Used: {totalLikesUsed})
             </button>
 
@@ -83,4 +85,5 @@ const VotesManager = () => {
     );
 };
 
+export { updateVotes };
 export default VotesManager;

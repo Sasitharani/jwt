@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; // Import useSelector
 import { FaThumbsUp } from 'react-icons/fa';
 import '../index.css';
 
@@ -6,6 +7,8 @@ function UserVoting1() {
   const [currentImages, setCurrentImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
+  const votesData = useSelector((state) => state.user.votesData); // Fetch votesData from userSlice
+  console.log('votesData from UserVoting:', votesData); // Log votesData
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -56,7 +59,7 @@ function UserVoting1() {
 
   // Find the image with the highest number of votes
   const highestVotedImage = currentImages.reduce((max, image) => (image.votes > max.votes ? image : max), currentImages[0]);
-  console.log('Highest Voted Image:', highestVotedImage); // Log the highest voted image
+  //console.log('Highest Voted Image:', highestVotedImage); // Log the highest voted image
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -69,6 +72,10 @@ function UserVoting1() {
 <h1 className="text-4xl my-10 mb-4 text-center font-montserrat bg-slate-100 rounded-2xl p-4 gradient-border">
   Vote for the best image. The image with the highest votes will win Rs 100.
 </h1>
+        <div className="bg-red-100 border border-red-500 rounded-lg p-4 mb-4 fixed top-0 right-0 z-50">
+          <span className="text-red-700">Number of Votes Available: {
+          }</span>
+        </div>
         {loading ? (
           <div className="flex items-center justify-center">
             <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
