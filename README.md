@@ -175,3 +175,5 @@ MemeberShip
     after voting number of votes should be reduced
     delete the images in allUploads that are already going for vote
     ask votes in social media
+
+    EOD 13-01-2025
