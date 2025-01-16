@@ -8,7 +8,10 @@ function UserVoting1() {
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
   const votesData = useSelector((state) => state.user.votesData); // Fetch votesData from userSlice
-  console.log('votesData from UserVoting:', votesData); // Log votesData
+  const votesUsed = useSelector((state) => state.user.votesUsed); // Fetch votesUsed from userSlice
+  
+
+  //console.log('votesUsed from votesUsed:', votesUsed); // Log votesUsed
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -72,9 +75,8 @@ function UserVoting1() {
 <h1 className="text-4xl my-10 mb-4 text-center font-montserrat bg-slate-100 rounded-2xl p-4 gradient-border">
   Vote for the best image. The image with the highest votes will win Rs 100.
 </h1>
-        <div className="bg-red-100 border border-red-500 rounded-lg p-4 mb-4 fixed top-0 right-0 z-50">
-          <span className="text-red-700">Number of Votes Available: {
-          }</span>
+        <div className="bg-red-100 border border-red-500 rounded-lg p-4 mb-4 mt-40 fixed top-0 right-0 z-50">
+          <span className="text-red-700">Votes Used: {votesUsed}</span>
         </div>
         {loading ? (
           <div className="flex items-center justify-center">

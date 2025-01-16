@@ -4,12 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { FaBell, FaShoppingCart, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
 import { logout, loginSuccess, login } from '../store/userSlice'; // Import logout and loginSuccess actions
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Header = () => {
     const user = useSelector(state => state.user);
     const isLoggedIn = useSelector(state => state.user.isLoggedIn); // Get isLoggedIn from slice
-    const votesData = useSelector(state => state.user.votesData); // Get votesData from slice
+
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [votesData, setVotesData] = useState([]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -26,6 +29,35 @@ const Header = () => {
     useEffect(() => {
       //  console.log('User state updated:', user);
     }, [user]);
+
+    useEffect(() => {
+        const sliceValues = [user, isLoggedIn, votesData];
+        //console.log('Slice values sasi check if it is being fetched in the beginnig:', sliceValues);
+    }, []);
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            fetchVotesDetails();
+        }
+    }, [isLoggedIn]);
+
+    const fetchVotesDetails = async () => {
+        try {
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+                username: user.username,
+                email: user.email
+            });
+            setVotesData(response.data);
+
+            const likesUsed = response.data.map(vote => vote.LikesUsed);
+            const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
+            console.log('First LikesUsed value in header:', firstLikeUsed);
+            dispatch(loginSuccess({ username: user.username, email: user.email, votesData: response.data, votesUsed: firstLikeUsed })); // Save firstLikeUsed to Redux store
+        } catch (error) {
+            console.error('Error in fetchVotesDetails:', error);
+            Swal.fire('Error', error.response.data, 'error');
+        }
+    };
 
     const handleDropdownToggle = () => {
         setDropdownOpen(!dropdownOpen);

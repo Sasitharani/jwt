@@ -5,7 +5,8 @@ const initialState = {
     email: localStorage.getItem('email') || '',
     token: '',
     isLoggedIn: !!localStorage.getItem('email'), // Add isLoggedIn flag
-    votesData: 0 // Add votesData to the initial state
+    votesData: 0, // Add votesData to the initial state
+    votesUsed: null // Add votesUsed to the initial state
 };
 
 const userSlice = createSlice({
@@ -22,6 +23,7 @@ const userSlice = createSlice({
             state.token = action.payload.token;
             state.isLoggedIn = true;
             state.votesData = action.payload.votesData; // Update votesData
+            state.votesUsed = action.payload.votesUsed; // Update votesUsed
 
             console.log('votesData from slice:', state.votesData); // Log votesData
 
@@ -30,6 +32,7 @@ const userSlice = createSlice({
             console.log('Token:', state.token);
             console.log('Is Logged In:', state.isLoggedIn);
             console.log('Votes Data:', state.votesData);
+            console.log('Votes Used:', state.votesUsed);
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
@@ -41,6 +44,7 @@ const userSlice = createSlice({
             state.email = action.payload.email;
             state.isLoggedIn = true;
             state.votesData = action.payload.votesData; // Update votesData
+            state.votesUsed = action.payload.votesUsed; // Update votesUsed
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
@@ -54,6 +58,7 @@ const userSlice = createSlice({
             state.token = '';
             state.isLoggedIn = false;
             state.votesData = []; // Clear votesData on logout
+            state.votesUsed = null; // Clear votesUsed on logout
             localStorage.removeItem('email');
             localStorage.removeItem('isLoggedIn'); // Remove isLoggedIn from localStorage
         },
