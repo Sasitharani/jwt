@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'; // Import useSelector
+import { useSelector, useDispatch } from 'react-redux';
 import { FaThumbsUp } from 'react-icons/fa';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { loginSuccess } from '../store/userSlice';
 import '../index.css';
 
 function UserVoting1() {
   const [currentImages, setCurrentImages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(null);
-  const votesData = useSelector((state) => state.user.votesData); // Fetch votesData from userSlice
-  const votesUsed = useSelector((state) => state.user.votesUsed); // Fetch votesUsed from userSlice
-  
-
-  //console.log('votesUsed from votesUsed:', votesUsed); // Log votesUsed
+  const votesUsed = useSelector((state) => state.user.votesUsed);
+  const username = useSelector((state) => state.user.username);
+  const email = useSelector((state) => state.user.email);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -28,6 +30,33 @@ function UserVoting1() {
 
     fetchImages();
   }, []);
+
+  const fetchVotesDetails = async () => {
+    try {
+      const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+        username,
+        email
+      });
+      const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
+      dispatch(loginSuccess({ username, email, votesData: response.data, votesUsed: firstLikeUsed }));
+    } catch (error) {
+      console.error('Error in fetchVotesDetails:', error);
+      Swal.fire('Error', error.response.data, 'error');
+    }
+  };
+
+  const updateVotes = async (username, email, fetchVotesDetails) => {
+    try {
+      await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+        username,
+        email
+      });
+      await fetchVotesDetails();
+    } catch (error) {
+      console.error('Error in updateVotes:', error);
+      Swal.fire('Error', error.response.data, 'error');
+    }
+  };
 
   const handleImageClick = (image) => {
     setSelectedImage(image);
@@ -52,6 +81,7 @@ function UserVoting1() {
           img.path === image.path ? { ...img, votes: img.votes + 1 } : img
         );
         setCurrentImages(updatedImages);
+        await updateVotes(username, email, fetchVotesDetails); // Called here
       } else {
         console.error('Error updating votes');
       }
@@ -60,9 +90,7 @@ function UserVoting1() {
     }
   };
 
-  // Find the image with the highest number of votes
   const highestVotedImage = currentImages.reduce((max, image) => (image.votes > max.votes ? image : max), currentImages[0]);
-  //console.log('Highest Voted Image:', highestVotedImage); // Log the highest voted image
 
   return (
     <div className="flex flex-col lg:flex-row">
@@ -71,10 +99,9 @@ function UserVoting1() {
         {/* Add your ad content here */}
       </div>
       <div className="lg:w-10/12 p-4 order-1 lg:order-2">
-     
-<h1 className="text-4xl my-10 mb-4 text-center font-montserrat bg-slate-100 rounded-2xl p-4 gradient-border">
-  Vote for the best image. The image with the highest votes will win Rs 100.
-</h1>
+        <h1 className="text-4xl my-10 mb-4 text-center font-montserrat bg-slate-100 rounded-2xl p-4 gradient-border">
+          Vote for the best image. The image with the highest votes will win Rs 100.
+        </h1>
         <div className="bg-red-100 border border-red-500 rounded-lg p-4 mb-4 mt-40 fixed top-0 right-0 z-50">
           <span className="text-red-700">Votes Used: {votesUsed}</span>
         </div>

@@ -23,7 +23,7 @@ import CompressImage from './components/CompressImage'; // Import the CompressIm
 import Test from './components/Test';
 import DailyAutomation from './components/dailyAutomation'; // Import the DailyAutomation component
 import UserProfile from './components/UserProfile'; // Import the UserProfile component
-
+import SpinningWheel from './components/SpinningWheel'; // Import the SpinningWheel component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -36,7 +36,7 @@ const App = () => {
       <Router>
         <Header /> {/* Include the Header component */}
         <Routes>
-          <Route path="/" element={<Navigate to="/signup" />} /> {/* Set GoogleLoginPage as the home page */}
+          <Route path="/" element={<Navigate to="/UserProfile" />} /> {/* Set GoogleLoginPage as the home page */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -53,7 +53,7 @@ const App = () => {
           <Route path="/test" element={<Test />} />
           <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
           <Route path="/user-profile" element={<PrivateRoute element={<UserProfile />} />} /> {/* Add the UserProfile route */}
-       
+          <Route path="/spinning-wheel" element={<SpinningWheel />} /> {/* Add the SpinningWheel route */}
         </Routes>
       </Router>
     </Provider>

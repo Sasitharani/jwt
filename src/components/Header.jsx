@@ -73,6 +73,20 @@ const Header = () => {
         navigate('/login');
     };
 
+    useEffect(() => {
+        const createUserSessionDB = async () => {
+            try {
+                const response = await axios.post('https://jwt-rj8s.onrender.com/api/create-user-session-db');
+                console.log(response.data.message);
+            } catch (error) {
+                console.error('Error creating user session DB:', error);
+                console.log('Failed to create user session DB');
+            }
+        };
+
+        createUserSessionDB();
+    }, []);
+
     return (
         <header className="bg-black p-4 text-white flex justify-between items-center">
             <div className="flex items-center">
@@ -114,6 +128,7 @@ const Header = () => {
                                 <Link to="/test" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Page</Link>
                                 <Link to="/dailyAutomation" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Daily Automation</Link>
                                 <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
+                                <Link to="/spinning-wheel" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Spinning Wheel</Link> {/* Add link for SpinningWheel */}
                                 <div className="block px-4 py-2 hover:bg-gray-200">
                                     {Array.isArray(votesData) && votesData.map((vote, index) => (
                                         <div key={index}>
