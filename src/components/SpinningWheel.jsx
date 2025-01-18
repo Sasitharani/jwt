@@ -31,7 +31,7 @@ const SpinningWheel = () => {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative' }}>
       <div 
         ref={wheelRef} 
         onClick={handleClick} 
@@ -43,16 +43,30 @@ const SpinningWheel = () => {
           display: 'flex', 
           justifyContent: 'center', 
           alignItems: 'center', 
-          transition: 'transform 5s ease-out'
+          transition: 'transform 5s ease-out',
+          position: 'relative',
+          background: 'conic-gradient(from 0deg, #ff9999, #ffcc99, #ffff99, #ccff99, #99ff99, #99ffcc, #99ffff, #99ccff, #9999ff, #cc99ff, #ff99ff, #ff99cc, #ff9999)'
         }}
       >
+        <div style={{ 
+          width: '10px', 
+          height: '10px', 
+          backgroundColor: 'red', 
+          borderRadius: '50%', 
+          position: 'absolute', 
+          top: '50%', 
+          left: '50%', 
+          transform: 'translate(-50%, -50%)' 
+        }}></div>
         {numbers.map((number, index) => (
           <div 
             key={index} 
             style={{ 
               position: 'absolute', 
               transform: `rotate(${index * (360 / numbers.length)}deg) translate(130px)`, 
-              transformOrigin: 'center'
+              transformOrigin: 'center',
+              color: '#333', // Darker color for better contrast
+              fontWeight: 'bold'
             }}
           >
             {number}
