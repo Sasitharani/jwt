@@ -19,6 +19,7 @@ import voteForVote1Route from './src/routes/voteForVote1Route.js'; // Import vot
 import createUserSessionDBRoute from './src/routes/createUserSessionDBRoute.js'; // Import createUserSessionDBRoute
 import fetchVotesDetailsRoute from './src/routes/fetchVotesDetailsRoute.js'; // Import fetchVotesDetailsRoute
 import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import updateVotesRoute
+import spinWheelRoute from './src/routes/spinWheelRoute.jsx'; // Correct the file extension to .jsx
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use('/api', voteForVote1Route);
 app.use('/api', createUserSessionDBRoute);
 app.use('/api', fetchVotesDetailsRoute);
 app.use('/api', updateVotesRoute);
+app.use('/api', spinWheelRoute); // Add this line
 
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);

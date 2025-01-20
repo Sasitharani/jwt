@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const SpinningWheel = () => {
   const numbers = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -21,6 +22,15 @@ const SpinningWheel = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       });
+
+      // Send result to the server
+      axios.post('/api/spinWheelLike', { email: 'user@example.com', result: numbers[randomIndex] })
+        .then(response => {
+          console.log('Likes updated successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error updating likes:', error);
+        });
     }, 5000); // Assume 5 seconds for the wheel to stop
   };
 
