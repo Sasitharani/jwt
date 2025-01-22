@@ -19,7 +19,7 @@ import voteForVote1Route from './src/routes/voteForVote1Route.js'; // Import vot
 import createUserSessionDBRoute from './src/routes/createUserSessionDBRoute.js'; // Import createUserSessionDBRoute
 import fetchVotesDetailsRoute from './src/routes/fetchVotesDetailsRoute.js'; // Import fetchVotesDetailsRoute
 import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import updateVotesRoute
-import spinWheelRoute from './src/routes/spinWheelRoute.jsx'; // Correct the file extension to .jsx
+import spinWheelRoute from './src/routes/spinWheelRoute.js'; // Correct the file extension to .jsx
 
 dotenv.config();
 
