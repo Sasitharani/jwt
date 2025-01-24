@@ -27,9 +27,10 @@ const SpinningWheel = () => {
       });
 
       // Send result to the server
-      axios.post('/api/spinWheelLike', { email: email, result: numbers[randomIndex] })
+      console.log('Sending result to the server:', numbers[randomIndex]);
+      axios.post('/api/spinWheel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ', { email: email, result: numbers[randomIndex] })
         .then(response => {
-          console.log('Likes updated successfully:', response.data);
+          console.log('spinWheelLike ikes updated successfully:', response.data);
         })
         .catch(error => {
           console.error('Error updating likes:', error);
