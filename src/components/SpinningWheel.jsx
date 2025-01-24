@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
+
 const SpinningWheel = () => {
   const numbers = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   const [spinning, setSpinning] = useState(false);
@@ -26,7 +27,7 @@ const SpinningWheel = () => {
       });
 
       // Send result to the server
-      axios.post('/api/spinWheelLike', { email: 'user@example.com', result: numbers[randomIndex] })
+      axios.post('/api/spinWheelLike', { email: email, result: numbers[randomIndex] })
         .then(response => {
           console.log('Likes updated successfully:', response.data);
         })
@@ -41,6 +42,7 @@ const SpinningWheel = () => {
       spinWheel();
     }
   };
+
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative', flexDirection: 'column' }}>

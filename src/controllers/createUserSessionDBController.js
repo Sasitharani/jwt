@@ -13,6 +13,7 @@ const createUserSessionDB = (req, res) => {
       phone VARCHAR(20),
       MaxLikes INT DEFAULT 0,
       LikesUsed INT DEFAULT 0,
+      LikesAvailable INT DEFAULT 0,
       MaxImages INT DEFAULT 0,
       ImagesUploaded INT DEFAULT 0,
       Membership VARCHAR(50)
