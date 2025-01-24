@@ -47,12 +47,19 @@ const Header = () => {
                 username: user.username,
                 email: user.email
             });
+            //console.log("Header Response data after fetching data",response.data);
             setVotesData(response.data);
 
-            const likesUsed = response.data.map(vote => vote.LikesUsed);
+            const LikesAvailable = response.data.map(vote => vote.LikesAvailable);
             const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
-            console.log('First LikesUsed value in header:', firstLikeUsed);
-            dispatch(loginSuccess({ username: user.username, email: user.email, votesData: response.data, votesUsed: firstLikeUsed })); // Save firstLikeUsed to Redux store
+     
+            dispatch(loginSuccess({ 
+                username: user.username, 
+                email: user.email, 
+                votesData: response.data, 
+                votesUsed: firstLikeUsed,
+                votesAvailable: LikesAvailable // Include LikesAvailable in the payload
+            })); // Save firstLikeUsed to Redux store
         } catch (error) {
             console.error('Error in fetchVotesDetails:', error);
             Swal.fire('Error', error.response.data, 'error');
@@ -132,7 +139,7 @@ const Header = () => {
                                 <div className="block px-4 py-2 hover:bg-gray-200">
                                     {Array.isArray(votesData) && votesData.map((vote, index) => (
                                         <div key={index}>
-                                            {'Votes Used'}: {vote.LikesUsed}
+                                            {'Votes Available'}: {vote.LikesAvailable}
                                         </div>
                                     ))}
                                 </div>

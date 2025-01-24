@@ -2,12 +2,12 @@ import React, { useState, useRef } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
-
 const SpinningWheel = () => {
   const numbers = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
   const wheelRef = useRef(null);
+  const email = localStorage.getItem('email'); // Ensure email is defined
 
   const spinWheel = () => {
     setSpinning(true);
@@ -28,13 +28,22 @@ const SpinningWheel = () => {
 
       // Send result to the server
       console.log('Sending result to the server:', numbers[randomIndex]);
-      axios.post('/api/spinWheel                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ', { email: email, result: numbers[randomIndex] })
-        .then(response => {
-          console.log('spinWheelLike ikes updated successfully:', response.data);
-        })
-        .catch(error => {
-          console.error('Error updating likes:', error);
-        });
+      console.log('Before axios.post request');
+      console.log('Email:', email); // Log email to ensure it is defined
+
+      try {
+        axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex] })
+          .then(response => {
+            console.log('spinWheel result updated successfully:', response.data);
+          })
+          .catch(error => {
+            console.error('Error updating result:', error);
+          });
+      } catch (error) {
+        console.error('Error before axios.post request:', error);
+      }
+
+      console.log('After axios.post request');
     }, 5000); // Assume 5 seconds for the wheel to stop
   };
 
@@ -43,7 +52,6 @@ const SpinningWheel = () => {
       spinWheel();
     }
   };
-
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative', flexDirection: 'column' }}>

@@ -6,7 +6,8 @@ const initialState = {
     token: '',
     isLoggedIn: !!localStorage.getItem('email'), // Add isLoggedIn flag
     votesData: 0, // Add votesData to the initial state
-    votesUsed: null // Add votesUsed to the initial state
+    votesUsed: null, // Add votesUsed to the initial state
+    votesAvailable: null // Add votesAvailable to the initial state
 };
 
 const userSlice = createSlice({
@@ -24,6 +25,7 @@ const userSlice = createSlice({
             state.isLoggedIn = true;
             state.votesData = action.payload.votesData; // Update votesData
             state.votesUsed = action.payload.votesUsed; // Update votesUsed
+            state.votesAvailable = action.payload.votesAvailable; // Update votesAvailable
 
             console.log('votesData from slice:', state.votesData); // Log votesData
 
@@ -45,8 +47,8 @@ const userSlice = createSlice({
             state.isLoggedIn = true;
             state.votesData = action.payload.votesData; // Update votesData
             state.votesUsed = action.payload.votesUsed; // Update votesUsed
+            state.votesAvailable = action.payload.votesAvailable; // Update votesAvailable
             localStorage.setItem('email', action.payload.email);
-            localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
         logout: (state, action) => {
             console.log('logout action called');
