@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 
@@ -8,6 +8,45 @@ const SpinningWheel = () => {
   const [result, setResult] = useState(null);
   const wheelRef = useRef(null);
   const email = localStorage.getItem('email'); // Ensure email is defined
+  const [lastSpinTime, setLastSpinTime] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [countdown, setCountdown] = useState('');
+
+  useEffect(() => {
+    const storedLastSpinTime = localStorage.getItem('lastSpinTime');
+    const storedIsAdmin = localStorage.getItem('isAdmin') === 'true';
+    if (storedLastSpinTime) {
+      setLastSpinTime(new Date(storedLastSpinTime));
+    }
+    setIsAdmin(storedIsAdmin);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (lastSpinTime && !isAdmin) {
+        const now = new Date();
+        const timeDiff = (lastSpinTime.getTime() + 2 * 60 * 60 * 1000) - now.getTime();
+        if (timeDiff > 0) {
+          const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+          setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+        } else {
+          setCountdown('');
+        }
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [lastSpinTime, isAdmin]);
+
+  const canSpin = () => {
+    if (isAdmin) return true;
+    if (!lastSpinTime) return true;
+    const now = new Date();
+    const hoursSinceLastSpin = (now - lastSpinTime) / (1000 * 60 * 60);
+    return hoursSinceLastSpin >= 2;
+  };
 
   const spinWheel = () => {
     setSpinning(true);
@@ -44,12 +83,21 @@ const SpinningWheel = () => {
       }
 
       console.log('After axios.post request');
+      localStorage.setItem('lastSpinTime', new Date().toISOString());
+      setLastSpinTime(new Date());
     }, 5000); // Assume 5 seconds for the wheel to stop
   };
 
   const handleClick = () => {
-    if (!spinning) {
+    if (!spinning && canSpin()) {
       spinWheel();
+    } else if (!canSpin()) {
+      Swal.fire({
+        title: 'Wait',
+        text: 'You can spin the wheel only once every two hours.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -106,6 +154,11 @@ const SpinningWheel = () => {
           {result !== null && (
             <div style={{ marginTop: '20px', fontSize: '24px' }}>
               Result: {result}
+            </div>
+          )}
+          {countdown && (
+            <div style={{ marginTop: '20px', fontSize: '18px', color: 'red' }}>
+              Next spin available in: {countdown}
             </div>
           )}
           <div style={{ marginTop: '20px', width: '100%', maxWidth: '300px', height: '100px', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
