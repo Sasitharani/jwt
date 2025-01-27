@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux'; // Import useSelector
 import Swal from 'sweetalert2';
 import './AllUpload.css';
 
@@ -11,6 +12,14 @@ const AllUploads = () => {
   const [filteredImages, setFilteredImages] = useState([]); // State for filtered images
   const imagesPerPage = 10;
   const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role); // Get role from Redux store
+
+  useEffect(() => {
+    if (role !== 'admin') {
+      Swal.fire('Access Denied', 'You do not have permission to view this page.', 'error');
+      navigate('/'); // Redirect to home page if not admin
+    }
+  }, [role, navigate]);
 
   useEffect(() => {
     const fetchImages = async () => {

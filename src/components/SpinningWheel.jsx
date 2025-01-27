@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { useSelector } from 'react-redux'; // Import useSelector
 
 const SpinningWheel = () => {
   const numbers = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
@@ -9,21 +10,19 @@ const SpinningWheel = () => {
   const wheelRef = useRef(null);
   const email = localStorage.getItem('email'); // Ensure email is defined
   const [lastSpinTime, setLastSpinTime] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [countdown, setCountdown] = useState('');
+  const role = useSelector((state) => state.user.role); // Get role from Redux store
 
   useEffect(() => {
     const storedLastSpinTime = localStorage.getItem('lastSpinTime');
-    const storedIsAdmin = localStorage.getItem('isAdmin') === 'true';
     if (storedLastSpinTime) {
       setLastSpinTime(new Date(storedLastSpinTime));
     }
-    setIsAdmin(storedIsAdmin);
   }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (lastSpinTime && !isAdmin) {
+      if (lastSpinTime && role !== 'admin') {
         const now = new Date();
         const timeDiff = (lastSpinTime.getTime() + 2 * 60 * 60 * 1000) - now.getTime();
         if (timeDiff > 0) {
@@ -38,10 +37,10 @@ const SpinningWheel = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [lastSpinTime, isAdmin]);
+  }, [lastSpinTime, role]);
 
   const canSpin = () => {
-    if (isAdmin) return true;
+    if (role === 'admin') return true;
     if (!lastSpinTime) return true;
     const now = new Date();
     const hoursSinceLastSpin = (now - lastSpinTime) / (1000 * 60 * 60);

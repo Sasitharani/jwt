@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const UserProfile = () => {
-    const { username, email, likesUsed } = useSelector((state) => state.user);
-    const votesData = useSelector(state => state.user.votesData); // Get votesData from slice
-    console.log('votesData:', votesData); // Log votesData
+    const { username, email } = useSelector((state) => state.user);
+    const votesAvailable = useSelector(state => state.user.votesAvailable); // Get votesAvailable from slice
+    console.log('votesAvailable:', votesAvailable); // Log votesAvailable
 
     return (
         <div className="bg-gray-200 min-h-screen flex items-center justify-center">
@@ -20,9 +20,9 @@ const UserProfile = () => {
                     <p className="text-gray-900 text-lg">{email}</p>
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-600 text-sm font-semibold">Votes Used:</label>
-                    {Array.isArray(votesData) && votesData.map((vote, index) => (
-                        <p key={index} className="text-gray-900 text-lg">{vote.LikesUsed}</p>
+                    <label className="block text-gray-600 text-sm font-semibold">Votes Available:</label>
+                    {Array.isArray(votesAvailable) && votesAvailable.map((vote, index) => (
+                        <p key={index} className="text-gray-900 text-lg">{vote}</p>
                     ))}
                 </div>
                 <div className="mt-8">

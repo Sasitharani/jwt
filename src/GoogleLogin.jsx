@@ -14,9 +14,26 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
       console.log('User:', user);
       const { displayName, email } = user;
 
+      await handleDatabaseLogin(email, displayName); // Call the new async function
+    } catch (error) {
+      console.error('Google login error:', error);
+      setMessage('Google login failed. Please try again.');
+      Swal.fire({
+        title: 'Google Login Failed',
+        text: 'Please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } finally {
+      setLoading(false); // Set loading to false
+    }
+  };
+
+  const handleDatabaseLogin = async (email, displayName) => {
+    try {
       const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/api/google-login', {
         email,
-        name: displayName
+        name: displayName // This is where the username is obtained
       });
 
       if (loginResponse.status === 200) {
@@ -37,16 +54,8 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
         throw new Error('Google login failed');
       }
     } catch (error) {
-      console.error('Google login error:', error);
-      setMessage('Google login failed. Please try again.');
-      Swal.fire({
-        title: 'Google Login Failed',
-        text: 'Please try again.',
-        icon: 'error',
-        confirmButtonText: 'OK'
-      });
-    } finally {
-      setLoading(false); // Set loading to false
+      console.error('Database login error:', error);
+      throw error; // Rethrow the error to be caught in the outer try-catch
     }
   };
 
@@ -54,7 +63,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
     <button
       type="button"
       className="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-green-600 h-12"
-      onClick={handleGoogleLogin}
+      onClick={handleGoogleLogin} // Ensure this is directly called on button click
     >
       <FcGoogle /> Login with Google
     </button>

@@ -19,23 +19,25 @@ const googleLogin = async (req, res) => {
 
       if (!user) {
         // If user does not exist, create a new user
-        const query = `
+        const insertQuery = `
           INSERT INTO userdb (username, email)
           VALUES (?, ?)
         `;
         const values = [name, email];
-        db.query(query, values, (err, results) => {
+        db.query(insertQuery, values, (err, results) => {
           if (err) {
             console.error('Error inserting data:', err);
             res.status(500).send('Google login failed. Please try again.');
             return;
           }
           user = { id: results.insertId, username: name, email };
+          const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+          res.status(200).json({ token });
         });
+      } else {
+        const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
+        res.status(200).json({ token });
       }
-
-      const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-      res.status(200).json({ token });
     });
   } catch (error) {
     res.status(500).send('Error logging in with Google');
