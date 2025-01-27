@@ -132,6 +132,9 @@ const Header = () => {
                                     <Link to="/upload/AllUploads" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Uploads</Link>
                                 )}
                                 <Link to="/instructions" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Instructions</Link>
+                                {role === 'admin' && (
+                                    <Link to="/test" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test</Link>
+                                )}
                                 <Link to="/help" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Help</Link>
                                 <Link to="/voting/UserVoting1" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Voting</Link>
                                 <Link to="/compress-image" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Compress Image</Link>

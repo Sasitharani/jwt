@@ -1,29 +1,30 @@
 import React from 'react';
-import '../index.css';
 
-const Test = () => {
-  return (
-    <div>
-      <div className="border-solid border-4 border-black p-4 m-4 animate-spin">Solid Border with Spin</div>
-      <div className="border-dotted border-4 border-black p-4 m-4 animate-ping">Dotted Border with Ping</div>
-      <div className="border-dashed border-4 border-black p-4 m-4 animate-pulse">Dashed Border with Pulse</div>
-      <div className="border-double border-4 border-black p-4 m-4 animate-bounce">Double Border with Bounce</div>
-      <div className="border-none p-4 m-4">No Border</div>
-      <div className="border-hidden p-4 m-4">Hidden Border</div>
-      <div className="border-4 border-green-500 p-4 m-4 rounded-lg">Rounded Border</div>
-      <div className="border-4 border-red-500 p-4 m-4 border-opacity-50">Border with Opacity</div>
-      <div className="border-4 border-blue-500 p-4 m-4 border-dashed border-t-8">Top Border</div>
-      <div className="border-4 border-yellow-500 p-4 m-4 border-dotted border-b-8">Bottom Border</div>
-      <div className="p-4 m-4 border-4 border-double border-green-500 animate-blink">
-        <h2 className="text-xl font-bold">Animated Border</h2>
-        <p>This is a division element with an animated border.</p>
-      </div>
-      <div className="p-4 m-4 border-4 border-double border-green-500 animate-wiggle">
-        <h2 className="text-xl font-bold">Wiggling Border</h2>
-        <p>This is a division element with a wiggling border.</p>
-      </div>
-    </div>
-  );
+const test = () => {
+    return (
+        <div className="bg-[#F5CEC7] flex items-center justify-center h-screen">
+            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+                <h2 className="text-2xl font-bold mb-6 text-center text-[#E79796]">Login</h2>
+                <form>
+                    <div className="mb-4">
+                        <label className="block text-[#C6C09C] mb-2" htmlFor="email">Email</label>
+                        <input className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFC98B]" type="email" id="email" placeholder="Enter your email" />
+                    </div>
+                    <div className="mb-6">
+                        <label className="block text-[#C6C09C] mb-2" htmlFor="password">Password</label>
+                        <input className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FFC98B]" type="password" id="password" placeholder="Enter your password" />
+                    </div>
+                    <button className="w-full bg-[#FFB284] text-white p-3 rounded-lg hover:bg-[#FFC98B] transition duration-300">Login</button>
+                </form>
+                <div className="mt-6 text-center">
+                    <button className="w-full bg-[#E79796] text-white p-3 rounded-lg hover:bg-[#FFB284] transition duration-300 flex items-center justify-center">
+                        <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" className="w-6 h-6 mr-2" />
+                        Login with Google
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 };
 
-export default Test;
+export default test;

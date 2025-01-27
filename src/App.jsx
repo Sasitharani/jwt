@@ -24,6 +24,7 @@ import Test from './components/Test';
 import DailyAutomation from './components/dailyAutomation'; // Import the DailyAutomation component
 import UserProfile from './components/UserProfile'; // Import the UserProfile component
 import SpinningWheel from './components/SpinningWheel'; // Import the SpinningWheel component
+import Instructions from './components/Instructions'; // Import the Instructions component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
           <Route path="/user-profile" element={<PrivateRoute element={<UserProfile />} />} /> {/* Add the UserProfile route */}
           <Route path="/spinning-wheel" element={<SpinningWheel />} /> {/* Add the SpinningWheel route */}
+          <Route path="/instructions" element={<Instructions />} /> {/* Add the Instructions route */}
         </Routes>
       </Router>
     </Provider>
