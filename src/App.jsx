@@ -25,6 +25,7 @@ import DailyAutomation from './components/dailyAutomation'; // Import the DailyA
 import UserProfile from './components/UserProfile'; // Import the UserProfile component
 import SpinningWheel from './components/SpinningWheel'; // Import the SpinningWheel component
 import Instructions from './components/Instructions'; // Import the Instructions component
+import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -35,6 +36,7 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
+        <BackgroundCircles /> {/* Add BackgroundCircles component */}
         <Header /> {/* Include the Header component */}
         <Routes>
           <Route path="/" element={<Navigate to="/UserProfile" />} /> {/* Set GoogleLoginPage as the home page */}

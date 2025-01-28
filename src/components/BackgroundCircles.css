@@ -1,0 +1,11 @@
+.background-circles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Ensure it stays in the background */
+    background: url('/path/to/circle-image.png') repeat-y; /* Repeat vertically */
+    filter: blur(10px); /* Increase the blur */
+    opacity: 0.5; /* Optional: Adjust opacity if needed */
+}

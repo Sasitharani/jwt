@@ -7,7 +7,7 @@ import UsernameAuthentication from './signUp/Username';
 import EmailAuthentication from './signUp/Email';
 import PasswordVerification from './signUp/Password';
 import PasswordMatch from './signUp/PasswordMatch';
-
+import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
 
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -102,19 +102,16 @@ const Signup = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative z-10">
-         
+        <div className="relative min-h-screen flex items-center justify-center bg-gray-100">
+            <BackgroundCircles /> {/* Add BackgroundCircles component */}
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="loader text-gray-400"></div>
                     <div className=" text-gray-400">Please wait while we Confirm</div>
                 </div>
             )}
-            <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
-            
-            
+            <div className={`relative bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
                 <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-
                 <form onSubmit={handleSignup}>
                 <UsernameAuthentication username={username} setUsername={setUsername} />
                 <EmailAuthentication

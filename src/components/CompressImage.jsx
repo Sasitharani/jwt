@@ -61,61 +61,61 @@ const CompressImage = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-1/12 bg-gray-200 p-4 h-screen">
-        <h2 className="text-xl font-bold mb-4">Ads</h2>
-        {/* Add your ad content here */}
-      </div>
-      <div className="w-10/12 p-4">
-        <h1 className="text-2xl font-bold mb-4">Compress Image to 1MB</h1>
-        <input type="file" onChange={handleFileChange} className="mb-4" />
-        {file && (
-          <p className="mb-4">Original Size: {(file.size / 1024 / 1024).toFixed(2)} MB</p>
-        )}
-        <button
-          onClick={handleCompressClick}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          disabled={loading}
-        >
-          {loading ? (
-            <div className="flex items-center justify-center">
-              <div className="loader border-t-4 border-b-4 border-white rounded-full w-6 h-6 animate-spin mr-2"></div>
-              Compressing...
-            </div>
-          ) : (
-            'Compress Image'
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+        <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Advertisement Space</p>
+        </div>
+        <div style={{ width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', zIndex: 10 }}>
+          <h1 className="text-2xl font-bold mb-4">Compress Image to 1MB</h1>
+          <input type="file" onChange={handleFileChange} className="mb-4" />
+          {file && (
+            <p className="mb-4">Original Size: {(file.size / 1024 / 1024).toFixed(2)} MB</p>
           )}
-        </button>
-        {compressedFile && (
-          <div className="mt-4 flex flex-col items-center">
-            <p className="mt-2">Compressed Size: {(compressedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-            <a
-              href={URL.createObjectURL(compressedFile)}
-              download={compressedFile.name}
-              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
-            >
-              Download Image
-            </a>
-          </div>
-        )}
-        {/* Add an ad in the middle column after the content */}
-        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 p-4 rounded-lg shadow-md mx-auto" style={{ width: '33%' }}>
-          <h2 className="text-xl font-bold mb-4">Ad</h2>
-          {/* Add your ad content here */}
-        </div>
-        {/* Add a button to navigate back to UploadImg */}
-        <div className="mt-8 text-center">
-          <Link
-            to="/upload-img"
-            className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          <button
+            onClick={handleCompressClick}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            disabled={loading}
           >
-            Back to Image Uploads
-          </Link>
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="loader border-t-4 border-b-4 border-white rounded-full w-6 h-6 animate-spin mr-2"></div>
+                Compressing...
+              </div>
+            ) : (
+              'Compress Image'
+            )}
+          </button>
+          {compressedFile && (
+            <div className="mt-4 flex flex-col items-center">
+              <p className="mt-2">Compressed Size: {(compressedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+              <a
+                href={URL.createObjectURL(compressedFile)}
+                download={compressedFile.name}
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-2"
+              >
+                Download Image
+              </a>
+            </div>
+          )}
+          {/* Add an ad in the middle column after the content */}
+          <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 bg-gray-200 p-4 rounded-lg shadow-md mx-auto" style={{ width: '33%' }}>
+            <h2 className="text-xl font-bold mb-4">Ad</h2>
+            {/* Add your ad content here */}
+          </div>
+          {/* Add a button to navigate back to UploadImg */}
+          <div className="mt-8 text-center">
+            <Link
+              to="/upload-img"
+              className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Back to Image Uploads
+            </Link>
+          </div>
         </div>
-      </div>
-      <div className="w-1/12 bg-gray-200 p-4 h-screen">
-        <h2 className="text-xl font-bold mb-4">Ads</h2>
-        {/* Add your ad content here */}
+        <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Advertisement Space</p>
+        </div>
       </div>
     </div>
   );

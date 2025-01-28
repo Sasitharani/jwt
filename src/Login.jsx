@@ -4,7 +4,8 @@ import bcrypt from 'bcryptjs';
 import { Link, useNavigate } from 'react-router-dom';
 import GoogleLogin from './GoogleLogin';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginSuccess,login, logout } from './store/userSlice'; // Import actions
+import { loginSuccess, login, logout } from './store/userSlice'; // Import actions
+import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -64,14 +65,15 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-orangePastel to-pinkPastel relative">
+            <BackgroundCircles />
             {loading && (
                 <div className="absolute inset-0 bg-gray-100 bg-opacity-50 flex items-center justify-center z-50">
                     <div className="loader"></div>
                 </div>
             )}
-            <div className={`bg-white p-8 rounded-lg shadow-lg w-full max-w-md ${loading ? 'blur-sm' : ''}`}>
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+            <div className={`bg-white p-8 shadow-2xl rounded-3xl w-full max-w-md relative ${loading ? 'blur-sm' : ''}`}>
+                <h2 className="text-2xl font-bold mb-6 text-center z-20">Login</h2>
                 <form onSubmit={handleLogin1}>
                     <div className="mb-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import BackgroundCircles from './BackgroundCircles'; // Import BackgroundCircles
 
 const UserProfile = () => {
     const { username, email } = useSelector((state) => state.user);
@@ -8,8 +9,9 @@ const UserProfile = () => {
     console.log('votesAvailable:', votesAvailable); // Log votesAvailable
 
     return (
-        <div className="bg-gray-200 min-h-screen flex items-center justify-center">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div className="relative bg-gray-200 min-h-screen flex items-center justify-center">
+            <BackgroundCircles /> {/* Add BackgroundCircles component */}
+            <div className="relative bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">User Profile</h1>
                 <div className="mb-6">
                     <label className="block text-gray-600 text-sm font-semibold">Username:</label>

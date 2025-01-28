@@ -111,72 +111,84 @@ const UploadImg = () => {
   };
 
   return (
-    <div className="feedback-form bg-gray-200 bg-opacity-5  p-8 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto focus-within:bg-gray-300 active:bg-gray-400 transition-colors duration-300">
-      {loading && (
-        <div className="loading-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
-          <div className="text-white text-lg">
-            <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 mb-4 animate-spin"></div>
-            Please wait, we are uploading your image...
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', position: 'relative', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+        <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Advertisement Space</p>
+        </div>
+        <div style={{ width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', zIndex: 10 }}>
+          <div className="feedback-form bg-gray-200 bg-opacity-5 p-8 rounded-lg shadow-md max-w-full md:max-w-2xl lg:max-w-3xl xl:max-w-4xl mx-auto focus-within:bg-gray-300 active:bg-gray-400 transition-colors duration-300">
+            {loading && (
+              <div className="loading-overlay flex items-center justify-center fixed inset-0 bg-black bg-opacity-50 z-50">
+                <div className="text-white text-lg">
+                  <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 mb-4 animate-spin"></div>
+                  Please wait, we are uploading your image...
+                </div>
+              </div>
+            )}
+            {submitted && (
+              <div className="text-green-500 text-xl font-bold text-center mb-4 animate-bounce">
+                We have successfully received your Image. We will contact you soon.
+              </div>
+            )}
+            {!submitted && (
+              <div className="text-gray-700 text-center mb-4">
+                Please upload the image , we will be  happy to contact you back soon.
+              </div>
+            )}
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
+                  File (Only image files, PDF, and Word documents are allowed. Max size: 1MB)
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={handleFileChange}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                />
+              </div>
+              {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+              <div className="flex items-center justify-between">
+                <button
+                  type="submit"
+                  className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+            <div className="mt-4 text-center">
+              <Link
+                to="/compress-image"
+                className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                If more than 1 MB, compress your image here
+              </Link>
+            </div>
+            <div className="mt-8 text-center">
+              <h2 className="text-xl font-bold mb-4">Rules</h2>
+              <ul className="list-disc list-inside text-left">
+                <li>No Sexual images</li>
+                <li>Image should not have Human faces. Avoid selfies.</li>
+                <li>Allowed photos:
+                  <ul className="list-disc list-inside ml-4">
+                    <li>Nature</li>
+                    <li>Objects</li>
+                    <li>Animals</li>
+                    <li>Birds</li>
+                    <li>Insects</li>
+                  </ul>
+                </li>
+                <li>Use own images. Photos uploaded from the internet will be rejected.</li>
+              </ul>
+              <p className="mt-4 text-red-500">If the above rules are not followed, the photos will not be selected.</p>
+            </div>
           </div>
         </div>
-      )}
-      {submitted && (
-        <div className="text-green-500 text-xl font-bold text-center mb-4 animate-bounce">
-          We have successfully received your Image. We will contact you soon.
+        <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <p>Advertisement Space</p>
         </div>
-      )}
-      {!submitted && (
-        <div className="text-gray-700 text-center mb-4">
-          Please upload the image , we will be  happy to contact you back soon.
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="file">
-            File (Only image files, PDF, and Word documents are allowed. Max size: 1MB)
-          </label>
-          <input
-            type="file"
-            id="file"
-            onChange={handleFileChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-        </div>
-        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-        <div className="flex items-center justify-between">
-          <button
-            type="submit"
-            className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-      <div className="mt-4 text-center">
-        <Link
-          to="/compress-image"
-          className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          If more than 1 MB, compress your image here
-        </Link>
-      </div>
-      <div className="mt-8 text-center">
-        <h2 className="text-xl font-bold mb-4">Rules</h2>
-        <ul className="list-disc list-inside text-left">
-          <li>No Sexual images</li>
-          <li>Image should not have Human faces. Avoid selfies.</li>
-          <li>Allowed photos:
-            <ul className="list-disc list-inside ml-4">
-              <li>Nature</li>
-              <li>Objects</li>
-              <li>Animals</li>
-              <li>Birds</li>
-              <li>Insects</li>
-            </ul>
-          </li>
-          <li>Use own images. Photos uploaded from the internet will be rejected.</li>
-        </ul>
-        <p className="mt-4 text-red-500">If the above rules are not followed, the photos will not be selected.</p>
       </div>
     </div>
   );

@@ -98,7 +98,7 @@ const Header = () => {
     }, [isLoggedIn]);
 
     return (
-        <header className="bg-black p-4 text-white flex justify-between items-center">
+        <header className="bg-greenPastel p-4 text-white flex justify-between items-center"> {/* Changed bg-black to bg-greenPastel */}
             <div className="flex items-center">
                 <img src="/path/to/logo.png" alt="Logo" className="h-8 mr-4" />
                 <Link to="/" className="text-md font-bold">REACTGROOVY4All</Link>
@@ -141,11 +141,7 @@ const Header = () => {
                                 <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
                                 <Link to="/spinning-wheel" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Spinning Wheel</Link> {/* Add link for SpinningWheel */}
                                 <div className="block px-4 py-2 hover:bg-gray-200">
-                                    {Array.isArray(votesData) && votesData.map((vote, index) => (
-                                        <div key={index}>
-                                            {'Votes Available'}: {vote.LikesAvailable}
-                                        </div>
-                                    ))}
+                                    {'Votes Available'}: {votesData.length > 0 ? votesData[0].LikesAvailable : 0}
                                 </div>
                                 <div className="block px-4 py-2 hover:bg-gray-200">
                                     Role: {role.charAt(0).toUpperCase() + role.slice(1)} {/* Display the role with capitalized first letter */}
