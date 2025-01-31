@@ -1,11 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react'; // Import useState
 import { FcGoogle } from "react-icons/fc";
 import { auth, googleProvider, signInWithPopup } from './firebase';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { login } from './store/userSlice';
+import { login, loginSuccess } from './store/userSlice'; // Import loginSuccess
+
+const updateVotes = async (username, email, fetchVotesDetails) => {
+  try {
+    const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+      username,
+      email
+    });
+    await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+    console.log('Response in updateVotes:', response.data.LikesUsed);
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
+
+const fetchVotesDetails = async (username, email, setVotesData, dispatch) => {
+  try {
+    const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+      username,
+      email
+    });
+    setVotesData(response.data);
+    console.log('Response in fetchVotesDetails:', response.data);
+    const likesUsed = response.data.map(vote => vote.LikesUsed);
+    console.log('LikesUsed:', likesUsed);
+    dispatch(loginSuccess({ username, email, votesData: response.data }));
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
 
 const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
+  const [votesData, setVotesData] = useState([]); // Add votesData state
+
   const handleGoogleLogin = async () => {
     setLoading(true); // Set loading to true
     try {
@@ -30,10 +61,11 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
   };
 
   const handleDatabaseLogin = async (email, displayName) => {
+    console.log('handleGoogleLogin called');
     try {
       const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/api/google-login', {
         email,
-        name: displayName // This is where the username is obtained
+        name: displayName
       });
 
       if (loginResponse.status === 200) {
@@ -41,7 +73,8 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
         localStorage.setItem('token', token);
         localStorage.setItem('username', displayName);
         localStorage.setItem('email', email);
-        dispatch(login({ username: displayName, email, token })); // Dispatch login action
+        dispatch(login({ username: displayName, email, token }));
+        await updateVotes(displayName, email, () => fetchVotesDetails(displayName, email, setVotesData, dispatch)); // Call updateVotes after login
         Swal.fire({
           title: 'Successfully Logged In with Google!',
           icon: 'success',
@@ -55,7 +88,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
       }
     } catch (error) {
       console.error('Database login error:', error);
-      throw error; // Rethrow the error to be caught in the outer try-catch
+      throw error;
     }
   };
 

@@ -6,6 +6,20 @@ import GoogleLogin from './GoogleLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginSuccess, login, logout } from './store/userSlice'; // Import actions
 import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
+import Swal from 'sweetalert2';
+
+const updateVotes = async (username, email, fetchVotesDetails) => {
+  try {
+    const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+      username,
+      email
+    });
+    await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+    console.log('Response in updateVotes:', response.data.LikesUsed);
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -41,6 +55,7 @@ const Login = () => {
                 
                 dispatch(login({ email, username })); // Dispatch login success with email and username
                 localStorage.setItem('user', JSON.stringify({ email })); // Update local storage
+                await updateVotes(username, email, fetchVotesDetails); // Call updateVotes after login
                 navigate('/user'); // After successfully login it will navigate to user page
             } else {
                 setMessage('Password did not match.');

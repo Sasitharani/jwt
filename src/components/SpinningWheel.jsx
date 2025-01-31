@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux'; // Import useSelector
 
 const SpinningWheel = () => {
-  const numbers = [2, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+  const numbers = [0, 2, 4, 30,10,20,4, 6, 50, 1, 100]; // Updated values
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
   const wheelRef = useRef(null);
@@ -24,12 +24,11 @@ const SpinningWheel = () => {
     const interval = setInterval(() => {
       if (lastSpinTime && role !== 'admin') {
         const now = new Date();
-        const timeDiff = (lastSpinTime.getTime() + 2 * 60 * 60 * 1000) - now.getTime();
+        const timeDiff = (lastSpinTime.getTime() + 30 * 60 * 1000) - now.getTime(); // 30 minutes
         if (timeDiff > 0) {
-          const hours = Math.floor(timeDiff / (1000 * 60 * 60));
-          const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+          const minutes = Math.floor(timeDiff / (1000 * 60));
           const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-          setCountdown(`${hours}h ${minutes}m ${seconds}s`);
+          setCountdown(`${minutes}m ${seconds}s`);
         } else {
           setCountdown('');
         }
@@ -43,8 +42,8 @@ const SpinningWheel = () => {
     if (role === 'admin') return true;
     if (!lastSpinTime) return true;
     const now = new Date();
-    const hoursSinceLastSpin = (now - lastSpinTime) / (1000 * 60 * 60);
-    return hoursSinceLastSpin >= 2;
+    const minutesSinceLastSpin = (now - lastSpinTime) / (1000 * 60);
+    return minutesSinceLastSpin >= 30; // 30 minutes
   };
 
   const spinWheel = () => {
@@ -93,7 +92,7 @@ const SpinningWheel = () => {
     } else if (!canSpin()) {
       Swal.fire({
         title: 'Wait',
-        text: 'You can spin the wheel only once every two hours.',
+        text: 'You can spin the wheel only once every half an hour.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
