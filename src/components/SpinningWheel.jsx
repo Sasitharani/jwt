@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux'; // Import useSelector
 
 const SpinningWheel = () => {
-  const numbers = [0, 2, 4, 30,10,20,4, 6, 50, 1, 100]; // Updated values
+  const numbers = [0, 2, 4, 30, 10, 20, 4, 6, 50, 1, 100]; // Updated values
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
   const wheelRef = useRef(null);
@@ -61,6 +61,8 @@ const SpinningWheel = () => {
         text: `You got ${numbers[randomIndex]}`,
         icon: 'success',
         confirmButtonText: 'OK'
+      }).then(() => {
+        window.location.reload(); // Refresh the page after the alert is closed
       });
 
       // Send result to the server
