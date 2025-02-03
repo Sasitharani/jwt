@@ -29,7 +29,7 @@ export const spinWheelLike = (req, res) => {
                     return;
                 }
 
-                res.status(200).send('Likes updated successfully');
+                res.status(200).json({ message: 'Likes updated successfully', maxLikes: maxLikes });
             });
         } else {
             res.status(404).send('Email not found');

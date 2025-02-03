@@ -26,6 +26,8 @@ import UserProfile from './components/UserProfile'; // Import the UserProfile co
 import SpinningWheel from './components/SpinningWheel'; // Import the SpinningWheel component
 import Instructions from './components/Instructions'; // Import the Instructions component
 import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
+import BuyVotes from './voting/BuyVotes'; // Import the BuyVotes component
+import ErrorBoundary from './components/ErrorBoundary'; // Import ErrorBoundary
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -39,7 +41,7 @@ const App = () => {
         <BackgroundCircles /> {/* Add BackgroundCircles component */}
         <Header /> {/* Include the Header component */}
         <Routes>
-          <Route path="/" element={<Navigate to="/UserProfile" />} /> {/* Set GoogleLoginPage as the home page */}
+          <Route path="/" element={<Navigate to="/user-profile" />} /> {/* Set UserProfile as the home page */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -56,8 +58,9 @@ const App = () => {
           <Route path="/test" element={<Test />} />
           <Route path="/dailyAutomation" element={<DailyAutomation />} /> {/* Add the DailyAutomation route */}
           <Route path="/user-profile" element={<PrivateRoute element={<UserProfile />} />} /> {/* Add the UserProfile route */}
-          <Route path="/spinning-wheel" element={<SpinningWheel />} /> {/* Add the SpinningWheel route */}
+          <Route path="/spinning-wheel" element={<ErrorBoundary><SpinningWheel /></ErrorBoundary>} /> {/* Add the SpinningWheel route */}
           <Route path="/instructions" element={<Instructions />} /> {/* Add the Instructions route */}
+          <Route path="/buy-votes" element={<BuyVotes />} /> {/* Add the BuyVotes route */}
         </Routes>
       </Router>
     </Provider>

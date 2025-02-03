@@ -12,6 +12,8 @@ function UserVoting1() {
   const [selectedImage, setSelectedImage] = useState(null);
   const votesUsed = useSelector((state) => state.user.votesUsed);
   const votesAvailable = useSelector((state) => state.user.votesAvailable);
+  // Filter out duplicate values
+  const uniqueVotesAvailable = Array.isArray(votesAvailable) ? [...new Set(votesAvailable)] : [votesAvailable];
   const username = useSelector((state) => state.user.username);
   const email = useSelector((state) => state.user.email);
   const dispatch = useDispatch();
@@ -113,7 +115,7 @@ function UserVoting1() {
           Vote for the best image. The image with the highest votes will win Rs 100.
         </h1>
         <div className="bg-red-100 border border-red-500 rounded-lg p-4 mb-4 mt-40 fixed top-0 right-0 z-50">
-          <span className="text-red-700">Votes Available: {votesAvailable}</span>
+          <span className="text-red-700">Votes Available: {uniqueVotesAvailable.join(', ')}</span>
         </div>
         {loading ? (
           <div className="flex items-center justify-center">

@@ -8,6 +8,9 @@ const UserProfile = () => {
     const votesAvailable = useSelector(state => state.user.votesAvailable); // Get votesAvailable from slice
     console.log('votesAvailable:', votesAvailable); // Log votesAvailable
 
+    // Filter out duplicate values
+    const uniqueVotesAvailable = Array.isArray(votesAvailable) ? [...new Set(votesAvailable)] : [votesAvailable];
+
     return (
         <div className="relative bg-gray-200 min-h-screen flex items-center justify-center">
             <BackgroundCircles /> {/* Add BackgroundCircles component */}
@@ -21,9 +24,9 @@ const UserProfile = () => {
                     <label className="block text-gray-600 text-sm font-semibold">E-Mail:</label>
                     <p className="text-gray-900 text-lg">{email}</p>
                 </div>
-                <div className="mb-6">
+                <div className="mb-6" data-testid="votes-available">
                     <label className="block text-gray-600 text-sm font-semibold">Votes Available:</label>
-                    {Array.isArray(votesAvailable) && votesAvailable.map((vote, index) => (
+                    {uniqueVotesAvailable.map((vote, index) => (
                         <p key={index} className="text-gray-900 text-lg">{vote}</p>
                     ))}
                 </div>

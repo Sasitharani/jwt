@@ -12,6 +12,8 @@ const SpinningWheel = () => {
   const [lastSpinTime, setLastSpinTime] = useState(null);
   const [countdown, setCountdown] = useState('');
   const role = useSelector((state) => state.user.role); // Get role from Redux store
+  const votesBefore = useSelector((state) => state.user.votesAvailable); // Get votes from Redux store
+  const [votesAfter, setVotesAfter] = useState(votesBefore);
 
   useEffect(() => {
     const storedLastSpinTime = localStorage.getItem('lastSpinTime');
@@ -59,8 +61,6 @@ const SpinningWheel = () => {
         text: `You got ${numbers[randomIndex]}`,
         icon: 'success',
         confirmButtonText: 'OK'
-      }).then(() => {
-        window.location.reload(); // Refresh the page after the alert is closed
       });
 
       // Send result to the server
@@ -72,6 +72,7 @@ const SpinningWheel = () => {
         axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex] })
           .then(response => {
             console.log('spinWheel result updated successfully:', response.data);
+            setVotesAfter(response.data.maxLikes); // Update votes after spin
           })
           .catch(error => {
             console.error('Error updating result:', error);
@@ -106,6 +107,10 @@ const SpinningWheel = () => {
           <p>Advertisement Space</p>
         </div>
         <div style={{ width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <div>
+            <h3>Votes Before Spin: {votesBefore[0]}</h3>
+              {/* <h3>Votes Before Spin: {votesBefore.length > 0 ? votesBefore[0].LikesAvailable : 0}</h3> */}
+          </div>
           <div 
             ref={wheelRef} 
             onClick={handleClick} 
@@ -161,6 +166,9 @@ const SpinningWheel = () => {
           )}
           <div style={{ marginTop: '20px', width: '100%', maxWidth: '300px', height: '100px', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <p>Advertisement Space</p>
+          </div>
+          <div>
+            <h3>Votes After Spin: {votesAfter}</h3>
           </div>
         </div>
         <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
