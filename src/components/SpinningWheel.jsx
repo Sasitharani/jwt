@@ -62,7 +62,7 @@ const SpinningWheel = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
-        window.location.reload(); // Refresh the page after the alert is closed
+        Swal.close(); // Close the SweetAlert
       });
 
       // Send result to the server
@@ -74,6 +74,7 @@ const SpinningWheel = () => {
         axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex] })
           .then(response => {
             console.log('spinWheel result updated successfully:', response.data);
+            console.log('Response data:', response.data);
             setVotesAfter(response.data.maxLikes); // Update votes after spin
           })
           .catch(error => {
