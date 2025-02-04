@@ -20,9 +20,10 @@ export const spinWheelLike = (req, res) => {
     if (selectResults.length > 0) {
       let likesUsed = selectResults[0].LikesUsed;
       let maxLikes = likesUsed + result;
+      let likesAvailable = maxLikes - likesUsed;
 
       const updateQuery = `UPDATE ${tableName} SET LikesAvailable = ?, maxLikes = ? WHERE email = ?`;
-      db.query(updateQuery, [maxLikes, maxLikes, email], (err, updateResults) => {
+      db.query(updateQuery, [likesAvailable, maxLikes, email], (err, updateResults) => {
         if (err) {
           console.error('Error updating data:', err);
           res.status(500).send('Error in updating your data. Contact technical support team.');
