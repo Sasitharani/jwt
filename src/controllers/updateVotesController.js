@@ -22,7 +22,7 @@ const updateVotes = async (req, res) => {
             if (selectResults.length > 0) {
                 const { MaxLikes, LikesUsed } = selectResults[0];
 
-                const LikesAvailable = LikesUsed-1;
+                const LikesAvailable = LikesAvailable-1;
 
                 // Update the table with the new LikesAvailable value
                 const updateLikesAvailableQuery = `UPDATE ${tableName} SET LikesAvailable = ? WHERE email = ?`;
