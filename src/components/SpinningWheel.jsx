@@ -62,7 +62,7 @@ const SpinningWheel = () => {
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
-        Swal.close(); // Close the SweetAlert
+        window.location.reload(); // Reload the page
       });
 
       // Send result to the server
@@ -111,7 +111,7 @@ const SpinningWheel = () => {
         </div>
         <div style={{ width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <div>
-            <h3>Votes Before Spin: {votesBefore[0]}</h3>
+            <h3>Votes Before Spin: {votesBefore && votesBefore.length > 0 ? votesBefore[0] : 0}</h3>
               {/* <h3>Votes Before Spin: {votesBefore.length > 0 ? votesBefore[0].LikesAvailable : 0}</h3> */}
           </div>
           <div 
