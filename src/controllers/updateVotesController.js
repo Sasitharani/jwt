@@ -22,18 +22,18 @@ const updateVotes = async (req, res) => {
             if (selectResults.length > 0) {
                 const { MaxLikes, LikesUsed } = selectResults[0];
 
-                // const LikesAvailable = MaxLikes - LikesUsed;
+                const LikesAvailable = LikesUsed-1;
 
-                // // Update the table with the new LikesAvailable value
-                // const updateLikesAvailableQuery = `UPDATE ${tableName} SET LikesAvailable = ? WHERE email = ?`;
-                // db.query(updateLikesAvailableQuery, [LikesAvailable, email], (err, updateLikesAvailableResults) => {
-                //     if (err) {
-                //         console.error('Error updating LikesAvailable:', err);
-                //         res.status(500).send('Error in updating LikesAvailable, contact technical support team');
-                //         return;
-                //     }
-                //     console.log('LikesAvailable updated successfully');
-                // });
+                // Update the table with the new LikesAvailable value
+                const updateLikesAvailableQuery = `UPDATE ${tableName} SET LikesAvailable = ? WHERE email = ?`;
+                db.query(updateLikesAvailableQuery, [LikesAvailable, email], (err, updateLikesAvailableResults) => {
+                    if (err) {
+                        console.error('Error updating LikesAvailable:', err);
+                        res.status(500).send('Error in updating LikesAvailable, contact technical support team');
+                        return;
+                    }
+                    console.log('LikesAvailable updated successfully');
+                });
                 if (MaxLikes === LikesUsed) {
                     console.log('All likes used, no likes left');
                     res.status(400).send('All likes used, no likes left');
