@@ -76,6 +76,7 @@ const Login = () => {
         console.log('Dispatching logout action from Login.jsx');
         dispatch(logout({ meta: { fileName: 'Login.jsx' } })); // Dispatch logout action
         localStorage.removeItem('user'); // Remove user from local storage
+        localStorage.removeItem('lastSpinTime'); // Reset last spin time
         navigate('/login');
     };
 

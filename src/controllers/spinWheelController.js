@@ -8,6 +8,7 @@ export const spinWheelLike = (req, res) => {
   console.log('spinwheel called');
   console.log('Table name:', tableName);
   console.log('Received email:', email);
+  console.log('Last spin time:', lastSpinTime);
 
   const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
   db.query(selectQuery, [email], (err, selectResults) => {
@@ -26,8 +27,8 @@ export const spinWheelLike = (req, res) => {
       let updatedLikesAvailable =likesAvailable + result;
       let updatedMaxLikes = updatedLikesAvailable;
 
-      const updateQuery = `UPDATE ${tableName} SET LikesAvailable = ?, maxLikes = ? WHERE email = ?`;
-      db.query(updateQuery, [updatedLikesAvailable, updatedMaxLikes, email], (err, updateResults) => {
+      const updateQuery = `UPDATE ${tableName} SET LikesAvailable = ?, maxLikes = ?,lastSpinTime=? WHERE email = ?`;
+      db.query(updateQuery, [updatedLikesAvailable, updatedMaxLikes,lastSpinTime, email], (err, updateResults) => {
         if (err) {
           console.error('Error updating data:', err);
           res.status(500).send('Error in updating your data. Contact technical support team.');

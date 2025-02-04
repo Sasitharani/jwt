@@ -70,8 +70,8 @@ const SpinningWheel = () => {
       console.log('Before axios.post request');
       console.log('Email:', email); // Log email to ensure it is defined
 
-      try {
-        axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex] })
+      try { axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex], lastSpinTime: lastSpinTime })
+       
           .then(response => {
             console.log('spinWheel result updated successfully:', response.data);
             console.log('Response data:', response.data);
@@ -111,10 +111,9 @@ const SpinningWheel = () => {
         </div>
         <div style={{ width: '70%', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
           <div>
-            <h3>Votes Before Spin: {votesBefore && votesBefore.length > 0 ? votesBefore[0] : 0}</h3>
-              {/* <h3>Votes Before Spin: {votesBefore.length > 0 ? votesBefore[0].LikesAvailable : 0}</h3> */}
+            <h3>Votes Available: {votesBefore && votesBefore.length > 0 ? votesBefore[0] : 0}</h3>
           </div>
-          <div 
+        <div 
             ref={wheelRef} 
             onClick={handleClick} 
             style={{ 
