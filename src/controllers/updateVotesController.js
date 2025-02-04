@@ -23,10 +23,11 @@ const updateVotes = async (req, res) => {
                 const { MaxLikes, LikesUsed,LikesAvailable } = selectResults[0];
 
                 const UpdatedlikesAvailable = LikesAvailable - 1; // Correct the calculation of LikesAvailable
-
+                console.log('LikesAvailable:', LikesAvailable);
+                console.log('UpdatedlikesAvailable:', UpdatedlikesAvailable);
                 // Update the table with the new LikesAvailable value
                 const updateLikesAvailableQuery = `UPDATE ${tableName} SET LikesAvailable = ? WHERE email = ?`;
-                db.query(updateLikesAvailableQuery, [LikesAvailable, email], (err, updateLikesAvailableResults) => {
+                db.query(updateLikesAvailableQuery, [UpdatedlikesAvailable, email], (err, updateLikesAvailableResults) => {
                     if (err) {
                         console.error('Error updating LikesAvailable:', err);
                         res.status(500).send('Error in updating LikesAvailable, contact technical support team');
