@@ -56,7 +56,7 @@ const Login = () => {
                 dispatch(login({ email, username })); // Dispatch login success with email and username
                 localStorage.setItem('user', JSON.stringify({ email })); // Update local storage
                 await updateVotes(username, email, fetchVotesDetails); // Call updateVotes after login
-                navigate('/user'); // After successfully login it will navigate to user page
+                navigate('/user-profile'); // Redirect to UserProfile page
             } else {
                 setMessage('Password did not match.');
             }

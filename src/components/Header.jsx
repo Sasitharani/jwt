@@ -112,7 +112,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="bg-greenPastel p-4 text-white flex justify-between items-center"> {/* Changed bg-black to bg-greenPastel */}
+        <header className="bg-greenPastel p-4 text-black flex justify-between items-center"> {/* Changed text-white to text-black */}
             <div className="flex items-center">
                 <img src="/path/to/logo.png" alt="Logo" className="h-8 mr-4" />
                 <Link to="/" className="text-md font-bold">REACTGROOVY4All</Link>

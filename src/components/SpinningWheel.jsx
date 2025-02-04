@@ -171,7 +171,7 @@ const SpinningWheel = () => {
             <p>Advertisement Space</p>
           </div>
           <div>
-            <h3>Votes After Spin: {votesAfter}</h3>
+            {/* <h3>Votes After Spin: {votesAfter}</h3> */}
           </div>
         </div>
         <div style={{ width: '15%', height: '100vh', border: '1px solid #ccc', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

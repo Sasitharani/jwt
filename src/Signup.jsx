@@ -63,7 +63,7 @@ const Signup = () => {
                             icon: 'success',
                             confirmButtonText: 'Continue',
                             preConfirm: () => {
-                                navigate('/dashboard'); // Redirect to dashboard or desired page
+                                navigate('/user-profile'); // Redirect to UserProfile page
                             }
                         });
                     } else {
