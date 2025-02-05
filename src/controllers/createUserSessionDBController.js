@@ -5,7 +5,6 @@ const createUserSessionDB = (req, res) => {
   const formattedDate = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
   const tableName = `todaysDateLikes_${formattedDate}`;
 
-
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS ${tableName} (
       SrNo INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,6 +18,7 @@ const createUserSessionDB = (req, res) => {
       ImagesUploaded INT DEFAULT 0,
       Membership VARCHAR(50),
       lastSpinTime TIME,
+      timeDiff BIGINT,  // Add timeDiff column
       CHECK (MaxLikes = LikesAvailable)
     )
   `;

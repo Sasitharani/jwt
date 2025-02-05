@@ -107,7 +107,11 @@ function UserVoting1() {
 
   const fetchAllResults = async () => {
     try {
-      const response = await axios.get('https://jwt-rj8s.onrender.com/api/fetchAllResults'); // Adjust the endpoint as needed
+      const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+        username,
+        email
+      }); // Ensure the endpoint is correct
+      console.log('All Results:', response.data[0].lastSpinTime);
       console.log('All Results:', response.data);
     } catch (error) {
       console.error('Error fetching all results:', error);

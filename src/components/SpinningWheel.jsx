@@ -10,29 +10,65 @@ const SpinningWheel = () => {
   const wheelRef = useRef(null);
   const email = localStorage.getItem('email'); // Ensure email is defined
   const [lastSpinTime, setLastSpinTime] = useState(null);
-  const [countdown, setCountdown] = useState('');
+  const [countdown, setCountdown] = useState(''); // Define countdown state
   const role = useSelector((state) => state.user.role); // Get role from Redux store
   const votesBefore = useSelector((state) => state.user.votesAvailable); // Get votes from Redux store
   const [votesAfter, setVotesAfter] = useState(votesBefore);
 
+  // Fetch lastSpinTime from the server
   useEffect(() => {
-    const storedLastSpinTime = localStorage.getItem('lastSpinTime');
-    if (storedLastSpinTime) {
-      setLastSpinTime(new Date(storedLastSpinTime));
-    }
-  }, []);
+    const fetchLastSpinTime = async () => {
+      try {
+        const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+          email
+        }); // Ensure the endpoint is correct
+        if (response.data[0].lastSpinTime) {
+          setLastSpinTime(new Date(response.data[0].lastSpinTime)); // Set lastSpinTime from response
+        }
+      } catch (error) {
+        console.error('Error fetching last spin time:', error);
+      }
+    };
 
+    fetchLastSpinTime();
+  }, [email]);
+
+  // Retrieve timeDiff from local storage
+  useEffect(() => {
+    const storedTimeDiff = localStorage.getItem('timeDiff');
+    if (storedTimeDiff && lastSpinTime) {
+      const now = new Date();
+      const timeDiff = parseInt(storedTimeDiff, 10);
+      const remainingTime = timeDiff - (now.getTime() - lastSpinTime.getTime());
+      if (remainingTime > 0) {
+        const minutes = Math.floor(remainingTime / (1000 * 60));
+        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+        setCountdown(`${minutes}m ${seconds}s`);
+      } else {
+        setCountdown('');
+      }
+    }
+  }, [lastSpinTime]);
+
+  // Set up interval to calculate countdown
   useEffect(() => {
     const interval = setInterval(() => {
       if (lastSpinTime && role !== 'admin') {
         const now = new Date();
         const timeDiff = (lastSpinTime.getTime() + 30 * 60 * 1000) - now.getTime(); // 30 minutes
+        console.log('lastSpinTime:', lastSpinTime);
+        console.log('now:', now);
+        console.log('timeDiff:', timeDiff);
         if (timeDiff > 0) {
           const minutes = Math.floor(timeDiff / (1000 * 60));
           const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-          setCountdown(`${minutes}m ${seconds}s`);
+          setCountdown(`${minutes}m ${seconds}s`); // Update countdown
+          console.log('countdown:', `${minutes}m ${seconds}s`);
+          localStorage.setItem('timeDiff', timeDiff); // Save timeDiff to local storage
         } else {
-          setCountdown('');
+          setCountdown(''); // Reset countdown when time is up
+          console.log('countdown reset to empty');
+          localStorage.removeItem('timeDiff'); // Remove timeDiff from local storage
         }
       }
     }, 1000);
@@ -40,22 +76,24 @@ const SpinningWheel = () => {
     return () => clearInterval(interval);
   }, [lastSpinTime, role]);
 
+  // Check if the user can spin the wheel
   const canSpin = () => {
-    if (role === 'admin') return true;
-    if (!lastSpinTime) return true;
+    if (role === 'admin') return true; // Admins can always spin the wheel
+    if (!lastSpinTime || countdown === '') return true; // Allow spinning if lastSpinTime is not set or countdown is empty
     const now = new Date();
     const minutesSinceLastSpin = (now - lastSpinTime) / (1000 * 60);
     return minutesSinceLastSpin >= 30; // 30 minutes
   };
 
+  // Spin the wheel
   const spinWheel = () => {
-    setSpinning(true);
+    setSpinning(true); // Set spinning state to true
     const randomIndex = Math.floor(Math.random() * numbers.length);
     const degree = (randomIndex * (360 / numbers.length)) + 3600; // Spin multiple times
     wheelRef.current.style.transform = `rotate(${degree}deg)`;
     setTimeout(() => {
-      setSpinning(false);
-      setResult(numbers[randomIndex]);
+      setSpinning(false); // Set spinning state to false
+      setResult(numbers[randomIndex]); // Set result
       Swal.fire({
         title: 'Result',
         text: `You got ${numbers[randomIndex]}`,
@@ -66,16 +104,11 @@ const SpinningWheel = () => {
       });
 
       // Send result to the server
-      console.log('Sending result to the server:', numbers[randomIndex]);
-      console.log('Before axios.post request');
-      console.log('Email:', email); // Log email to ensure it is defined
-
-      try { axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex], lastSpinTime: lastSpinTime })
+      try { axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex], lastSpinTime: new Date().toISOString(),timeDiff: timeDiff })
        
           .then(response => {
-            console.log('spinWheel result updated successfully:', response.data);
-            console.log('Response data:', response.data);
             setVotesAfter(response.data.maxLikes); // Update votes after spin
+            localStorage.setItem('timeDiff', response.data.timeDiff); // Save timeDiff to local storage
           })
           .catch(error => {
             console.error('Error updating result:', error);
@@ -84,19 +117,18 @@ const SpinningWheel = () => {
         console.error('Error before axios.post request:', error);
       }
 
-      console.log('After axios.post request');
-      localStorage.setItem('lastSpinTime', new Date().toISOString());
       setLastSpinTime(new Date());
     }, 5000); // Assume 5 seconds for the wheel to stop
   };
 
+  // Handle click event
   const handleClick = () => {
     if (!spinning && canSpin()) {
       spinWheel();
     } else if (!canSpin()) {
       Swal.fire({
         title: 'Wait',
-        text: 'You can spin the wheel only once every half an hour.',
+        text: `You can spin the wheel only once every half an hour. Next spin available in: ${countdown}`,
         icon: 'warning',
         confirmButtonText: 'OK'
       });

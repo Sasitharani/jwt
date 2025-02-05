@@ -73,6 +73,27 @@ const updateVotes = async (req, res) => {
     }
 }
 
-export { updateVotes };
+const fetchAllResults = async (req, res) => {
+    const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
+    const tableName = `todaysDateLikes_${today}`;
+
+    try {
+        const selectAllQuery = `SELECT * FROM ${tableName}`;
+        db.query(selectAllQuery, (err, allResults) => {
+            if (err) {
+                console.error('Error selecting all data:', err);
+                res.status(500).send('Error in fetching all data, contact technical support team');
+                return;
+            }
+            console.log('All values from the table:', allResults);
+            res.status(200).json(allResults); // Return allResults in the response
+        });
+    } catch (err) {
+        console.error('Error fetching all results:', err);
+        res.status(500).send('Error in fetching all results, contact technical support team');
+    }
+};
+
+export { updateVotes, fetchAllResults };
 
 
