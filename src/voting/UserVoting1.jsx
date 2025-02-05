@@ -50,10 +50,11 @@ function UserVoting1() {
 
   const updateVotes = async (username, email, fetchVotesDetails) => {
     try {
-      await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+      const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
         username,
         email
       });
+      console.log('Response Data:', response.data);
       await fetchVotesDetails();
     } catch (error) {
       console.error('Error in updateVotes:', error);
@@ -103,6 +104,19 @@ function UserVoting1() {
   };
 
   const highestVotedImage = currentImages.reduce((max, image) => (image.votes > max.votes ? image : max), currentImages[0]);
+
+  const fetchAllResults = async () => {
+    try {
+      const response = await axios.get('https://jwt-rj8s.onrender.com/api/fetchAllResults'); // Adjust the endpoint as needed
+      console.log('All Results:', response.data);
+    } catch (error) {
+      console.error('Error fetching all results:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllResults(); // Call the function to fetch and log all results
+  }, []);
 
   return (
     <div className="flex flex-col lg:flex-row">

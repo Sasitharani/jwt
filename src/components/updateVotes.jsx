@@ -12,6 +12,7 @@ const updateVotes = async (username, email, fetchVotesDetails) => {
         });
         await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
         console.log('Response in updateVotes:', response.data.LikesUsed);
+
     } catch (error) {
         Swal.fire('Error', error.response.data, 'error');
     }

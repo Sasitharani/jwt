@@ -5,10 +5,9 @@ const updateVotes = async (req, res) => {
     const tableName = `todaysDateLikes_${today}`;
     let { email } = req.body;
 
-    console.log('updateVotes called');
-    console.log('Table name:', tableName);
-
-    console.log('Received email:', email);
+    // console.log('updateVotes called');
+    // console.log('Table name:', tableName);
+    // console.log('Received email:', email);
 
     try {
         const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
@@ -47,9 +46,19 @@ const updateVotes = async (req, res) => {
                             res.status(500).send('Error in updating the Votes contact technical support team');
                             return;
                         }
-                        console.log('Vote updated successfully');
                         res.status(200).send('Vote updated successfully');
-                        return;
+      
+
+                    const selectAllQuery = `SELECT * FROM ${tableName}`;
+                    db.query(selectAllQuery, (err, allResults) => {
+                        if (err) {
+                            console.error('Error selecting all data:', err);
+                            res.status(500).send('Error in fetching all data, contact technical support team');
+                            return;
+                        }
+                        console.log('All values from the table:', allResults);
+                        res.status(200).json(allResults); // Return allResults in the response
+                    });
                     });
                 }
             } else {
