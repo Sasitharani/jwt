@@ -26,6 +26,8 @@ export const spinWheelLike = (req, res) => {
       let updatedLikesAvailable = likesAvailable + result;
       let updatedMaxLikes = updatedLikesAvailable;
 
+      console.log('Updated last spin time:', lastSpinTime);
+
       const updateQuery = `UPDATE ${tableName} SET LikesAvailable = ?, maxLikes = ?, lastSpinTime = ? WHERE email = ?`;
       db.query(updateQuery, [updatedLikesAvailable, updatedMaxLikes, lastSpinTime, email], (err, updateResults) => {
         if (err) {
