@@ -46,7 +46,7 @@ const updateVotes = async (req, res) => {
                             res.status(500).send('Error in updating the Votes contact technical support team');
                             return;
                         }
-                        res.status(200).send('Vote updated successfully');
+                       // res.status(200).send('Vote updated successfully');
       
 
                     const selectAllQuery = `SELECT * FROM ${tableName}`;
