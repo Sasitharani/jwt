@@ -1,6 +1,8 @@
 import db from '../../db.js'; // Ensure the correct path
 
 const createUserSessionDB = (req, res) => {
+  console.log("Create User Session DB called");
+  
   const today = new Date();
   const formattedDate = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
   const tableName = `todaysDateLikes_${formattedDate}`;

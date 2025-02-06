@@ -104,7 +104,7 @@ const SpinningWheel = () => {
       });
 
       // Send result to the server
-      try { axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex], lastSpinTime: new Date().toISOString(),timeDiff: timeDiff })
+      try { axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, result: numbers[randomIndex], lastSpinTime: new Date().toISOString() })
        
           .then(response => {
             setVotesAfter(response.data.maxLikes); // Update votes after spin
