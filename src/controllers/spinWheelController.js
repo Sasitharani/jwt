@@ -9,6 +9,7 @@ export const spinWheelLike = (req, res) => {
   console.log('Table name:', tableName);
   console.log('Received email:', email);
   console.log('Last spin time:', lastSpinTime);
+  console.log('timeDiff:', timeDiff);
 
   const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
   db.query(selectQuery, [email], (err, selectResults) => {
