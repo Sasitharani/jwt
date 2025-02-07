@@ -23,9 +23,11 @@ const SpinningWheel = () => {
           email
         });
         console.log('lastSpinTime fetched from the database: ',response.data[0].lastSpinTime); 
-        setLastSpinTime(response.data[0].lastSpinTime);
+
         if (response.data[0].lastSpinTime) {
-          setLastSpinTime(new Date(response.data[0].lastSpinTime)); // Set lastSpinTime from response
+          const dbLastSpinTime = response.data[0].lastSpinTime;
+          const dbLastSpinTimeInt = dbLastSpinTime.getTime();
+          setLastSpinTime(dbLastSpinTimeInt); // Set lastSpinTime from database
         }
       } catch (error) {
         console.error('Error fetching last spin time:', error);
@@ -50,13 +52,13 @@ const SpinningWheel = () => {
       const lastSpinTimeInt = new Date(lastSpinTime).getTime(); // Convert lastSpinTime to an integer
       console.log('Last Spin Time (int):', lastSpinTimeInt);
       timeDiff = nowInt - lastSpinTimeInt;
+      console.log('Time Difference:', timeDiff);
       setLastSpinTime(lastSpinTimeInt); // Save lastSpinTime as an integer in the state
     } else {
       timeDiff = 0;
     }
     localStorage.setItem('timeDiff', timeDiff); // Save timeDiff to local storage
 
-    console.log('Last spin time:', lastSpinTime); // Console log lastSpinTime
     const remainingTime = nowInt - (lastSpinTime ? new Date(lastSpinTime).getTime() : 0);
     if (remainingTime > 0) {
       const minutes = Math.floor(remainingTime / (1000 * 60));
