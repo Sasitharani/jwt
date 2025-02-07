@@ -21,7 +21,9 @@ const SpinningWheel = () => {
       try {
         const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
           email
-        }); // Ensure the endpoint is correct
+        });
+        console.log('lastSpinTime fetched from the database: ',response.data[0].lastSpinTime); 
+        setLastSpinTime(response.data[0].lastSpinTime);
         if (response.data[0].lastSpinTime) {
           setLastSpinTime(new Date(response.data[0].lastSpinTime)); // Set lastSpinTime from response
         }
@@ -29,26 +31,39 @@ const SpinningWheel = () => {
         console.error('Error fetching last spin time:', error);
       }
     };
-
     fetchLastSpinTime();
   }, [email]);
 
-  // Retrieve timeDiff from local storage
+  // This useEffect will only work when the wheel is spun
   useEffect(() => {
-    const storedTimeDiff = localStorage.getItem('timeDiff');
-    if (storedTimeDiff && lastSpinTime) {
-      const now = new Date();
-      const timeDiff = parseInt(storedTimeDiff, 10);
-      console.log('Stored timeDiff:', timeDiff); // Console log timeDiff
-      console.log('Last spin time:', lastSpinTime); // Console log lastSpinTime
-      const remainingTime = timeDiff - (now.getTime() - lastSpinTime.getTime());
-      if (remainingTime > 0) {
-        const minutes = Math.floor(remainingTime / (1000 * 60));
-        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-        setCountdown(`${minutes}m ${seconds}s`);
-      } else {
-        setCountdown('');
-      }
+    console.log('This useEffect will only work when the wheel is spun');
+    console.log('Last Spin time in useEffect when lastSpinTime is set:', lastSpinTime);
+
+    const now = new Date();
+    const nowInt = now.getTime(); // Convert now to an integer
+    const timeDiff1 = localStorage.getItem('timeDiff');
+
+    console.log('Current Time (int):', nowInt);
+    console.log('Stored timeDiff:', timeDiff1); // Console log timeDiff
+    let timeDiff;
+    if (lastSpinTime) {
+      const lastSpinTimeInt = new Date(lastSpinTime).getTime(); // Convert lastSpinTime to an integer
+      console.log('Last Spin Time (int):', lastSpinTimeInt);
+      timeDiff = nowInt - lastSpinTimeInt;
+      setLastSpinTime(lastSpinTimeInt); // Save lastSpinTime as an integer in the state
+    } else {
+      timeDiff = 0;
+    }
+    localStorage.setItem('timeDiff', timeDiff); // Save timeDiff to local storage
+
+    console.log('Last spin time:', lastSpinTime); // Console log lastSpinTime
+    const remainingTime = nowInt - (lastSpinTime ? new Date(lastSpinTime).getTime() : 0);
+    if (remainingTime > 0) {
+      const minutes = Math.floor(remainingTime / (1000 * 60));
+      const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+      setCountdown(`${minutes}m ${seconds}s`);
+    } else {
+      setCountdown('');
     }
   }, [lastSpinTime]);
 
@@ -56,17 +71,16 @@ const SpinningWheel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (lastSpinTime && role !== 'admin') {
+        console.log('Last spin time in useeffect of countdown:', lastSpinTime);
+        console.log('Current time seeffect of countdown::', now.getTime());
         const now = new Date();
         const timeDiff = (lastSpinTime.getTime() + 30 * 60 * 1000) - now.getTime(); // 30 minutes
-        console.log('lastSpinTime:', lastSpinTime);
-        console.log('now:', now);
-        console.log('timeDiff:', timeDiff);
         if (timeDiff > 0) {
           const minutes = Math.floor(timeDiff / (1000 * 60));
           const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
           setCountdown(`${minutes}m ${seconds}s`); // Update countdown
           console.log('countdown:', `${minutes}m ${seconds}s`);
-          localStorage.setItem('timeDiff', timeDiff); // Save timeDiff to local storage
+
         } else {
           setCountdown(''); // Reset countdown when time is up
           console.log('countdown reset to empty');
@@ -96,6 +110,7 @@ const SpinningWheel = () => {
     setTimeout(() => {
       setSpinning(false); // Set spinning state to false
       setResult(numbers[randomIndex]); // Set result
+
       Swal.fire({
         title: 'Result',
         text: `You got ${numbers[randomIndex]}`,
@@ -108,9 +123,10 @@ const SpinningWheel = () => {
       // Send result to the server
       try {
         const storedTimeDiff = localStorage.getItem('timeDiff');
+        console.log('Stored timeDiff before axios.post:', storedTimeDiff);
         const timeDiff = storedTimeDiff ? parseInt(storedTimeDiff, 10) : null;
         if (!isNaN(timeDiff)) {
-          axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, timeDiff: timeDiff, result: numbers[randomIndex], lastSpinTime: new Date().toISOString() })
+          axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, timeDiff: storedTimeDiff, result: numbers[randomIndex], lastSpinTime: new Date().toISOString() })
             .then(response => {
               setVotesAfter(response.data.maxLikes); // Update votes after spin
               localStorage.setItem('timeDiff', response.data.timeDiff); // Save timeDiff to local storage
