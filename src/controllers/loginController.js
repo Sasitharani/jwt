@@ -2,7 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../../db.js'; // Ensure the correct path
 
-const SECRET_KEY = 'your_default_secret_key'; // Replace with your actual secret key
+
+//const SECRET_KEY = 'your_default_secret_key'; // Replace with your actual secret key
 
 const login = async (req, res) => {
   console.log('Login Controller called');

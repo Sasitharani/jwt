@@ -39,7 +39,7 @@ const Login = () => {
         console.log("asdf");
         setLoading(true); // Set loading to true
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/login', {
+            const response = await axios.post('http://localhost:3004/api/login', { // Ensure the correct URL and port
                 email,
                 password
             });
