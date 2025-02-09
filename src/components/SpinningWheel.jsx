@@ -3,16 +3,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useSelector } from 'react-redux'; // Import useSelector
 
-// Utility function to convert HH:MM:SS to seconds
-const timeStringToSeconds = (timeString) => {
-  const [hours, minutes, seconds] = timeString.split(':').map(Number);
-  return (hours * 3600) + (minutes * 60) + seconds;
-};
 
-// Example usage
-const timeString = '05:23:06';
-const timeInSeconds = timeStringToSeconds(timeString);
-console.log('Time in seconds:', timeInSeconds);
 
 const SpinningWheel = () => {
   const numbers = [0, 2, 4, 30, 10, 20, 4, 6, 50, 1, 100]; // Updated values
@@ -34,84 +25,47 @@ const SpinningWheel = () => {
         const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
           email
         });
-        //console.log('lastSpinTime fetched from the database: ',response.data[0].lastSpinTime); //this is fetching correctly
         const dbLastSpinTime2 = response.data[0].lastSpinTime;
-       // console.log('first dbLastSpinTime2 without int:', dbLastSpinTime2);
-        const dbLastSpinTime3=timeStringToSeconds(dbLastSpinTime2);
-       //console.log('Converted time from databse:', dbLastSpinTime3);
-        dbsetLastSpinTime(dbLastSpinTime2);
-        //console.log('The value of dbSpinTime after defining new state:', dblastSpinTime);
+        const dbLastSpinTimeDate = new Date(dbLastSpinTime2 * 1000); // Convert to Date object
+        dbsetLastSpinTime(dbLastSpinTimeDate);
       } catch (error) {
         console.error('Error fetching last spin time:', error);
       }
     };
     fetchLastSpinTime();
-  }, [email, dblastSpinTime]);
-
-  // This useEffect will only work when the wheel is spun
-  useEffect(() => {
-    //console.log('This useEffect will only work when the wheel is spun');
-    //console.log('Last Spin time in useEffect when lastSpinTime is set:', lastSpinTime);
-
-    const now = new Date();
-    const nowInt = now.getTime(); // Convert now to an integer
-   
-    //console.log('Current Time (int):', now);
-    //console.log('Last Spin time from db in int :', dblastSpinTime); // Console log timeDiff
-    let timeDiff;
-    if (dblastSpinTime) {
-      timeDiff = nowInt - dblastSpinTime;
-      console.log('Time Difference:', timeDiff);
-      //setLastSpinTime(lastSpinTimeInt); // Save lastSpinTime as an integer in the state
-    } else {
-      timeDiff = 0;
-    }
-    localStorage.setItem('timeDiff', timeDiff); // Save timeDiff to local storage
-
-    // Convert timeDiff to HH:MM:SS format
-    if (timeDiff > 0) {
-      const totalSeconds = Math.floor(timeDiff / 1000);
-      const hours = Math.floor(totalSeconds / 3600);
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
-      setCountdown(`${hours}h ${minutes}m ${seconds}s`);
-    } else {
-      setCountdown('');
-    }
-  }, [dblastSpinTime, email, lastSpinTime]);
+  }, [email]);
 
   // Set up interval to calculate countdown
   useEffect(() => {
+    console.log('countdown useEffect executed');
     const interval = setInterval(() => {
-      if (lastSpinTime && role !== 'admin') {
-        console.log('Last spin time in useeffect of countdown:', dblastSpinTime);
+      console.log('countdown useEffect executed inside interval');
+      if (dblastSpinTime && role !== 'admin') {
+        console.log('countdown useEffect executed inside dblastSpinTime && role !== admin');
         const now = new Date();
-        console.log('Current time effect of countdown::', now.getTime());
-     
         const timeDiff = (dblastSpinTime.getTime() + 30 * 60 * 1000) - now.getTime(); // 30 minutes
         if (timeDiff > 0) {
-          const minutes = Math.floor(timeDiff / (1000 * 60));
-          const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
-          setCountdown(`${minutes}m ${seconds}s`); // Update countdown
-          console.log('countdown:', `${minutes}m ${seconds}s`);
-
+          const totalSeconds = Math.floor(timeDiff / 1000);
+          const hours = Math.floor(totalSeconds / 3600);
+          const minutes = Math.floor((totalSeconds % 3600) / 60);
+          const seconds = totalSeconds % 60;
+          setCountdown(`${hours}h ${minutes}m ${seconds}s`); // Update countdown
+          console.log('Countdown:', countdown);
         } else {
-          setCountdown(''); // Reset countdown when time is up
-          console.log('countdown reset to empty');
-          localStorage.removeItem('timeDiff'); // Remove timeDiff from local storage
+          setCountdown('0m 0s'); // Reset countdown when time is up
         }
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [lastSpinTime, role,dblastSpinTime]);
+  }, [dblastSpinTime, role, countdown]);
 
   // Check if the user can spin the wheel
   const canSpin = () => {
     if (role === 'admin') return true; // Admins can always spin the wheel
-    if (!lastSpinTime || countdown === '') return true; // Allow spinning if lastSpinTime is not set or countdown is empty
+    if (!dblastSpinTime || countdown === '0m 0s') return true; // Allow spinning if lastSpinTime is not set or countdown is empty
     const now = new Date();
-    const minutesSinceLastSpin = (now - lastSpinTime) / (1000 * 60);
+    const minutesSinceLastSpin = (now - dblastSpinTime) / (1000 * 60);
     return minutesSinceLastSpin >= 30; // 30 minutes
   };
 
@@ -145,7 +99,7 @@ const SpinningWheel = () => {
           lastSpinTime: lastSpinTimetoDb
         })
         .then(response => {
-          console.log('API response:', response.data); // Log API response
+          //console.log('API response:', response.data); // Log API response
           setVotesAfter(response.data.maxLikes); // Update votes after spin
           //localStorage.setItem('timeDiff', response.data.timeDiff); // Save timeDiff to local storage
         })
@@ -232,7 +186,7 @@ const SpinningWheel = () => {
               Result: {result}
             </div>
           )}
-          {countdown && (
+          {countdown && countdown !== '0m 0s' && (
             <div style={{ marginTop: '20px', fontSize: '18px', color: 'red' }}>
               Next spin available in: {countdown}
             </div>

@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import db from '../../db.js'; // Ensure the correct path
 
-const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
+const SECRET_KEY = 'your_default_secret_key'; // Replace with your actual secret key
 
 const login = async (req, res) => {
   const { email, password } = req.body;
@@ -29,6 +29,7 @@ const login = async (req, res) => {
       return res.status(200).json({ token, message: 'Login Successfully', hashedPassword: user.password });
     });
   } catch (error) {
+    console.error('Error logging in:', error);
     res.status(500).send('Error logging in');
   }
 };
