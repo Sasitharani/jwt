@@ -28,6 +28,7 @@ import Instructions from './components/Instructions'; // Import the Instructions
 import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
 import BuyVotes from './voting/BuyVotes'; // Import the BuyVotes component
 import ErrorBoundary from './components/ErrorBoundary'; // Import ErrorBoundary
+import TestCountdown from './components/TestCountdown'; // Import the TestCountdown component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/spinning-wheel" element={<ErrorBoundary><SpinningWheel /></ErrorBoundary>} /> {/* Add the SpinningWheel route */}
           <Route path="/instructions" element={<Instructions />} /> {/* Add the Instructions route */}
           <Route path="/buy-votes" element={<BuyVotes />} /> {/* Add the BuyVotes route */}
+          <Route path="/test-countdown" element={<PrivateRoute element={<TestCountdown />} />} /> {/* Add the TestCountdown route */}
         </Routes>
       </Router>
     </Provider>

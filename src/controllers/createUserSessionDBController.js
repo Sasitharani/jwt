@@ -19,7 +19,7 @@ const createUserSessionDB = (req, res) => {
       MaxImages INT DEFAULT 0,
       ImagesUploaded INT DEFAULT 0,
       Membership VARCHAR(50),
-      lastSpinTime TIME,
+      lastSpinTime INT,
       timeDiff BIGINT,
       CHECK (MaxLikes = LikesAvailable)
     )
