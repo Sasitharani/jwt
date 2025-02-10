@@ -8,13 +8,35 @@ import { loginSuccess, login, logout } from './store/userSlice'; // Import actio
 import BackgroundCircles from './components/BackgroundCircles'; // Import BackgroundCircles
 import Swal from 'sweetalert2';
 
-const updateVotes = async (username, email, fetchVotesDetails) => {
+const fetchVotesDetails = async (username, email, dispatch) => {
+  try {
+    const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+      username,
+      email
+    });
+    const LikesAvailable = response.data.map(vote => vote.LikesAvailable);
+    const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
+
+    dispatch(loginSuccess({ 
+      username, 
+      email, 
+      votesData: response.data, 
+      votesUsed: firstLikeUsed,
+      votesAvailable: LikesAvailable // Include LikesAvailable in the payload
+    })); // Save firstLikeUsed to Redux store
+  } catch (error) {
+    console.error('Error in fetchVotesDetails:', error);
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
+
+const updateVotes = async (username, email, dispatch) => {
   try {
     const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
       username,
       email
     });
-    await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
+    await fetchVotesDetails(username, email, dispatch); // Call fetchVotesDetails after updateVotes
     console.log('Response in updateVotes:', response.data.LikesUsed);
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
@@ -36,17 +58,20 @@ const Login = () => {
 
     const handleLogin1 = async (e) => {
         e.preventDefault();
-        console.log("asdf");
+        console.log("Login form submitted");
         setLoading(true); // Set loading to true
         try {
-            const response = await axios.post('http://localhost:3004/api/login', { // Ensure the correct URL and port
+            const response = await axios.post('https://jwt-rj8s.onrender.com/api/login', { // Ensure the correct URL and port
                 email,
                 password
             });
+            console.log('Server response:', response.data);
             const hashedPassword = response.data.hashedPassword;
             const username = response.data.username; // Extract username from response
-            console.log('password', password);
-            console.log('res.data', response.data.hashedPassword);
+            console.log('Entered email:', email);
+            console.log('Entered username:', username);
+            console.log('Entered password:', password);
+            console.log('Hashed password from server:', hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
             console.log('Password match:', passwordIsValid);
             if (passwordIsValid) {
@@ -55,12 +80,13 @@ const Login = () => {
                 
                 dispatch(login({ email, username })); // Dispatch login success with email and username
                 localStorage.setItem('user', JSON.stringify({ email })); // Update local storage
-                await updateVotes(username, email, fetchVotesDetails); // Call updateVotes after login
+                //await updateVotes(username, email, dispatch); // Call updateVotes after login
                 navigate('/user-profile'); // Redirect to UserProfile page
             } else {
                 setMessage('Password did not match.');
             }
         } catch (error) {
+            console.error('Error during login:', error);
             if (error.response && error.response.data && error.response.data.message) {
                 setMessage(`Login failed: ${error.response.data.message}`);
             } else {

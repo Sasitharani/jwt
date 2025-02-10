@@ -52,16 +52,20 @@ const Header = () => {
             //console.log("Header Response data after fetching data",response.data);
             setVotesData(response.data);
 
-            const LikesAvailable = response.data.map(vote => vote.LikesAvailable);
-            const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
-     
-            dispatch(loginSuccess({ 
-                username: user.username, 
-                email: user.email, 
-                votesData: response.data, 
-                votesUsed: firstLikeUsed,
-                votesAvailable: LikesAvailable // Include LikesAvailable in the payload
-            })); // Save firstLikeUsed to Redux store
+            if (Array.isArray(response.data)) {
+                const LikesAvailable = response.data.map(vote => vote.LikesAvailable);
+                const firstLikeUsed = response.data.length > 0 ? response.data[0].LikesUsed : null;
+
+                dispatch(loginSuccess({ 
+                    username: user.username, 
+                    email: user.email, 
+                    votesData: response.data, 
+                    votesUsed: firstLikeUsed,
+                    votesAvailable: LikesAvailable // Include LikesAvailable in the payload
+                })); // Save firstLikeUsed to Redux store
+            } else {
+                console.error('Response data is not an array:', response.data);
+            }
         } catch (error) {
             console.error('Error in fetchVotesDetails:', error);
             Swal.fire('Error', error.response.data, 'error');
