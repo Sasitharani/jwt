@@ -21,27 +21,83 @@ import fetchVotesDetailsRoute from './src/routes/fetchVotesDetailsRoute.js'; // 
 import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import updateVotesRoute
 import spinWheelRoute from './src/routes/spinWheelRoute.js'; // Correct the file extension to .jsx
 import logsRoute from './src/routes/logsRoute.js'; // Import logsRoute
-import './src/scheduler/createUserSessionJob.js'; // Import the scheduler scriptimport nodemailer from 'nodemailer'; // Import nodemailer for email notifications
+import './src/scheduler/createUserSessionJob.js'; // Import the scheduler script
+import nodemailer from 'nodemailer'; // Import nodemailer for email notifications
 
-dotenv.config();dotenv.config();
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-app.use(cors()); // Enable CORSCORS
-app.use(bodyParser.json());app.use(bodyParser.json());
+app.use(cors()); // Enable CORS
+app.use(bodyParser.json());
+
+// Set up nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// Function to send email notifications
+const sendEmailNotification = (subject, message) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: 'sasitharani@gmail.com',
+    subject: subject,
+    text: message
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+    } else {
+      console.log('Email sent:', info.response);
+    }
+  });
+};
+
+// Middleware to log console messages
+const logMiddleware = (req, res, next) => {
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+
+  console.log = (message, ...optionalParams) => {
+    const logMessage = `[${new Date().toISOString()}] [server] ${message}`;
+    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [logMessage, 'log'], (err) => {
+      if (err) console.error('Error inserting log:', err);
+    });
+    sendEmailNotification('Log Message', logMessage);
+    originalConsoleLog(message, ...optionalParams);
+  };
+
+  console.error = (message, ...optionalParams) => {
+    const errorMessage = `[${new Date().toISOString()}] [server] ${message}`;
+    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [errorMessage, 'error'], (err) => {
+      if (err) console.error('Error inserting error log:', err);
+    });
+    sendEmailNotification('Error Message', errorMessage);
+    originalConsoleError(message, ...optionalParams);
+  };
+
+  next();
+};
+
+app.use(logMiddleware);
 
 // Use the imported routes
-app.use('/api', deleteImageRoute);teTransport({
+app.use('/api', deleteImageRoute);
 app.use('/api', getAllImagesRoute);
 app.use('/api', loginRoute);
-app.use('/api', googleLoginRoute); // Ensure the correct routeSER,
+app.use('/api', googleLoginRoute); // Ensure the correct route
 app.use('/api', signupRoute);
 app.use('/api', checkEmailAvailabilityRoute);
 app.use('/api', fileUploadSendEmailRoute);
 app.use('/api', passwordResetRoute);
-app.use('/api', hashThePasswordRoute);s
-app.use('/api', comparePasswordRoute);ject, message) => {
+app.use('/api', hashThePasswordRoute);
+app.use('/api', comparePasswordRoute);
 app.use('/api', imgForVote1Route);
 app.use('/api', getImagesInVote1PageRoute);
 app.use('/api', voteForVote1Route);
@@ -49,71 +105,13 @@ app.use('/api', createUserSessionDBRoute);
 app.use('/api', fetchVotesDetailsRoute);
 app.use('/api', updateVotesRoute);
 app.use('/api', spinWheelRoute); // Add this line
-  transporter.sendMail(mailOptions, (error, info) => { the logs route
+app.use('/api', logsRoute); // Use the logs route
 
-      console.error('Error sending email:', error);
-    } else {onsole.error('Unhandled error:', err);
-  res.status(500).json({ error: 'Internal Server Error', details: err.message });      console.log('Email sent:', info.response);
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err);
+  res.status(500).json({ error: 'Internal Server Error', details: err.message });
 });
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-});// Middleware to log console messages
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-});    console.log(`Server is running on port ${PORT}`);app.listen(PORT, () => {});  res.status(500).json({ error: 'Internal Server Error', details: err.message });  console.error('Unhandled error:', err);app.use((err, req, res, next) => {app.use('/api', spinWheelRoute); // Add this lineapp.use('/api', updateVotesRoute);app.use('/api', fetchVotesDetailsRoute);app.use('/api', createUserSessionDBRoute);app.use('/api', voteForVote1Route);app.use('/api', getImagesInVote1PageRoute);app.use('/api', imgForVote1Route);app.use('/api', comparePasswordRoute);app.use('/api', hashThePasswordRoute);app.use('/api', passwordResetRoute);app.use('/api', fileUploadSendEmailRoute);app.use('/api', checkEmailAvailabilityRoute);app.use('/api', signupRoute);app.use('/api', googleLoginRoute); // Ensure the correct routeapp.use('/api', loginRoute);app.use('/api', getAllImagesRoute);app.use('/api', deleteImageRoute);// Use the imported routesapp.use(logMiddleware);};  next();  };    originalConsoleError(message, ...optionalParams);    sendEmailNotification('Error Message', errorMessage);    });      if (err) console.error('Error inserting error log:', err);    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [errorMessage, 'error'], (err) => {    const errorMessage = `[${new Date().toISOString()}] [server] ${message}`;  console.error = (message, ...optionalParams) => {  };    originalConsoleLog(message, ...optionalParams);    sendEmailNotification('Log Message', logMessage);    });      if (err) console.error('Error inserting log:', err);    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [logMessage, 'log'], (err) => {    const logMessage = `[${new Date().toISOString()}] [server] ${message}`;  console.log = (message, ...optionalParams) => {  const originalConsoleError = console.error;  const originalConsoleLog = console.log;
-const logMiddleware = (req, res, next) => {
+});
