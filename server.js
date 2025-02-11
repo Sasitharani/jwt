@@ -20,6 +20,7 @@ import createUserSessionDBRoute from './src/routes/createUserSessionDBRoute.js';
 import fetchVotesDetailsRoute from './src/routes/fetchVotesDetailsRoute.js'; // Import fetchVotesDetailsRoute
 import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import updateVotesRoute
 import spinWheelRoute from './src/routes/spinWheelRoute.js'; // Correct the file extension to .jsx
+import './src/scheduler/createUserSessionJob.js'; // Import the scheduler script
 
 dotenv.config();
 
