@@ -89,6 +89,8 @@ const Login = () => {
             console.error('Error during login:', error);
             if (error.response && error.response.data && error.response.data.message) {
                 setMessage(`Login failed: ${error.response.data.message}`);
+            } else if (error.message === 'Network Error') {
+                setMessage('Network error. Please check your connection and try again.');
             } else {
                 setMessage('Login failed. Please try again.');
             }
