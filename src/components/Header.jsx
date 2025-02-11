@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { FaBell, FaShoppingCart, FaQuestionCircle, FaUserCircle } from 'react-icons/fa';
-import { logout, loginSuccess, login } from '../store/userSlice'; // Import logout and loginSuccess actions
+import { logout, loginSuccess } from '../store/userSlice'; // Import logout and loginSuccess actions
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -19,23 +19,11 @@ const Header = () => {
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        //console.log('1.#########From Header isLoggedIn from slice:', isLoggedIn); // Log isLoggedIn value
         const email = localStorage.getItem('email');
-     
         if (email && isLoggedIn) {
             dispatch(loginSuccess({ email }));
-            //console.log('Logged in');
         }
     }, [dispatch, isLoggedIn]);
-
-    useEffect(() => {
-      //  console.log('User state updated:', user);
-    }, [user]);
-
-    useEffect(() => {
-        const sliceValues = [user, isLoggedIn, votesData];
-        //console.log('Slice values sasi check if it is being fetched in the beginnig:', sliceValues);
-    }, []);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -49,7 +37,6 @@ const Header = () => {
                 username: user.username,
                 email: user.email
             });
-            //console.log("Header Response data after fetching data",response.data);
             setVotesData(response.data);
 
             if (Array.isArray(response.data)) {
@@ -81,7 +68,6 @@ const Header = () => {
     };
 
     const handleLogout = () => {
-       // console.log('Dispatching logout action from Header.jsx');
         dispatch(logout({ meta: { fileName: 'Header.jsx' } }));
         navigate('/login');
     };
@@ -116,7 +102,7 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="bg-greenPastel p-4 text-black flex justify-between items-center"> {/* Changed text-white to text-black */}
+        <header className="bg-greenPastel p-4 text-black flex justify-between items-center relative z-50"> {/* Changed text-white to text-black and added relative z-50 */}
             <div className="flex items-center">
                 <img src="/path/to/logo.png" alt="Logo" className="h-8 mr-4" />
                 <Link to="/" className="text-md font-bold">REACTGROOVY4All</Link>
@@ -131,6 +117,12 @@ const Header = () => {
                 <Link to="/help" className="hover:text-gray-400">
                     <FaQuestionCircle />
                 </Link>
+                {role === 'admin' && ( // Only show Console and Alerts links to admin
+                    <>
+                        <Link to="/console" className="hover:underline">Console</Link>
+                        <Link to="/alerts" className="hover:underline">Alerts</Link>
+                    </>
+                )}
                 {isLoggedIn ? ( // Check if user is logged in
                     <div className="relative z-50" ref={dropdownRef}>
                         <button onClick={handleDropdownToggle} className="flex items-center hover:text-gray-400">
@@ -156,6 +148,16 @@ const Header = () => {
                                 <Link to="/help" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Help</Link>
                                 <Link to="/voting/UserVoting1" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Voting</Link>
                                 <Link to="/compress-image" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Compress Image</Link>
+                                <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
+                                <Link to="/spinning-wheel" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Spinning Wheel</Link> {/* Add link for SpinningWheel */}
+                                <Link to="/buy-votes" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Buy Votes</Link> {/* Add link for BuyVotes */}
+                                {role === 'admin' && (
+                                    <Link to="/test-countdown" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Countdown</Link>
+                                )}
+                                <div className="block px-4 py-2 hover:bg-gray-200">
+                                    {'Votes Available'}: {votesData.length > 0 ? votesData[0].LikesAvailable : 0}
+                                </div>
+                                <div className="block px-4 py-2 hover:bg-gray-200">
                                 <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
                                 <Link to="/spinning-wheel" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Spinning Wheel</Link> {/* Add link for SpinningWheel */}
                                 <Link to="/buy-votes" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Buy Votes</Link> {/* Add link for BuyVotes */}

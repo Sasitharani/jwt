@@ -29,6 +29,8 @@ import BackgroundCircles from './components/BackgroundCircles'; // Import Backgr
 import BuyVotes from './voting/BuyVotes'; // Import the BuyVotes component
 import ErrorBoundary from './components/ErrorBoundary'; // Import ErrorBoundary
 import TestCountdown from './components/TestCountdown'; // Import the TestCountdown component
+import ConsolePage from './pages/ConsolePage';
+import AlertPage from './pages/AlertPage';
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -63,6 +65,8 @@ const App = () => {
           <Route path="/instructions" element={<Instructions />} /> {/* Add the Instructions route */}
           <Route path="/buy-votes" element={<BuyVotes />} /> {/* Add the BuyVotes route */}
           <Route path="/test-countdown" element={<PrivateRoute element={<TestCountdown />} />} /> {/* Add the TestCountdown route */}
+          <Route path="/console" element={<ConsolePage />} />
+          <Route path="/alerts" element={<AlertPage />} />
         </Routes>
       </Router>
     </Provider>
