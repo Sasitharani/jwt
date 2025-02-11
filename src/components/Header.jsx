@@ -158,16 +158,6 @@ const Header = () => {
                                     {'Votes Available'}: {votesData.length > 0 ? votesData[0].LikesAvailable : 0}
                                 </div>
                                 <div className="block px-4 py-2 hover:bg-gray-200">
-                                <Link to="/user-profile" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>User Profile</Link>
-                                <Link to="/spinning-wheel" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Spinning Wheel</Link> {/* Add link for SpinningWheel */}
-                                <Link to="/buy-votes" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Buy Votes</Link> {/* Add link for BuyVotes */}
-                                {role === 'admin' && (
-                                    <Link to="/test-countdown" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Countdown</Link>
-                                )}
-                                <div className="block px-4 py-2 hover:bg-gray-200">
-                                    {'Votes Available'}: {votesData.length > 0 ? votesData[0].LikesAvailable : 0}
-                                </div>
-                                <div className="block px-4 py-2 hover:bg-gray-200">
                                     Role: {role.charAt(0).toUpperCase() + role.slice(1)} {/* Display the role with capitalized first letter */}
                                 </div>
                                 <button onClick={handleLogout} className="block px-4 py-2 hover:bg-gray-200 w-full text-left">Logout</button>
