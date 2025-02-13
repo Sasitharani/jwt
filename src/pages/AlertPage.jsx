@@ -24,7 +24,7 @@ const AlertPage = () => {
     <div>
       <h1>Alerts</h1>
       <ul>
-        {alerts.map(alert => (
+        {alerts && alerts.map(alert => (
           <li key={alert.id}>
             [{new Date(alert.timestamp).toLocaleString()}] [{alert.type}] {alert.message}
           </li>

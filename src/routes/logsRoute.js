@@ -1,5 +1,6 @@
 import express from 'express';
 import db from '../../db.js';
+import { deleteAllLogs } from '../controllers/logController.js'; // Import the deleteAllLogs controller
 
 const router = express.Router();
 
@@ -13,5 +14,7 @@ router.get('/logs', (req, res) => {
     }
   });
 });
+
+router.delete('/logs', deleteAllLogs); // Add the delete endpoint
 
 export default router;
