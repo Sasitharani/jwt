@@ -22,7 +22,6 @@ import updateVotesRoute from './src/routes/updateVotesRoutes.js'; // Import upda
 import spinWheelRoute from './src/routes/spinWheelRoute.js'; // Correct the file extension to .jsx
 import logsRoute from './src/routes/logsRoute.js'; // Import logsRoute
 import './src/scheduler/createUserSessionJob.js'; // Import the scheduler script
-import nodemailer from 'nodemailer'; // Import nodemailer for email notifications
 
 dotenv.config();
 
@@ -32,53 +31,30 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
-// Set up nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
-// Function to send email notifications
-const sendEmailNotification = (subject, message) => {
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: 'sasitharani@gmail.com',
-    subject: subject,
-    text: message
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error('Error sending email:', error);
-    } else {
-      console.log('Email sent:', info.response);
-    }
-  });
-};
-
 // Middleware to log console messages
 const logMiddleware = (req, res, next) => {
   const originalConsoleLog = console.log;
   const originalConsoleError = console.error;
 
   console.log = (message, ...optionalParams) => {
-    const logMessage = `[${new Date().toISOString()}] [server] ${message}`;
-    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [logMessage, 'log'], (err) => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const time = now.toTimeString().split(' ')[0];
+    const logMessage = `[${now.toISOString()}] [server] ${message}`;
+    db.query('INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)', [date, time, logMessage, 'log'], (err) => {
       if (err) console.error('Error inserting log:', err);
     });
-    sendEmailNotification('Log Message', logMessage);
     originalConsoleLog(message, ...optionalParams);
   };
 
   console.error = (message, ...optionalParams) => {
-    const errorMessage = `[${new Date().toISOString()}] [server] ${message}`;
-    db.query('INSERT INTO logs (message, type) VALUES (?, ?)', [errorMessage, 'error'], (err) => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const time = now.toTimeString().split(' ')[0];
+    const errorMessage = `[${now.toISOString()}] [server] ${message}`;
+    db.query('INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)', [date, time, errorMessage, 'error'], (err) => {
       if (err) console.error('Error inserting error log:', err);
     });
-    sendEmailNotification('Error Message', errorMessage);
     originalConsoleError(message, ...optionalParams);
   };
 
