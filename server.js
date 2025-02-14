@@ -36,25 +36,38 @@ const logMiddleware = (req, res, next) => {
   const originalConsoleLog = console.log;
   const originalConsoleError = console.error;
 
-  console.log = (message, ...optionalParams) => {
+  const insertLog = (message, type) => {
     const now = new Date();
     const date = now.toISOString().split('T')[0];
     const time = now.toTimeString().split(' ')[0];
     const logMessage = `[${now.toISOString()}] [server] ${message}`;
-    db.query('INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)', [date, time, logMessage, 'log'], (err) => {
-      if (err) console.error('Error inserting log:', err);
-    });
+
+    const query = 'INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)';
+
+    const values = [date, time, logMessage, type];
+
+    const executeQuery = (retries = 3) => {
+      db.query(query, values, (err) => {
+        if (err) {
+          console.error('Error inserting log:', err);
+          if (retries > 0) {
+            console.log(`Retrying... (${retries} attempts left)`);
+            setTimeout(() => executeQuery(retries - 1), 1000);
+          }
+        }
+      });
+    };
+
+    executeQuery();
+  };
+
+  console.log = (message, ...optionalParams) => {
+    insertLog(message, 'log');
     originalConsoleLog(message, ...optionalParams);
   };
 
   console.error = (message, ...optionalParams) => {
-    const now = new Date();
-    const date = now.toISOString().split('T')[0];
-    const time = now.toTimeString().split(' ')[0];
-    const errorMessage = `[${now.toISOString()}] [server] ${message}`;
-    db.query('INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)', [date, time, errorMessage, 'error'], (err) => {
-      if (err) console.error('Error inserting error log:', err);
-    });
+    insertLog(message, 'error');
     originalConsoleError(message, ...optionalParams);
   };
 
