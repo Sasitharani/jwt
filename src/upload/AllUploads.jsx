@@ -24,7 +24,7 @@ const AllUploads = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('https://jwt-rj8s.onrender.com/api/images');
+        const response = await fetch('https://contest-nda5.onrender.com/api/images');
         const data = await response.json();
         const groupedImages = data.map(image => {
           const [time, date, email, ...rest] = image.name.split(/(\d{6})(\d{8})(.*)/).filter(Boolean);
@@ -105,7 +105,7 @@ const AllUploads = () => {
   const handleDeleteClick = async (imageUrl) => {
     setLoading(true);
     try {
-      const response = await fetch('https://jwt-rj8s.onrender.com/api/delete-image', {
+      const response = await fetch('https://contest-nda5.onrender.com/api/delete-image', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

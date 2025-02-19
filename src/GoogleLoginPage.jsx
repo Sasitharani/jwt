@@ -18,7 +18,7 @@ const GoogleLoginPage = () => {
             console.log('User:', user);
             const { displayName, email } = user;
 
-            const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/google-login', {
+            const loginResponse = await axios.post('https://contest-nda5.onrender.com/google-login', {
                 email,
                 name: displayName
             });

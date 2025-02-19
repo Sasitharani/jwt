@@ -80,7 +80,7 @@ const UploadImg = () => {
     console.log('Form Data', formData.email);
 
     try {
-      const response = await fetch('https://jwt-rj8s.onrender.com/api/send-email', {
+      const response = await fetch('https://contest-nda5.onrender.com/api/send-email', {
         method: 'POST',
         body: formData,
       });

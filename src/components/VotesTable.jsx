@@ -12,7 +12,7 @@ const VotesTable = () => {
     useEffect(() => {
         const fetchVotesDetails = async () => {
             try {
-                const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+                const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
                     username,
                     email
                 });

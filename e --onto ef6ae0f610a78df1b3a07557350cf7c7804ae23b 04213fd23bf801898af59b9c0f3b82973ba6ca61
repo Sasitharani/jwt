@@ -1,0 +1,564 @@
+[33mcommit 40e0d18514ae5a57c999c1c37382ddf9e196d5bc[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Feb 19 12:14:33 2025 +0530
+
+    trying vervel
+
+[33mcommit ef6ae0f610a78df1b3a07557350cf7c7804ae23b[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Feb 14 10:59:35 2025 +0530
+
+    Enhance logging functionality with retry mechanism and add log filtering options in ConsolePage
+
+[33mcommit 04213fd23bf801898af59b9c0f3b82973ba6ca61[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Feb 13 12:09:19 2025 +0530
+
+    Wrap Router in ErrorBoundary and enhance ConsolePage with log deletion and pagination features
+
+[33mcommit a5959967bdf3b7cc3a763b07835fec045e9f18f3[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Feb 13 11:05:18 2025 +0530
+
+    Refactor logging middleware to enhance log storage and remove email notification functionality
+
+[33mcommit c7343d14517ad398c6be0fbfebae7c464bb3502a[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 11 12:09:21 2025 +0530
+
+    Add email notification and logging middleware to server
+
+[33mcommit 03e091719918cbee618770610d01d0865ccda227[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 11 11:59:29 2025 +0530
+
+    Remove unused links from Header component and streamline role display
+
+[33mcommit 557d8f8e36fd7891f0a2af2355956d8ef69a4cdd[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 11 11:58:38 2025 +0530
+
+    Add logging and alerting features with new routes and chart integration
+
+[33mcommit 5980c19c1abda039df25475c68611f281f63d482[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 11 11:19:45 2025 +0530
+
+    adding a scheduler using cron  jobs
+
+[33mcommit 4799ecab56be574be1f0dad505fb1f72ab4becfd[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 11 11:02:46 2025 +0530
+
+    Improve error handling in login component and update loginController to use environment variable for secret key
+
+[33mcommit aa55ffdb4277dd4fc0d26f209509695c270d56cb[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Feb 10 17:55:32 2025 +0530
+
+    Log username in loginController after successful authentication
+
+[33mcommit 9cd867101c1e3cfcc4b16f22d156af4474b7f006[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Feb 10 16:59:08 2025 +0530
+
+    Sending username from server to client
+
+[33mcommit 964dbb4fc2caabe126182e59dcf9e0eaf15848d0[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Sun Feb 9 21:25:34 2025 +0530
+
+    Add database connection and server setup; update login route to use environment variables
+
+[33mcommit 2dc89a0faed9009387656eb630299c5bfa7cc56a[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Sun Feb 9 16:14:18 2025 +0530
+
+    Fix file extension for spinWheelRoute import and add logging to login controller
+
+[33mcommit e4f1e4292e63743df84448c0d0ee5d828a008dfb[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Sun Feb 9 16:04:47 2025 +0530
+
+    Refactor SpinningWheel component to improve countdown logic and remove unused time conversion functions; update loginController to log errors
+
+[33mcommit ef2208770d338b4b1632b8c3c3ae7baa5b557828[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Sun Feb 9 10:20:51 2025 +0530
+
+    Add TestCountdown component and integrate into routing; update lastSpinTime type in database
+
+[33mcommit d7d10dbeef1dec5d09e465ba02c309a3cea74a6a[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Feb 7 17:30:16 2025 +0530
+
+    EOD0702
+
+[33mcommit 40075c0d129498f4513cb59b81bed62decd374a7[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Feb 7 17:30:05 2025 +0530
+
+    EOD Office 07022025
+
+[33mcommit dd6a711e0dd7403e2c39c79e326de2ca7ef716f4[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Feb 6 12:36:18 2025 +0530
+
+    console timeDiff in spinWheelController
+
+[33mcommit 1eac8cefadb0db526bcf559163624ce6ddd88436[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Feb 6 11:51:21 2025 +0530
+
+    Remove comment from SQL Query
+
+[33mcommit 1e1d9b0bc6050c505f90fe6c90b321e9c8d0bd77[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Feb 6 11:44:38 2025 +0530
+
+    Add logging for createUserSessionDB and fix query formatting in spinWheelLike
+
+[33mcommit 9393f8799e5bb1b32b9ef0ea801a6c32dc2daed1[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Feb 5 17:24:56 2025 +0530
+
+    Fetch last spin time from server and implement countdown logic; add timeDiff handling in spinWheel and createUserSessionDBController
+
+[33mcommit b618defea90ec9c1f46dd491c104b925eb4fe5cb[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Feb 5 13:29:52 2025 +0530
+
+    Remove success message from updateVotes response
+
+[33mcommit 6363a28005707e7143e180ca1aaaf874e5bae428[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Feb 5 13:11:52 2025 +0530
+
+    Enhance updateVotes functionality with improved logging and fetch all results endpoint
+
+[33mcommit 8e1b7f872d402fb81ddea40896239ed1dc349361[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Feb 5 11:39:31 2025 +0530
+
+    Add logging for last spin time in spinWheelLike function
+
+[33mcommit 6e62cc3eb583978fd2f1b2e30ded0e2d5075c308[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 14:24:52 2025 +0530
+
+    Add lastSpinTime handling in spinWheelLike function and update database query
+
+[33mcommit fa3772758f51905f9f0211977c7993cf3d5f0ae0[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 14:21:50 2025 +0530
+
+    Update MaxLikes default value to 10 and add CHECK constraint for LikesAvailable in createUserSessionDBController
+
+[33mcommit 54ad2c9cddb5cdae3385b32c2e1dc744ba3af3c8[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 12:40:15 2025 +0530
+
+    Update default LikesAvailable value to 10 in createUserSessionDBController
+
+[33mcommit 23beabf6b1d6692389665070ed7a13e84ee3a41c[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 11:49:02 2025 +0530
+
+    Add lastSpinTime handling in login and spin wheel functionality; update database schema and queries
+
+[33mcommit affc4331232fcb3d757db92ba74595bd5dc79785[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 11:24:51 2025 +0530
+
+    Fix updateVotesController to correctly update LikesAvailable in the database
+
+[33mcommit 87c9d2f5b89c99cf326c9419bc350f3e8fe2c51a[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 11:15:25 2025 +0530
+
+    Fix updateVotesController to correctly calculate and update LikesAvailable
+
+[33mcommit d6eb297d15823e1d59d737d3350667eccdc71983[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 11:02:27 2025 +0530
+
+    Fix updateVotesController to correctly calculate LikesAvailable by using the correct variable
+
+[33mcommit cb401abc400458db93034a19645daeabc57521ad[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 11:01:17 2025 +0530
+
+    Fix updateVotesController to correctly calculate LikesAvailable and update the database
+
+[33mcommit a9270bed7ed0e882cc8a34580986279f7abda61a[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 10:45:52 2025 +0530
+
+    Refactor navigation paths and update UI components for consistency; comment out unused code in updateVotesController
+
+[33mcommit 4bade4ce4b660f806d39120e08d990930b221edd[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 09:49:53 2025 +0530
+
+    Fix spinWheelLike function to correctly update LikesAvailable and maxLikes in the database
+
+[33mcommit e1d50e49130d6691d3b9145f88d5a205b3239aa5[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 09:43:47 2025 +0530
+
+    Update spinWheelLike function to correctly calculate and update LikesAvailable in the database
+
+[33mcommit 3af44221347c4d0a4c153eaecd6f48faf28c8e62[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Feb 4 09:38:21 2025 +0530
+
+    Fix SpinningWheel component to reload page on confirmation and handle votes display correctly; update SQL query to set maxLikes
+
+[33mcommit 1c602c590f5db49a71285d08c88d5150dee4f42d[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Feb 3 17:56:52 2025 +0530
+
+    EOD 02022025
+
+[33mcommit ba623aed30e39576de78f36aad04f608eb66475a[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Feb 3 14:45:57 2025 +0530
+
+    #2
+
+[33mcommit 241861c591853e1ec887651101ffb16ca08b9989[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Feb 3 13:08:35 2025 +0530
+
+    #SOD 03022025
+
+[33mcommit 6cb3e220ddc7eea45153f075a0d55c9a1e346978[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 31 18:26:11 2025 +0530
+
+    EOD office 31012025
+
+[33mcommit 302e982081429c3f26ab110ff33121621f8b6b01[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Tue Jan 28 18:12:48 2025 +0530
+
+    EOD office 28-01-2025
+
+[33mcommit 167e5cff19e1f12fab0ea3254a0102da8ed686b8[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Jan 27 18:07:08 2025 +0530
+
+    EOD OFFICE 27-01-2025
+
+[33mcommit f1fd3726718ea3ce343df219269c082833eb0762[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Jan 27 16:39:00 2025 +0530
+
+    #1google login failure
+
+[33mcommit 1d29b035f283f45af61627e400fadb0c4d36b620[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 18:07:00 2025 +0530
+
+    Eod Office 24-01-25
+
+[33mcommit 7756548e64fa5a9b9b673251a494cf518eb90fd4[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 17:35:20 2025 +0530
+
+    #Spin WHeel Working
+
+[33mcommit b13812a4220d6dd55775bcef32413ef55f84ebd5[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 17:29:50 2025 +0530
+
+    #checking SPinning Wheel 2
+
+[33mcommit 91e9ff3ba59be7b5a19bbaa26e655fb0a4c978b3[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 17:23:12 2025 +0530
+
+    #checking spinning wheel api
+
+[33mcommit 867cbba5e48d4321dd248971a13a7346cdcf318c[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 17:16:29 2025 +0530
+
+    #checking spinwheel api
+
+[33mcommit d80ace9c8bbcbdf28db872cb28423242648e78de[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 12:15:40 2025 +0530
+
+    Updating API
+
+[33mcommit 4ebe1e09992ee6ea6dd9b38c15d7f86b550f54de[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 24 11:53:41 2025 +0530
+
+    Updated Create table for likesavailable
+
+[33mcommit 9021cd93d707174fee931d1ad2e96cff56778a06[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Wed Jan 22 12:23:00 2025 +0530
+
+    SOD 22-01-2025
+
+[33mcommit 3b0a69a2655a236b49ea1d7bccf72927ed310e3d[m
+Merge: ef30237 f2bccbb
+Author: Sasi <sasitharani@gmail.com>
+Date:   Mon Jan 20 20:00:49 2025 +0530
+
+    Merge branch 'main' of https://github.com/Sasitharani/jwt
+
+[33mcommit ef3023736b091a1ac68d93df809dd2bac94285c9[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Mon Jan 20 20:00:45 2025 +0530
+
+    from home weekend
+
+[33mcommit f2bccbb3e750497f84f50fce1e7815b33bfcad71[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Jan 20 13:21:53 2025 +0530
+
+    SOD 20012025
+
+[33mcommit 0f37d6b7b3c182ff43ef0029decc21c678e7aa3e[m
+Author: Sasi <sasitharani@gmail.com>
+Date:   Sat Jan 18 10:55:29 2025 +0530
+
+    #SOD18-01-2025
+
+[33mcommit 5da2209449d3ee7f6d35d04f6a8de15d47828051[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 17 16:32:05 2025 +0530
+
+    EOD117-01-2025
+
+[33mcommit ae62aeb2871afa4f246440b1dbd1fbfe6d02d018[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 16 17:57:22 2025 +0530
+
+    EOD 16-01-2025
+
+[33mcommit 73a0853a163417a17d6bc472712b4d6b0d2c1ceb[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Jan 13 17:57:23 2025 +0530
+
+    EOD 13-01-2025
+
+[33mcommit 8a2473d258676d961b366c9f2b4484701aa36261[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Mon Jan 13 17:45:50 2025 +0530
+
+    UserVoting working
+
+[33mcommit 3d892f24bc4eb8d6e59c68763b45b021df42b452[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 17:35:45 2025 +0530
+
+    EOD Friday 10-01-25
+
+[33mcommit c101349cd0e9e7c0bdafa594d5adbed3b8c345be[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 15:11:31 2025 +0530
+
+    #21
+
+[33mcommit f03a2f7af88dd4c8b4e07c5215088c056c19dade[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:56:39 2025 +0530
+
+    #20
+
+[33mcommit 30209cdf926fc18543dc321e9c17bff3dbdfdb77[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:48:24 2025 +0530
+
+    #19
+
+[33mcommit be8ca9897cd2e85453fe8b3372f39bb05bb8b108[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:44:01 2025 +0530
+
+    #18
+
+[33mcommit 5c6326b13fc2cd6a5240c6a9f518d4dc8529a5f2[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:36:43 2025 +0530
+
+    #17
+
+[33mcommit 944b8ce5370e52829cbc5fef07576c5af03db2cb[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:30:22 2025 +0530
+
+    #16
+
+[33mcommit fe821a853e7a78da9a3a863303c711c16db39713[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 12:27:07 2025 +0530
+
+    #!5
+
+[33mcommit 49148481a95783aacf353c3ddf637c6295d98d63[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 11:24:24 2025 +0530
+
+    #14
+
+[33mcommit 5ba1ccc1284105ad65ba0c4b9393479d0954f155[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 11:18:08 2025 +0530
+
+    #13
+
+[33mcommit 7a11726c1bff9bbe6a2f553cd0c84529a80df008[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 11:07:21 2025 +0530
+
+    #12
+
+[33mcommit 4e35df1ae64b8508895dd8064325e9f6b568d984[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:57:40 2025 +0530
+
+    #11
+
+[33mcommit a28c9604da26993906df56512b7b80a97c19fcdf[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:51:32 2025 +0530
+
+    #10
+
+[33mcommit fe9347c15b8afe91da80eaceba0ae116d51802c4[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:45:55 2025 +0530
+
+    #9
+
+[33mcommit 9a8ca4cacf8bd32d4d4178cd4adcab65dfab4bb1[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:31:34 2025 +0530
+
+    #8
+
+[33mcommit c1ce44ecfd84a7f1a3aa18353b4acba08a50d731[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:07:24 2025 +0530
+
+    #7
+
+[33mcommit 84361218c1017c14f6a7f27e1da975f43c6face1[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 10:02:35 2025 +0530
+
+    #6
+
+[33mcommit 20583e1333658159d1e13d1313cce64036687206[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 09:56:04 2025 +0530
+
+    #5
+
+[33mcommit 6c79b12025b8c129f6814dc7abd58d8ab97df289[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 09:49:47 2025 +0530
+
+    #4
+
+[33mcommit ef6fc3852fe6b52dc0ab18a207e61bea4eec3c0b[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 09:45:40 2025 +0530
+
+    #3
+
+[33mcommit 212fdbb8e8a1a4646d04716290aa0c3993f63996[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 09:36:37 2025 +0530
+
+    #2
+
+[33mcommit 427482d043a1dbd96f5b614a08251983adeb0c6e[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Fri Jan 10 09:30:51 2025 +0530
+
+    10-01-2025 SOD
+
+[33mcommit 1cd51de694ce023b88e462ef5af3b01f00595f90[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:47:41 2025 +0530
+
+    #29
+
+[33mcommit 42701472b9294e3f2714f9aa2535d1e722a86bc4[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:42:38 2025 +0530
+
+    #28
+
+[33mcommit e5f36e5eb3c10622f81ef0b136a30a64a764f1c0[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:39:22 2025 +0530
+
+    #27
+
+[33mcommit 015a478988229bf98d724d96a3df58f92baceeae[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:35:49 2025 +0530
+
+    #26
+
+[33mcommit 12614c3f12594ea42205820c6fbd6c49d787d604[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:31:55 2025 +0530
+
+    #25
+
+[33mcommit c14b35a6041d31feec5338ba6b5554622e7f56d6[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:25:37 2025 +0530
+
+    #24
+
+[33mcommit 084f5d2a6f6f635d9408d5417e23a46f01351baa[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:20:12 2025 +0530
+
+    #23
+
+[33mcommit e40df500de1dfe6578b4c5fc05141f06f59bf487[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 17:02:36 2025 +0530
+
+    #22
+
+[33mcommit 20fcd92d09381f15522a3db397482938c10180e3[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 16:46:09 2025 +0530
+
+    #21
+
+[33mcommit 235d369023b1ba7ad585d36773c5441ee1663334[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 16:37:54 2025 +0530
+
+    #20
+
+[33mcommit 5a502272d81d6c74e2a5bd90ab1f1def1435ede7[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 16:32:30 2025 +0530
+
+    #19
+
+[33mcommit fe855a9ce726b4d16e5c06656b15c2fa6a47cc2b[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 16:25:39 2025 +0530
+
+    #18
+
+[33mcommit 1157691ed6ab362681fe85f43c2045e2039080ed[m
+Author: sasi <sasitharani@gmail.com>
+Date:   Thu Jan 9 16:14:52 2025 +0530
+
+    #17

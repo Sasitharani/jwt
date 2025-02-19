@@ -7,7 +7,7 @@ const PhoneNumberVerification = ({ phoneNumber, setPhoneNumber, setPhoneNumberAv
     const checkPhoneNumberAvailability = async () => {
         setLoading(true);
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/check-phone', { phoneNumber });
+            const response = await axios.post('https://contest-nda5.onrender.com/check-phone', { phoneNumber });
             setPhoneNumberAvailable(response.data.available);
             if (!response.data.available) {
                 validateForm();

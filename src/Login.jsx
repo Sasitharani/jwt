@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 
 const fetchVotesDetails = async (username, email, dispatch) => {
   try {
-    const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+    const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
       username,
       email
     });
@@ -32,7 +32,7 @@ const fetchVotesDetails = async (username, email, dispatch) => {
 
 const updateVotes = async (username, email, dispatch) => {
   try {
-    const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+    const response = await axios.post('https://contest-nda5.onrender.com/api/updateVotes', {
       username,
       email
     });
@@ -61,7 +61,7 @@ const Login = () => {
         console.log("Login form submitted");
         setLoading(true); // Set loading to true
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/login', { // Ensure the correct URL and port
+            const response = await axios.post('https://contest-nda5.onrender.com/api/login', { // Ensure the correct URL and port
                 email,
                 password
             });

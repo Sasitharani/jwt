@@ -8,7 +8,7 @@ const EmailAuthentication = ({ email, emailAvailable, setEmail, setEmailAvailabl
         console.log('Step1: coming to checkEmailAvailability, the value of Loading is :- Now Api will fetch data.the value of loading is ', loading);
         setEmailMessage(""); // Clear email message
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/check-email', { email });
+            const response = await axios.post('https://contest-nda5.onrender.com/api/check-email', { email });
             setEmailAvailable(response.data.available);
             console.log("Api worked data received from server: Email check(True/False); Next: Msg in client :-", response.data.available);
             if (!response.data.available) {

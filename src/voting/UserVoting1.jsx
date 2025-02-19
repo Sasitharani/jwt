@@ -21,7 +21,7 @@ function UserVoting1() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch('https://jwt-rj8s.onrender.com/api/get-images-vote1');
+        const response = await fetch('https://contest-nda5.onrender.com/api/get-images-vote1');
         const data = await response.json();
         setCurrentImages(data);
       } catch (error) {
@@ -36,7 +36,7 @@ function UserVoting1() {
 
   const fetchVotesDetails = async () => {
     try {
-      const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+      const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
         username,
         email
       });
@@ -50,7 +50,7 @@ function UserVoting1() {
 
   const updateVotes = async (username, email, fetchVotesDetails) => {
     try {
-      const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+      const response = await axios.post('https://contest-nda5.onrender.com/api/updateVotes', {
         username,
         email
       });
@@ -72,7 +72,7 @@ function UserVoting1() {
 
   const handleLikeClick = async (image) => {
     try {
-      const response = await fetch('https://jwt-rj8s.onrender.com/api/voting', {
+      const response = await fetch('https://contest-nda5.onrender.com/api/voting', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function UserVoting1() {
         await updateVotes(username, email, fetchVotesDetails); // Called here
 
         // Fetch and update votes details immediately
-        const votesResponse = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+        const votesResponse = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
           username,
           email
         });
@@ -107,7 +107,7 @@ function UserVoting1() {
 
   const fetchAllResults = async () => {
     try {
-      const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+      const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
         username,
         email
       }); // Ensure the endpoint is correct

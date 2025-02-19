@@ -7,7 +7,7 @@ import { login, loginSuccess } from './store/userSlice'; // Import loginSuccess
 
 const updateVotes = async (username, email, fetchVotesDetails) => {
   try {
-    const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+    const response = await axios.post('https://contest-nda5.onrender.com/api/updateVotes', {
       username,
       email
     });
@@ -20,7 +20,7 @@ const updateVotes = async (username, email, fetchVotesDetails) => {
 
 const fetchVotesDetails = async (username, email, setVotesData, dispatch) => {
   try {
-    const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+    const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
       username,
       email
     });
@@ -63,7 +63,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
   const handleDatabaseLogin = async (email, displayName) => {
     console.log('handleGoogleLogin called');
     try {
-      const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/api/google-login', {
+      const loginResponse = await axios.post('https://contest-nda5.onrender.com/api/google-login', {
         email,
         name: displayName
       });

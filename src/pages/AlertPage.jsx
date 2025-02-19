@@ -7,7 +7,7 @@ const AlertPage = () => {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const response = await axios.get('https://jwt-rj8s.onrender.com/api/logs');
+        const response = await axios.get('https://contest-nda5.onrender.com/api/logs');
         setAlerts(response.data.filter(log => log.type === 'error'));
       } catch (error) {
         console.error('Error fetching alerts:', error);

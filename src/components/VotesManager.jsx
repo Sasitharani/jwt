@@ -6,7 +6,7 @@ import { logout, loginSuccess, login } from '../store/userSlice'; // Import logo
 
 const updateVotes = async (username, email, fetchVotesDetails) => {
     try {
-        const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+        const response = await axios.post('https://contest-nda5.onrender.com/api/updateVotes', {
             username,
             email
         });
@@ -30,7 +30,7 @@ const VotesManager = () => {
 
     const fetchVotesDetails = async () => {
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+            const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
                 username,
                 email
             });

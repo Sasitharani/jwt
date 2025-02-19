@@ -14,7 +14,7 @@ const Vote = () => {
   const handleConfirmClick = async () => {
     setLoading(true);
     try {
-      const response = await fetch('https://jwt-rj8s.onrender.com/api/img-for-vote1', {
+      const response = await fetch('https://contest-nda5.onrender.com/api/img-for-vote1', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

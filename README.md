@@ -127,7 +127,7 @@ MemeberShip
 ###########Use the Following to Cast a Vote and view the Table####################
     const fetchVotesDetails = async () => {
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+            const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
                 username,
                 email
             });
@@ -140,7 +140,7 @@ MemeberShip
 
     const updateVotes = async () => {
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/updateVotes', {
+            const response = await axios.post('https://contest-nda5.onrender.com/api/updateVotes', {
                 username,
                 email
             });
@@ -159,7 +159,7 @@ MemeberShip
     #################Use this to only view the table#############
        const fetchVotesDetails = async () => {
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+            const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
                 username,
                 email
             });

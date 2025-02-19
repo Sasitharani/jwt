@@ -17,7 +17,7 @@ const ForgotPassword = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/api/check-email', { email });
+            const response = await axios.post('https://contest-nda5.onrender.com/api/check-email', { email });
             console.log('response:', response.data.available);
             if (!response.data.available) {
                 const code = generateRandomCode();
@@ -66,7 +66,7 @@ const ForgotPassword = () => {
     
         setLoading(true);
         try {
-            const response = await axios.post('https://jwt-rj8s.onrender.com/reset-password', {
+            const response = await axios.post('https://contest-nda5.onrender.com/reset-password', {
                 email,
                 newPassword
             });
@@ -105,7 +105,7 @@ const ForgotPassword = () => {
     };
 
     const sendResetEmail = async (email, code) => {
-        await axios.post('https://jwt-rj8s.onrender.com/send-reset-email', { email, code });
+        await axios.post('https://contest-nda5.onrender.com/send-reset-email', { email, code });
     };
 
     return (

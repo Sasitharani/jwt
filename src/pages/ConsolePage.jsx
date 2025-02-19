@@ -33,7 +33,7 @@ const ConsolePage = () => {
   const fetchLogs = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('https://jwt-rj8s.onrender.com/api/logs');
+      const response = await axios.get('https://contest-nda5.onrender.com/api/logs');
       let filteredLogs = response.data;
 
       if (filter !== 'all') {
@@ -133,7 +133,7 @@ const ConsolePage = () => {
 
   const deleteLogs = async () => {
     try {
-      await axios.delete('https://jwt-rj8s.onrender.com/api/logs');
+      await axios.delete('https://contest-nda5.onrender.com/api/logs');
       setLogs([]);
       setChartData({
         labels: [],

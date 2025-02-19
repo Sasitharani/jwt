@@ -37,7 +37,7 @@ const Signup = () => {
             console.log('Password while submiting', password)
             try {
       
-                const response = await axios.post('https://jwt-rj8s.onrender.com/api/signup', {
+                const response = await axios.post('https://contest-nda5.onrender.com/api/signup', {
                     username,
                     email,
                     password,
@@ -48,7 +48,7 @@ const Signup = () => {
                 if (response.status === 200) {
                     setMessage('User registered successfully!');
                     // Automatically log the user in
-                    const loginResponse = await axios.post('https://jwt-rj8s.onrender.com/api/login', {
+                    const loginResponse = await axios.post('https://contest-nda5.onrender.com/api/login', {
                         email,
                         password
                     });

@@ -19,7 +19,7 @@ const SpinningWheel = () => {
   useEffect(() => {
     const fetchLastSpinTime = async () => {
       try {
-        const response = await axios.post('https://jwt-rj8s.onrender.com/api/fetchVotesDetails', {
+        const response = await axios.post('https://contest-nda5.onrender.com/api/fetchVotesDetails', {
           email
         });
         console.log('lastSpinTime fetched from the database: ',response.data[0].lastSpinTime); 
@@ -128,7 +128,7 @@ const SpinningWheel = () => {
         console.log('Stored timeDiff before axios.post:', storedTimeDiff);
         const timeDiff = storedTimeDiff ? parseInt(storedTimeDiff, 10) : null;
         if (!isNaN(timeDiff)) {
-          axios.post('https://jwt-rj8s.onrender.com/api/spinWheel', { email: email, timeDiff: storedTimeDiff, result: numbers[randomIndex], lastSpinTime: new Date().toISOString() })
+          axios.post('https://contest-nda5.onrender.com/api/spinWheel', { email: email, timeDiff: storedTimeDiff, result: numbers[randomIndex], lastSpinTime: new Date().toISOString() })
             .then(response => {
               setVotesAfter(response.data.maxLikes); // Update votes after spin
               localStorage.setItem('timeDiff', response.data.timeDiff); // Save timeDiff to local storage
