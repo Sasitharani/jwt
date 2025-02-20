@@ -53,9 +53,18 @@ const VotesManager = () => {
 
     const totalLikesUsed = votesData.reduce((total, vote) => total + vote.LikesUsed, 0);
 
+    const handleLikeClick = async () => {
+        try {
+            await updateVotes(username, email, fetchVotesDetails);
+        } catch (error) {
+            console.error('Error updating votes:', error);
+            Swal.fire('Error', 'Failed to update votes. Please try again later.', 'error');
+        }
+    };
+
     return (
         <div>
-            <button className='bg-green-400 text-white rounded-xl border border-gray-900 px-4 py-2' onClick={() => updateVotes(username, email, fetchVotesDetails)}>
+            <button className='bg-green-400 text-white rounded-xl border border-gray-900 px-4 py-2' onClick={handleLikeClick}>
                 Cast a Vote  (Likes Used: {totalLikesUsed})
             </button>
 
