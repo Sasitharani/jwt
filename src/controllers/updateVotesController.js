@@ -28,7 +28,7 @@ const updateVotes = async (req, res) => {
                         console.error('Error updating LikesAvailable:', err);
                         return res.status(500).send('Error in updating LikesAvailable. Please contact the technical support team.');
                     }
-
+//
                     const updateQuery = `UPDATE ${tableName} SET LikesUsed = LikesUsed + 1 WHERE email = ?`;
                     db.query(updateQuery, [email], (err) => {
                         if (err) {
