@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Line } from 'react-chartjs-2'; // Import Line from react-chartjs-2
+import { Bar } from 'react-chartjs-2'; // Import Bar from react-chartjs-2
 import 'chart.js/auto'; // Import Chart.js
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const ConsolePage = () => {
   const [logs, setLogs] = useState([]);
@@ -13,6 +14,7 @@ const ConsolePage = () => {
         data: [],
         fill: false,
         borderColor: 'rgba(75,192,192,1)',
+        backgroundColor: 'rgba(75,192,192,0.2)', // Add background color for bars
         tension: 0.1
       }
     ]
@@ -120,6 +122,7 @@ const ConsolePage = () => {
             data: dataPoints,
             fill: false,
             borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)', // Add background color for bars
             tension: 0.1
           }
         ]
@@ -143,6 +146,7 @@ const ConsolePage = () => {
             data: [],
             fill: false,
             borderColor: 'rgba(75,192,192,1)',
+            backgroundColor: 'rgba(75,192,192,0.2)', // Add background color for bars
             tension: 0.1
           }
         ]
@@ -159,6 +163,19 @@ const ConsolePage = () => {
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleBarClick = (elements) => {
+    if (elements.length > 0) {
+      const index = elements[0].index;
+      const log = logs[index];
+      Swal.fire({
+        title: 'Log Message',
+        text: log.Message,
+        icon: 'info',
+        confirmButtonText: 'Close'
+      });
+    }
+  };
 
   return (
     <div>
@@ -219,7 +236,9 @@ const ConsolePage = () => {
           </div>
         )}
       </div>
-      <Line data={chartData} />
+      <div style={{ overflowX: 'auto' }}>
+        <Bar data={chartData} options={{ onClick: (e, elements) => handleBarClick(elements) }} />
+      </div>
       {loading ? (
         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>
           Loading...
