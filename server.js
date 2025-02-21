@@ -31,16 +31,29 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // Enable CORS
 app.use(bodyParser.json());
 
+const logLevels = {
+  trace: 0,
+  debug: 1,
+  info: 2,
+  warn: 3,
+  error: 4,
+  fatal: 5
+};
+
+const currentLogLevel = logLevels[process.env.LOG_LEVEL || 'info'];
+
 // Middleware to log console messages
 const logMiddleware = (req, res, next) => {
   const originalConsoleLog = console.log;
   const originalConsoleError = console.error;
 
-  const insertLog = (message, type) => {
+  const insertLog = (message, type, level) => {
+    if (logLevels[level] < currentLogLevel) return;
+
     const now = new Date();
     const date = now.toISOString().split('T')[0];
     const time = now.toTimeString().split(' ')[0];
-    const logMessage = `[${now.toISOString()}] [server] ${message}`;
+    const logMessage = `[${now.toISOString()}] [${level}] ${message}`;
 
     const query = 'INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)';
 
@@ -49,9 +62,9 @@ const logMiddleware = (req, res, next) => {
     const executeQuery = (retries = 3) => {
       db.query(query, values, (err) => {
         if (err) {
-          console.error('Error inserting log:', err);
+          originalConsoleError('Error inserting log:', err);
           if (retries > 0) {
-            console.log(`Retrying... (${retries} attempts left)`);
+            originalConsoleLog(`Retrying... (${retries} attempts left)`);
             setTimeout(() => executeQuery(retries - 1), 1000);
           }
         }
@@ -62,12 +75,12 @@ const logMiddleware = (req, res, next) => {
   };
 
   console.log = (message, ...optionalParams) => {
-    insertLog(message, 'log');
+    insertLog(message, 'log', 'info');
     originalConsoleLog(message, ...optionalParams);
   };
 
   console.error = (message, ...optionalParams) => {
-    insertLog(message, 'error');
+    insertLog(message, 'error', 'error');
     originalConsoleError(message, ...optionalParams);
   };
 
@@ -102,5 +115,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

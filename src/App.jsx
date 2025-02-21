@@ -31,6 +31,7 @@ import ErrorBoundary from './components/ErrorBoundary'; // Import ErrorBoundary
 import TestCountdown from './components/TestCountdown'; // Import the TestCountdown component
 import ConsolePage from './pages/ConsolePage';
 import AlertPage from './pages/AlertPage';
+import Chatbot from './components/ChatBot'; // Import the Chatbot component
 
 const PrivateRoute = ({ element, ...rest }) => {
   const user = useSelector(state => state.user);
@@ -68,6 +69,7 @@ const App = () => {
             <Route path="/test-countdown" element={<PrivateRoute element={<TestCountdown />} />} /> {/* Add the TestCountdown route */}
             <Route path="/console" element={<ConsolePage />} />
             <Route path="/alerts" element={<AlertPage />} />
+            <Route path="/chatbot" element={<Chatbot />} /> {/* Add the Chatbot route */}
           </Routes>
         </Router>
       </ErrorBoundary>

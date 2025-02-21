@@ -154,6 +154,9 @@ const Header = () => {
                                 {role === 'admin' && (
                                     <Link to="/test-countdown" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>Test Countdown</Link>
                                 )}
+                                {role === 'admin' && (
+                                    <Link to="/chatbot" className="block px-4 py-2 hover:bg-gray-200" onClick={handleLinkClick}>ChatBot</Link>
+                                )}
                                 <div className="block px-4 py-2 hover:bg-gray-200">
                                     {'Votes Available'}: {votesData.length > 0 ? votesData[0].LikesAvailable : 0}
                                 </div>
