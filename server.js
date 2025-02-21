@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import moment from 'moment-timezone'; // Import moment-timezone
 import db from './db.js'; // Import the connection pool
 import deleteImageRoute from './src/routes/deleteImageRoute.js'; // Import deleteImageRoute
 import getAllImagesRoute from './src/routes/getAllImagesRoute.js'; // Import getAllImagesRoute
@@ -50,9 +51,9 @@ const logMiddleware = (req, res, next) => {
   const insertLog = (message, type, level) => {
     if (logLevels[level] < currentLogLevel) return;
 
-    const now = new Date();
-    const date = now.toISOString().split('T')[0];
-    const time = now.toTimeString().split(' ')[0];
+    const now = moment().tz('Asia/Kolkata'); // Convert to IST
+    const date = now.format('YYYY-MM-DD');
+    const time = now.format('HH:mm:ss');
     const logMessage = `[${now.toISOString()}] [${level}] ${message}`;
 
     const query = 'INSERT INTO logs (Date, Time, Message, Type) VALUES (?, ?, ?, ?)';
