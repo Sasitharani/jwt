@@ -27,7 +27,7 @@ const createUserSessionDB = (req, res) => {
   // Send log message as email
   transporter.sendMail({
     from: 'sasitharani@gmail.com',
-    to: 'error@contests4all.com',
+    to: 'care@contests4all.com',
     subject: 'Log Notification',
     text: logMessage,
   });
