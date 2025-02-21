@@ -25,7 +25,7 @@ const handlePasswordChange = (e) => {
             setIsPasswordValid(true);
         } else {
             setPasswordError(false);
-            console.log(passwordError)
+            //console.log(passwordError)
         }
        
     };

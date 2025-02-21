@@ -5,11 +5,11 @@ export const spinWheelLike = (req, res) => {
   const tableName = `todaysDateLikes_${today}`;
   let { email, result, lastSpinTime, timeDiff } = req.body; // Get lastSpinTime from API call
 
-  console.log('spinwheel called');
-  console.log('Table name:', tableName);
-  console.log('Received email:', email);
-  console.log('Last spin time:', lastSpinTime);
-  console.log('timeDiff:', timeDiff);
+  //console.log('spinwheel called');
+  //console.log('Table name:', tableName);
+  //console.log('Received email:', email);
+  //console.log('Last spin time:', lastSpinTime);
+  //console.log('timeDiff:', timeDiff);
 
   const selectQuery = `SELECT * FROM ${tableName} WHERE email = ?`;
   db.query(selectQuery, [email], (err, selectResults) => {
@@ -27,7 +27,7 @@ export const spinWheelLike = (req, res) => {
       let updatedLikesAvailable = likesAvailable + result;
       let updatedMaxLikes = updatedLikesAvailable;
 
-      console.log('Updated last spin time:', lastSpinTime);
+      //console.log('Updated last spin time:', lastSpinTime);
 
       const updateQuery = `UPDATE ${tableName} SET LikesAvailable = ?, maxLikes = ?, lastSpinTime = ?, timeDiff = ? WHERE email = ?`;
       db.query(updateQuery, [updatedLikesAvailable, updatedMaxLikes, lastSpinTime, timeDiff, email], (err, updateResults) => {

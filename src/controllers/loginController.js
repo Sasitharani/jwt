@@ -5,7 +5,7 @@ import db from '../../db.js'; // Ensure the correct path
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key'; // Use environment variable or default key
 
 const login = async (req, res) => {
-  console.log('Login Controller called');
+  //console.log('Login Controller called');
   const { email, password } = req.body;
   try {
     const query = 'SELECT * FROM userdb WHERE email = ?';
@@ -27,7 +27,7 @@ const login = async (req, res) => {
       }
 
       const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '1h' });
-      console.log('Username:', user.username);
+      //console.log('Username:', user.username);
       return res.status(200).json({ token, message: 'Login Successfully', hashedPassword: user.password, username: user.username });
     });
   } catch (error) {

@@ -12,7 +12,7 @@ const updateVotes = async (username, email, fetchVotesDetails) => {
       email
     });
     await fetchVotesDetails(); // Call fetchVotesDetails after updateVotes
-    console.log('Response in updateVotes:', response.data.LikesUsed);
+    //console.log('Response in updateVotes:', response.data.LikesUsed);
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
   }
@@ -25,9 +25,9 @@ const fetchVotesDetails = async (username, email, setVotesData, dispatch) => {
       email
     });
     setVotesData(response.data);
-    console.log('Response in fetchVotesDetails:', response.data);
+    //console.log('Response in fetchVotesDetails:', response.data);
     const likesUsed = response.data.map(vote => vote.LikesUsed);
-    console.log('LikesUsed:', likesUsed);
+    //console.log('LikesUsed:', likesUsed);
     dispatch(loginSuccess({ username, email, votesData: response.data }));
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
@@ -42,7 +42,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      console.log('User:', user);
+      //console.log('User:', user);
       const { displayName, email } = user;
 
       await handleDatabaseLogin(email, displayName); // Call the new async function
@@ -61,7 +61,7 @@ const GoogleLogin = ({ setLoading, setMessage, dispatch, navigate }) => {
   };
 
   const handleDatabaseLogin = async (email, displayName) => {
-    console.log('handleGoogleLogin called');
+    //console.log('handleGoogleLogin called');
     try {
       const loginResponse = await axios.post('https://contest-nda5.onrender.com/api/google-login', {
         email,

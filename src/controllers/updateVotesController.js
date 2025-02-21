@@ -18,7 +18,7 @@ const updateVotes = async (req, res) => {
                 const updatedLikesAvailable = LikesAvailable - 1;
 
                 if (MaxLikes === LikesUsed) {
-                    console.log('All likes used, no likes left');
+                    ////console.log('All likes used, no likes left');
                     return res.status(400).send('All likes used, no likes left');
                 }
 
@@ -43,13 +43,13 @@ const updateVotes = async (req, res) => {
                                 return res.status(500).send('Error in fetching all data. Please contact the technical support team.');
                             }
 
-                            console.log('All values from the table:', allResults);
+                            //console.log('All values from the table:', allResults);
                             return res.status(200).json(allResults);
                         });
                     });
                 });
             } else {
-                console.log('No data found for the given email.');
+                //console.log('No data found for the given email.');
                 return res.status(404).send('No data found for the given email.');
             }
         });
@@ -71,7 +71,7 @@ const fetchAllResults = async (req, res) => {
                 return res.status(500).send('Error in fetching all data. Please contact the technical support team.');
             }
 
-            console.log('All values from the table:', allResults);
+            //console.log('All values from the table:', allResults);
             return res.status(200).json(allResults);
         });
     } catch (err) {

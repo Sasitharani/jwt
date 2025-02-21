@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
 
 const sendResetEmail = async (req, res) => {
-  console.log("send-reset-email hit");
+  //console.log("send-reset-email hit");
   const { email, code } = req.body;
 
   let transporter = nodemailer.createTransport({

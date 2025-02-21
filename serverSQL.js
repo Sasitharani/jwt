@@ -21,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.post('/signup', (req, res) => {
     const { username, email, password } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10); // Hash the password with a salt of 8 rounds
-    console.log('Hashed Password during signup:', hashedPassword);
+    //console.log('Hashed Password during signup:', hashedPassword);
 
     const query = `
         INSERT INTO userdb (username, password, email)
@@ -61,10 +61,10 @@ app.post('/api/check-email', (req, res) => {
 });
 // Hash password route
 app.post('/hash', (req, res) => {
-    console.log('Hashing');
+    //console.log('Hashing');
     const { username, email,password, hpassword} = req.body;
 
-    console.log('Hashed Password during Pass:', hpassword);
+    //console.log('Hashed Password during Pass:', hpassword);
 
     const query = `
         INSERT INTO userdb (username, password, email, Pass)
@@ -89,7 +89,7 @@ app.post('/compare', (req, res) => {
   
     const { password} = req.body;
 
-    console.log(' Received password :-', password) ;
+    //console.log(' Received password :-', password) ;
    
 
     const query = 'SELECT * FROM userdb WHERE password = ?';
@@ -103,15 +103,15 @@ app.post('/compare', (req, res) => {
         
         // Access the retrieved values
         const retrievedValue = results[0]; // Assuming you want the first row
-        console.log('Retrieved Value:', retrievedValue);
+        //console.log('Retrieved Value:', retrievedValue);
 
         // Extract only the password field
         const retrievedPassword = retrievedValue.Pass;
-        console.log('Retrieved Password:', retrievedPassword);
+        //console.log('Retrieved Password:', retrievedPassword);
         
        // Compare passwords
        const isMatch = bcrypt.compareSync(password, retrievedPassword);
-       console.log('Password match:', isMatch);
+       //console.log('Password match:', isMatch);
 
        // Send the retrieved password and comparison result in the response
        res.status(200).send({ retrievedPassword, isMatch });
@@ -125,7 +125,7 @@ app.post('/compare', (req, res) => {
 // Login route
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-    console.log('Received login data:', { email, password }); // Log the received data
+    //console.log('Received login data:', { email, password }); // Log the received data
     const query = 'SELECT * FROM userdb WHERE email = ?';
     db.query(query, [email], (err, results) => {
         if (err) {
@@ -138,15 +138,15 @@ app.post('/login', (req, res) => {
         if (!user) {
             return res.status(404).send({ message: 'User not found!' });
         }
-        console.log('The Password is:', password);
-        console.log('The user Password:', user.password);
+        //console.log('The Password is:', password);
+        //console.log('The user Password:', user.password);
 
         let hashedloginpassword = bcrypt.hashSync(password, 10);
 
-        console.log('hashedloginpassword:', hashedloginpassword);
+        //console.log('hashedloginpassword:', hashedloginpassword);
 
         const passwordIsValid = bcrypt.compareSync(password, user.password);
-        console.log('bcrypt.compareSync:', passwordIsValid);    
+        //console.log('bcrypt.compareSync:', passwordIsValid);    
         if (!passwordIsValid) {
             return res.status(401).send({ message: 'Invalid password!' });
         }
@@ -169,5 +169,5 @@ app.get('/me', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    //console.log(`Server is running on port ${PORT}`);
 });

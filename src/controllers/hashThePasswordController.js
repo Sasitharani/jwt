@@ -1,10 +1,10 @@
 import db from '../../db.js';
 
 export const hashThePasswordController = (req, res) => {
-    console.log('Hashing');
+    //console.log('Hashing');
     const { username, email, password, hpassword } = req.body;
 
-    console.log('Hashed Password during Pass:', hpassword);
+    //console.log('Hashed Password during Pass:', hpassword);
 
     const query = `
         INSERT INTO userdb (username, password, email, Pass)

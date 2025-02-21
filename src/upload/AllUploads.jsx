@@ -45,13 +45,13 @@ const AllUploads = () => {
         
         console.group('Grouped Images');
         console.group('Today');
-        console.log(todayImages.map(image => image.name));
+        //console.log(todayImages.map(image => image.name));
         console.groupEnd();
         console.group('Yesterday');
-        console.log(yesterdayImages.map(image => image.name));
+        //console.log(yesterdayImages.map(image => image.name));
         console.groupEnd();
         console.group('All');
-        console.log(groupedImages.map(image => image.name));
+        //console.log(groupedImages.map(image => image.name));
         console.groupEnd();
         console.groupEnd();
 
@@ -75,20 +75,20 @@ const AllUploads = () => {
 
     const today = formatDate(new Date().toISOString().split('T')[0]);
     const yesterday = formatDate(new Date(Date.now() - 86400000).toISOString().split('T')[0]);
-    console.log('Today:', today);
-    console.log('Yesterday:', yesterday);
+    //console.log('Today:', today);
+    //console.log('Yesterday:', yesterday);
 
     if (filter === 'today') {
       const todayImages = images.filter(image => image.date === today);
       setFilteredImages(todayImages);
-      console.log('Today Images:', todayImages.map(image => image.name)); // Log today images
+      //console.log('Today Images:', todayImages.map(image => image.name)); // Log today images
     } else if (filter === 'yesterday') {
       const yesterdayImages = images.filter(image => image.date === yesterday);
       setFilteredImages(yesterdayImages);
-      console.log('Yesterday Images:', yesterdayImages.map(image => image.name)); // Log yesterday images
+      //console.log('Yesterday Images:', yesterdayImages.map(image => image.name)); // Log yesterday images
     } else {
       setFilteredImages(images);
-      console.log('All Images:', images.map(image => image.name)); // Log all images
+      //console.log('All Images:', images.map(image => image.name)); // Log all images
     }
   };
 
@@ -135,7 +135,7 @@ const AllUploads = () => {
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
   const currentImages = filteredImages.slice(indexOfFirstImage, indexOfLastImage);
-  console.log('Current Images:', currentImages.map(image => image.name)); // Log current image names
+  //console.log('Current Images:', currentImages.map(image => image.name)); // Log current image names
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

@@ -8,8 +8,8 @@ const Vote = () => {
   const { checkedImages } = location.state || { checkedImages: [] };
   const [loading, setLoading] = useState(false);
   const email = useSelector((state) => state.user.email); // Get email from Redux store
-  console.log('Checked Images:', checkedImages);
-  console.log('User Email:', email); // Console the value of email
+  //console.log('Checked Images:', checkedImages);
+  //console.log('User Email:', email); // Console the value of email
 
   const handleConfirmClick = async () => {
     setLoading(true);

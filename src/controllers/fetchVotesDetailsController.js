@@ -4,8 +4,8 @@ const fetchVotesDetails = async (req, res) => {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '');
     const tableName = `todaysDateLikes_${today}`;
     const { email,username } = req.body;
-    console.log('Email:', email);
-    console.log('Username:', username);
+    ////console.log('Email:', email);
+    //console.log('Username:', username);
 
     try {
         const query = `SELECT * FROM ${tableName} WHERE email = ?`;
@@ -28,7 +28,7 @@ const fetchVotesDetails = async (req, res) => {
                         res.status(500).send('Error in inserting data. Please contact the technical support team.');
                         return;
                     }
-                    console.log('Vote updated successfully');
+                    //console.log('Vote updated successfully');
                     res.status(200).send('Vote updated successfully');
                 });
             } else {

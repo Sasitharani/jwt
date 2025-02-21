@@ -18,7 +18,7 @@ const ForgotPassword = () => {
         setLoading(true);
         try {
             const response = await axios.post('https://contest-nda5.onrender.com/api/check-email', { email });
-            console.log('response:', response.data.available);
+            //console.log('response:', response.data.available);
             if (!response.data.available) {
                 const code = generateRandomCode();
                 setResetCode(code);
@@ -29,7 +29,7 @@ const ForgotPassword = () => {
                 setMessage('This email is not registered with us. Please sign in');
             }
         } catch (error) {
-            console.log(error.response);
+            //console.log(error.response);
             setMessage('Error checking email. Please try again.');
         } finally {
             setLoading(false);
@@ -70,8 +70,8 @@ const ForgotPassword = () => {
                 email,
                 newPassword
             });
-            console.log('response.status:', response.status);
-            console.log('response.data:', response.data);
+            //console.log('response.status:', response.status);
+            //console.log('response.data:', response.data);
             if (response.status === 200) {
                 Swal.fire({
                     title: 'Password changed successfully!',

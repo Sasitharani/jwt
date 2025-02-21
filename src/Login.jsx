@@ -37,7 +37,7 @@ const updateVotes = async (username, email, dispatch) => {
       email
     });
     await fetchVotesDetails(username, email, dispatch); // Call fetchVotesDetails after updateVotes
-    console.log('Response in updateVotes:', response.data.LikesUsed);
+    //console.log('Response in updateVotes:', response.data.LikesUsed);
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
   }
@@ -52,30 +52,30 @@ const Login = () => {
     const isLoggedIn = useSelector(state => state.user.isLoggedIn); // Get isLoggedIn from slice
 
     useEffect(() => {
-        console.log('Login use effect');
-        console.log('isLoggedIn from slice displayed from login.jsx:', isLoggedIn); // Log isLoggedIn value
+        //console.log('Login use effect');
+        //console.log('isLoggedIn from slice displayed from login.jsx:', isLoggedIn); // Log isLoggedIn value
     }, [isLoggedIn]); // Add useEffect hook;
 
     const handleLogin1 = async (e) => {
         e.preventDefault();
-        console.log("Login form submitted");
+        //console.log("Login form submitted");
         setLoading(true); // Set loading to true
         try {
             const response = await axios.post('https://contest-nda5.onrender.com/api/login', { // Ensure the correct URL and port
                 email,
                 password
             });
-            console.log('Server response:', response.data);
+            //console.log('Server response:', response.data);
             const hashedPassword = response.data.hashedPassword;
             const username = response.data.username; // Extract username from response
-            console.log('Entered email:', email);
-            console.log('Entered username:', username);
-            console.log('Entered password:', password);
-            console.log('Hashed password from server:', hashedPassword);
+            //console.log('Entered email:', email);
+            //console.log('Entered username:', username);
+            //console.log('Entered password:', password);
+            //console.log('Hashed password from server:', hashedPassword);
             const passwordIsValid = await bcrypt.compare(password, hashedPassword);
-            console.log('Password match:', passwordIsValid);
+            //console.log('Password match:', passwordIsValid);
             if (passwordIsValid) {
-                console.log('Email & Username', email, username);
+                //console.log('Email & Username', email, username);
                 setMessage('Login Successfully');
                 
                 dispatch(login({ email, username })); // Dispatch login success with email and username
@@ -101,7 +101,7 @@ const Login = () => {
     const dispatch = useDispatch();                 
 
     const handleLogout = () => {
-        console.log('Dispatching logout action from Login.jsx');
+        //console.log('Dispatching logout action from Login.jsx');
         dispatch(logout({ meta: { fileName: 'Login.jsx' } })); // Dispatch logout action
         localStorage.removeItem('user'); // Remove user from local storage
         localStorage.removeItem('lastSpinTime'); // Reset last spin time

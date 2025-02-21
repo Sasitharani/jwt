@@ -2,7 +2,7 @@ import ftp from 'ftp';
 import path from 'path';
 
 const getAllImages = (req, res) => {
-  console.log("Images hit");
+  //console.log("Images hit");
   const client = new ftp();
   const images = [];
   const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif'];

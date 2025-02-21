@@ -16,9 +16,9 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         login: (state, action) => {
-            console.log('2.Store..########loginSuccess action called');
+            //console.log('2.Store..########loginSuccess action called');
             if (action.meta && action.meta.fileName) {
-                console.log('loginSuccess action called from:', action.meta.fileName);
+                //console.log('loginSuccess action called from:', action.meta.fileName);
             }
             state.username = action.payload.username;
             state.email = action.payload.email;
@@ -29,21 +29,21 @@ const userSlice = createSlice({
             state.votesAvailable = action.payload.votesAvailable; // Update votesAvailable
             state.role = action.payload.email === 'sasitharani@gmail.com' ? 'admin' : 'user'; // Set role based on email
 
-            console.log('votesData from slice:', state.votesData); // Log votesData
+            //console.log('votesData from slice:', state.votesData); // Log votesData
 
-            console.log('Username:', state.username);
-            console.log('Email:', state.email);
-            console.log('Token:', state.token);
-            console.log('Is Logged In:', state.isLoggedIn);
-            console.log('Votes Data:', state.votesData);
-            console.log('Votes Used:', state.votesUsed);
+            //console.log('Username:', state.username);
+            //console.log('Email:', state.email);
+            //console.log('Token:', state.token);
+            //console.log('Is Logged In:', state.isLoggedIn);
+            //console.log('Votes Data:', state.votesData);
+            //console.log('Votes Used:', state.votesUsed);
             localStorage.setItem('email', action.payload.email);
             localStorage.setItem('isLoggedIn', 'true'); // Save isLoggedIn to localStorage
         },
         loginSuccess: (state, action) => {
             //console.log('2.Store..########loginSuccess action called');
             if (action.meta && action.meta.fileName) {
-                console.log('loginSuccess action called from:', action.meta.fileName);
+                //console.log('loginSuccess action called from:', action.meta.fileName);
             }
             state.email = action.payload.email;
             state.isLoggedIn = true;
@@ -54,9 +54,9 @@ const userSlice = createSlice({
             localStorage.setItem('email', action.payload.email);
         },
         logout: (state, action) => {
-            console.log('logout action called');
+            //console.log('logout action called');
             if (action.meta && action.meta.fileName) {
-                console.log('logout action called from:', action.meta.fileName);
+                //console.log('logout action called from:', action.meta.fileName);
             }
             state.username = '';
             state.email = '';

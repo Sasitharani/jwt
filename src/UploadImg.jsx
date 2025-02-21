@@ -53,7 +53,7 @@ const UploadImg = () => {
       });
 
       const result = await response.json();
-      console.log('File uploaded successfully. The file is located in the uploads folder.');
+      //console.log('File uploaded successfully. The file is located in the uploads folder.');
       Swal.fire('Success', result.message, 'success');
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -64,7 +64,7 @@ const UploadImg = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setEmail(userEmail);
-    console.log('email', userEmail);
+    //console.log('email', userEmail);
     setSubmitted(false);
     setError('');
     setLoading(true);
@@ -77,7 +77,7 @@ const UploadImg = () => {
     if (file) {
       formData.append('file', file);
     }
-    console.log('Form Data', formData.email);
+    //console.log('Form Data', formData.email);
 
     try {
       const response = await fetch('https://contest-nda5.onrender.com/api/send-email', {
@@ -86,7 +86,7 @@ const UploadImg = () => {
       });
 
       const responseText = await response.text();
-      console.log('Response text:', responseText);
+      //console.log('Response text:', responseText);
 
       if (response.ok) {
         setSubmitted(true);

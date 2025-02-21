@@ -5,17 +5,17 @@ import axios from 'axios';
 const EmailAuthentication = ({ email, emailAvailable, setEmail, setEmailAvailable, setEmailMessage, emailMessage, setLoading, loading,isEmailValid,setIsEmailValid }) => {
     const checkEmailAvailability = async () => {
         setLoading(true);
-        console.log('Step1: coming to checkEmailAvailability, the value of Loading is :- Now Api will fetch data.the value of loading is ', loading);
+        //console.log('Step1: coming to checkEmailAvailability, the value of Loading is :- Now Api will fetch data.the value of loading is ', loading);
         setEmailMessage(""); // Clear email message
         try {
             const response = await axios.post('https://contest-nda5.onrender.com/api/check-email', { email });
             setEmailAvailable(response.data.available);
-            console.log("Api worked data received from server: Email check(True/False); Next: Msg in client :-", response.data.available);
+            //console.log("Api worked data received from server: Email check(True/False); Next: Msg in client :-", response.data.available);
             if (!response.data.available) {
-                console.log("Msg should be -Email is already taken:-", response.data.available);
+                //console.log("Msg should be -Email is already taken:-", response.data.available);
                 setEmailMessage('Email is already taken.');
             } else {
-                console.log("Msg should be -Email Available:-", response.data.available);
+                //console.log("Msg should be -Email Available:-", response.data.available);
                 setEmailMessage('Email Available');
                 setIsEmailValid(true);
             }
@@ -24,7 +24,7 @@ const EmailAuthentication = ({ email, emailAvailable, setEmail, setEmailAvailabl
             setEmailMessage('Error checking email.');
         } finally {
             setLoading(false);
-           console.log("The value of Loading (True/False) is:-", loading);
+           //console.log("The value of Loading (True/False) is:-", loading);
         }
     };
 

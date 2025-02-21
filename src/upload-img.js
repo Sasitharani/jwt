@@ -10,16 +10,16 @@ export const config = {
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    console.log("Entered the post method");
+    //console.log("Entered the post method");
     const form = new formidable.IncomingForm();
     const uploadFolder = path.join(process.cwd(), 'uploads');
 
     // Ensure the uploads folder exists
     if (!fs.existsSync(uploadFolder)) {
       fs.mkdirSync(uploadFolder);
-      console.log(`Created uploads folder at ${uploadFolder}`);
+      //console.log(`Created uploads folder at ${uploadFolder}`);
     } else {
-      console.log(`Uploads folder already exists at ${uploadFolder}`);
+      //console.log(`Uploads folder already exists at ${uploadFolder}`);
     }
 
     form.uploadDir = uploadFolder;
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         return;
       }
 
-      console.log(`File uploaded to ${files.file.path}`);
+      //console.log(`File uploaded to ${files.file.path}`);
       res.status(200).send('File uploaded successfully');
     });
   } else {

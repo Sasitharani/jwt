@@ -21,7 +21,7 @@ const fileUploadSendEmail = (req, res) => {
     return res.status(400).send('No file uploaded.');
   }
 
-  console.log('File:', file); // Debugging information
+  //console.log('File:', file); // Debugging information
 
   const client = new ftp();
   client.on('ready', () => {
@@ -29,7 +29,7 @@ const fileUploadSendEmail = (req, res) => {
     const formattedDate = `${date.getDate().toString().padStart(2, '0')}${(date.getMonth() + 1).toString().padStart(2, '0')}${date.getFullYear()}`;
     const formattedTime = `${date.getHours().toString().padStart(2, '0')}${date.getMinutes().toString().padStart(2, '0')}${date.getSeconds().toString().padStart(2, '0')}`;
     const userEmail = req.body.email;
-    console.log('User Email', userEmail);
+    //console.log('User Email', userEmail);
     const fileExtension = path.extname(file.originalname);
     const remoteFilePath = `/public_html/www.contests4all.com/public/img/uploads/${formattedTime}${formattedDate}${userEmail}${fileExtension}`;
     client.mkdir(path.dirname(remoteFilePath), true, (err) => {
@@ -46,7 +46,7 @@ const fileUploadSendEmail = (req, res) => {
           client.end();
           return;
         }
-        console.log('File uploaded to:', remoteFilePath);
+        //console.log('File uploaded to:', remoteFilePath);
 
         const mailOptions = {
           from: 'sasitharani@gmail.com',
@@ -61,7 +61,7 @@ const fileUploadSendEmail = (req, res) => {
             console.error('Error sending email:', error);
             res.status(500).json({ error: 'Error sending email', details: error.message });
           } else {
-            console.log('Email sent:', info.response);
+            //console.log('Email sent:', info.response);
             res.status(200).send('Email sent successfully');
           }
           client.end();

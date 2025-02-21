@@ -10,9 +10,9 @@ const Pass = () => {
 
     const handleHashPassword = async (e) => {
         e.preventDefault();
-        console.log(password)
+        //console.log(password)
         const hpassword= bcrypt.hashSync(password, 8)
-        console.log(hpassword)
+        //console.log(hpassword)
         try {
             const response = await axios.post('https://contest-nda5.onrender.com/api-hash', {
                 username: 'test',
@@ -21,8 +21,8 @@ const Pass = () => {
                 hpassword
             });
             const  hashedPassword  = response.status;
-            console.log('Response Data:', JSON.stringify(response.status, null, 2)); // Display response.data as a formatted JSON string
-            console.log(hashedPassword)
+            //console.log('Response Data:', JSON.stringify(response.status, null, 2)); // Display response.data as a formatted JSON string
+            //console.log(hashedPassword)
             setHashedPassword(hashedPassword);
             setMessage('Password hashed successfully!');
         } catch (error) {

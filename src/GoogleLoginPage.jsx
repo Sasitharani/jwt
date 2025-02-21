@@ -15,7 +15,7 @@ const GoogleLoginPage = () => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const user = result.user;
-            console.log('User:', user);
+            //console.log('User:', user);
             const { displayName, email } = user;
 
             const loginResponse = await axios.post('https://contest-nda5.onrender.com/google-login', {

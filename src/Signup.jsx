@@ -34,7 +34,7 @@ const Signup = () => {
         setLoading(true); // Set loading to true
  
         if (isEmailValid && isPasswordValid && matchPasswordVerified) {
-            console.log('Password while submiting', password)
+            //console.log('Password while submiting', password)
             try {
       
                 const response = await axios.post('https://contest-nda5.onrender.com/api/signup', {
@@ -88,12 +88,12 @@ const Signup = () => {
 
 
  const validateForm = () => { // Validate form
-    console.log('Validity of Email:-', isEmailValid + 'Validity of Password:-', isPasswordValid);
+    //console.log('Validity of Email:-', isEmailValid + 'Validity of Password:-', isPasswordValid);
     if (username && email && emailAvailable && password && !passwordError) {
-        console.log('Form is valid');
+        //console.log('Form is valid');
         //setIsFormValid(true);
     } else {
-        console.log('Form is not valid');
+        //console.log('Form is not valid');
         //setIsFormValid(false);
     }
 };

@@ -54,7 +54,7 @@ function UserVoting1() {
         username,
         email
       });
-      console.log('Response Data:', response.data);
+      //console.log('Response Data:', response.data);
       await fetchVotesDetails();
     } catch (error) {
       console.error('Error in updateVotes:', error);
@@ -111,8 +111,8 @@ function UserVoting1() {
         username,
         email
       }); // Ensure the endpoint is correct
-      console.log('All Results:', response.data[0].lastSpinTime);
-      console.log('All Results:', response.data);
+      //console.log('All Results:', response.data[0].lastSpinTime);
+      //console.log('All Results:', response.data);
     } catch (error) {
       console.error('Error fetching all results:', error);
     }

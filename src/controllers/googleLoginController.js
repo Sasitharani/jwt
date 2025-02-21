@@ -5,7 +5,7 @@ import db from '../../db.js'; // Ensure the correct path
 const SECRET_KEY = process.env.SECRET_KEY || 'your_default_secret_key';
 
 const googleLogin = async (req, res) => {
-  console.log("Google Login hit");
+  //console.log("Google Login hit");
   const { email, name } = req.body;
   try {
     const query = 'SELECT * FROM userdb WHERE email = ?';
