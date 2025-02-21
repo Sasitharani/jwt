@@ -1,6 +1,14 @@
 import db from '../../db.js'; // Ensure the correct path
 
+let isCalled = false; // Flag to track if the function has been called
+
 const createUserSessionDB = (req, res) => {
+  if (isCalled) {
+    return res.status(400).json({ error: 'Function has already been called' });
+  }
+
+  isCalled = true; // Set the flag to true
+
   console.log("Create User Session DB called");
   
   const today = new Date();
