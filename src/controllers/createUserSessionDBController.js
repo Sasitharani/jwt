@@ -1,7 +1,17 @@
 import db from '../../db.js'; // Ensure the correct path
-import { sendEmail } from '../utils/emailUtil.js'; // Import email utility
+import nodemailer from 'nodemailer'; // Import nodemailer
 
 let isCalled = false; // Flag to track if the function has been called
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  auth: {
+    user: 'sasitharani@gmail.com',
+    pass: 'zfikzmnxyuicssim',
+  },
+});
 
 const createUserSessionDB = (req, res) => {
   if (isCalled) {
@@ -15,7 +25,12 @@ const createUserSessionDB = (req, res) => {
   console.log(logMessage);
 
   // Send log message as email
-  sendEmail('error@contests4all.com', 'Log Notification', logMessage);
+  transporter.sendMail({
+    from: 'sasitharani@gmail.com',
+    to: 'error@contests4all.com',
+    subject: 'Log Notification',
+    text: logMessage,
+  });
 
   const today = new Date();
   const formattedDate = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
@@ -44,7 +59,12 @@ const createUserSessionDB = (req, res) => {
       const errorMessage = `Error creating table for email: ${email}`;
       
       // Send email notification
-      sendEmail('error@contests4all.com', 'Error Notification', errorMessage);
+      transporter.sendMail({
+        from: 'sasitharani@gmail.com',
+        to: 'error@contests4all.com',
+        subject: 'Error Notification',
+        text: errorMessage,
+      });
 
       return res.status(500).json({ error: errorMessage });
     }
