@@ -10,10 +10,34 @@ const createUserSessionDB = (req, res) => {
 
   isCalled = true; // Set the flag to true
 
-  console.log("Create User Session DB called");
-
   const { email } = req.body; // Extract email from request body
-  
+  const logMessage = `Create User Session DB called for email: ${email}`;
+  console.log(logMessage);
+
+  // Send log message as email
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'error@contests4all.com', // Replace with your email
+      pass: 'SasiJaga09$' // Replace with your email password
+    }
+  });
+
+  const logMailOptions = {
+    from: 'error@contests4all.com', // Replace with your email
+    to: 'error@contests4all.com',
+    subject: 'Log Notification',
+    text: logMessage
+  };
+
+  transporter.sendMail(logMailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending log email:', error);
+    } else {
+      console.log('Log email sent: ' + info.response);
+    }
+  });
+
   const today = new Date();
   const formattedDate = `${today.getFullYear()}${(today.getMonth() + 1).toString().padStart(2, '0')}${today.getDate().toString().padStart(2, '0')}`;
   const tableName = `todaysDateLikes_${formattedDate}`;
@@ -41,22 +65,14 @@ const createUserSessionDB = (req, res) => {
       const errorMessage = `Error creating table for email: ${email}`;
       
       // Send email notification
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'your-email@gmail.com', // Replace with your email
-          pass: 'your-email-password' // Replace with your email password
-        }
-      });
-
-      const mailOptions = {
-        from: 'your-email@gmail.com', // Replace with your email
+      const errorMailOptions = {
+        from: 'error@contests4all.com', // Replace with your email
         to: 'error@contests4all.com',
         subject: 'Error Notification',
         text: errorMessage
       };
 
-      transporter.sendMail(mailOptions, (error, info) => {
+      transporter.sendMail(errorMailOptions, (error, info) => {
         if (error) {
           console.error('Error sending email:', error);
         } else {
