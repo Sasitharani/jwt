@@ -1,16 +1,6 @@
 import ftp from 'ftp';
 import path from 'path';
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: 'sasitharani@gmail.com',
-    pass: 'zfikzmnxyuicssim',
-  },
-});
+import { sendEmail } from '../utils/emailUtil.js'; // Import email utility
 
 const fileUploadSendEmail = (req, res) => {
   const { name, email, phone, message } = req.body;
@@ -56,16 +46,10 @@ const fileUploadSendEmail = (req, res) => {
           attachments: [{ filename: file.originalname, content: file.buffer }],
         };
 
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.error('Error sending email:', error);
-            res.status(500).json({ error: 'Error sending email', details: error.message });
-          } else {
-            //console.log('Email sent:', info.response);
-            res.status(200).send('Email sent successfully');
-          }
-          client.end();
-        });
+        sendEmail(mailOptions.to, mailOptions.subject, mailOptions.text);
+
+        res.status(200).send('Email sent successfully');
+        client.end();
       });
     });
   });
